@@ -31,7 +31,7 @@ export async function server__build(config = {}) {
 		entryPoints.push(path)
 	}
 	const external = ['/assets/*', 'bun', 'node_modules/*', ...(config.external || [])]
-	const plugins = [cssBundle_to_browser_(), ...(config.plugins || [])]
+	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
 	const esbuild_config = {
 		entryPoints,
 		entryNames: '[name]-[hash]',
@@ -70,7 +70,7 @@ export async function browser__build(config = {}) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [cssBundle_to_browser_(), ...(config.plugins || [])]
+	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
 	/** @type {BuildOptions} */
 	const esbuild_config = {
 		entryPoints,
@@ -98,9 +98,9 @@ export async function browser__build(config = {}) {
 	}
 	await public__cp()
 }
-export function cssBundle_to_browser_() {
+export function rebuildjs_plugin_() {
 	return {
-		name: 'cssBundle_to_browser',
+		name: 'rebuildjs_plugin',
 		setup(build) {
 			build.onEnd(async result=>{
 				if (result.metafile) {
