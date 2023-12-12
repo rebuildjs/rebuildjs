@@ -4,7 +4,7 @@ import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
 import { link, mkdir, rm } from 'fs/promises'
 import { dirname, join, resolve } from 'path'
-import { app_path_, browser_path_, is_prod_, public_path_, server_path_ } from '../app/index.js'
+import { app_path_, browser_path_, cwd_, is_prod_, public_path_, server_path_ } from '../app/index.js'
 import { browser__metafile__set } from '../browser/index.js'
 import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
 import {
@@ -31,7 +31,7 @@ export async function server__build(config = {}) {
 		entryPoints.push(path)
 	}
 	const external = ['/assets/*', 'bun', 'node_modules/*', ...(config.external || [])]
-	const plugins = [resbuild_plugin_(), ...(config.plugins || [])]
+	const plugins = [cssBundle_to_browser_(), ...(config.plugins || [])]
 	const esbuild_config = {
 		entryPoints,
 		entryNames: '[name]-[hash]',
@@ -45,6 +45,7 @@ export async function server__build(config = {}) {
 		...config,
 		format: 'esm',
 		platform: 'node',
+		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: server_path_(app_ctx),
 		plugins,
@@ -69,7 +70,7 @@ export async function browser__build(config = {}) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [resbuild_plugin_(), ...(config.plugins || [])]
+	const plugins = [cssBundle_to_browser_(), ...(config.plugins || [])]
 	/** @type {BuildOptions} */
 	const esbuild_config = {
 		entryPoints,
@@ -84,6 +85,7 @@ export async function browser__build(config = {}) {
 		...config,
 		format: 'esm',
 		platform: 'browser',
+		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: browser_path_(app_ctx),
 		plugins,
@@ -96,7 +98,7 @@ export async function browser__build(config = {}) {
 	}
 	await public__cp()
 }
-export function resbuild_plugin_() {
+export function cssBundle_to_browser_() {
 	return {
 		name: 'cssBundle_to_browser',
 		setup(build) {

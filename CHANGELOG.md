@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.2.0
+
+### Minor Changes
+
+- rebuild*plugin*→cssBundle*to_browser*
+
+### Patch Changes
+
+- browser**build,server**build: fix: invocation using a custom cwd (cwd\_\_set)
+
 ## 0.1.2
 
 ### Patch Changes

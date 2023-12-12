@@ -1,5 +1,4 @@
 /// <reference types="./index.d.ts" />
-/// <reference types="ctx-core/be" />
 /** @typedef {import('ctx-core/be').be_config_T}be_config_T */
 import { ctx_ } from 'ctx-core/be'
 export const app_ctx = app_ctx_()
