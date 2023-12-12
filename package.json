@@ -1,6 +1,6 @@
 {
-	"name": "resbuild",
-	"version": "0.0.0",
+	"name": "rebuildjs",
+	"version": "0.1.0",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -11,13 +11,13 @@
 		"rmemo",
 		"ctx-core"
 	],
-	"homepage": "https://github.com/resbuild/resbuild#readme",
+	"homepage": "https://github.com/rebuildjs/rebuildjs#readme",
 	"bugs": {
-		"url": "https://github.com/resbuild/resbuild/issues"
+		"url": "https://github.com/rebuildjs/rebuildjs/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/resbuild/resbuild.git"
+		"url": "https://github.com/rebuildjs/rebuildjs.git"
 	},
 	"license": "Apache-2.0",
 	"author": "Brian Takita",
