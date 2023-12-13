@@ -7,18 +7,23 @@ import { browser_path_, browser_relative_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 import { server__input_path_ } from '../server/index.js'
 export const [
+	browser__metafile_path$_,
+	browser__metafile_path_,
+] = be_memo_pair_(ctx=>
+	join(browser_path_(ctx), 'metafile.json'))
+export const [
 	browser__metafile$_,
 	browser__metafile_,
 	browser__metafile__set
 ] = be_sig_triple_(()=>
 	undefined,
 async (ctx, browser__metafile$)=>{
-	if (!browser__metafile$.lock) {
-		let metafile_path
-		browser__metafile$._ =
-			await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
-				? JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
-				: null
+	let metafile_path
+	if (
+		!browser__metafile$.lock
+		&& await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
+	) {
+		browser__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
 	}
 },
 { ...app_ctx__be_config, id: 'browser__metafile' })

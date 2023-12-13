@@ -1,5 +1,21 @@
 # rebuildjs
 
+## 0.7.0
+
+### Minor Changes
+
+- minor:
+
+      if metafile.json does not exist: ._ = is not called: remove setting null value:
+      	browser__metafile$_
+      	server__metafile$_
+      + browser__metafile_path:
+      	+ browser__metafile_path$_
+      	+ browser__metafile_path_
+      + server__metafile_path:
+      	+ server__metafile_path$_
+      	+ server__metafile_path_
+
 ## 0.6.0
 
 ### Minor Changes

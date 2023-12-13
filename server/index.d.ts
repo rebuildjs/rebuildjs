@@ -1,5 +1,9 @@
 import type { be_memo_pair_T, be_sig_triple_T } from 'ctx-core/rmemo'
 import type { Metafile } from 'esbuild'
+export const [
+	server__metafile_path$_,
+	server__metafile_path_,
+] = be_memo_pair_T<string>
 export declare const [
 	server__metafile$_,
 	server__metafile_,
