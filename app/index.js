@@ -62,7 +62,7 @@ export const [
 	app__relative_path$_,
 	app__relative_path_,
 ] = be_memo_pair_(ctx=>
-	relative(src_path_(ctx), app_path_(ctx)),
+	relative(cwd_(ctx), app_path_(ctx)),
 { ...app_ctx__be_config, id: 'app__relative_path' })
 export const [
 	browser__relative_path$_,

@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.9.2
+
+### Patch Changes
+
+- app\_\_relative_path: fix: value
+
 ## 0.9.1
 
 ### Patch Changes
