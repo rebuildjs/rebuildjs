@@ -17,63 +17,15 @@ import {
 	server__metafile__set
 } from '../server/index.js'
 /**
- * @param {rebuildjs__build_config_T}[config]
- * @returns {Promise<void>}
- */
-export async function server__build(config) {
-	const { rebuildjs, ...esbuild__config } = config ?? {}
-	await rm(server_path_(app_ctx), { recursive: true, force: true })
-	const path_a = await new fdir()
-		.glob('**/*.server.{ts,js,tsx,jsx}')
-		.withFullPaths()
-		.crawl(app_path_(app_ctx))
-		.withPromise()
-	/** @type {string[]} */
-	const entryPoints = esbuild__config?.entryPoints ?? []
-	for (const path of path_a) {
-		entryPoints.push(path)
-	}
-	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
-	const esbuild_config = {
-		entryNames: '[name]-[hash]',
-		assetNames: '[name]-[hash]',
-		bundle: true,
-		target: 'es2020',
-		treeShaking: true,
-		minify: is_prod_(app_ctx),
-		sourcemap: 'external',
-		...esbuild__config,
-		entryPoints,
-		format: 'esm',
-		platform: 'node',
-		absWorkingDir: cwd_(app_ctx),
-		metafile: true,
-		outdir: server_path_(app_ctx),
-		external: server__external_(esbuild__config),
-		plugins,
-	}
-	if (rebuildjs?.watch ?? is_prod_(app_ctx)) {
-		await build(esbuild_config)
-	} else {
-		const esbuild_ctx = await context(esbuild_config)
-		await esbuild_ctx.watch()
-		console.log('server__build|watch')
-	}
-}
-/**
- * @param {rebuildjs__build_config_T}[config]
- * @returns {Promise<string[]>}
- */
-export function server__external_(config) {
-	return ['bun', 'node_modules/*', ...(config.external || [])]
-}
-/**
  * @param {Plugin}config
  * @returns {Promise<void>}
  * @private
  */
 export async function browser__build(config) {
-	const { rebuildjs, ...esbuild__config } = config ?? {}
+	const {
+		rebuildjs,
+		...esbuild__config
+	} = config ?? {}
 	await rm(browser_path_(app_ctx), { recursive: true, force: true })
 	await mkdir(browser_path_(app_ctx), { recursive: true })
 	const path_a = await new fdir()
@@ -106,14 +58,68 @@ export async function browser__build(config) {
 		outdir: browser_path_(app_ctx),
 		plugins,
 	}
-	if (rebuildjs?.watch ?? is_prod_(app_ctx)) {
-		await build(esbuild_config)
-	} else {
+	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
 		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
 		console.log('browser__build|watch')
+	} else {
+		await build(esbuild_config)
 	}
 	await public__cp()
+}
+/**
+ * @param {rebuildjs__build_config_T}[config]
+ * @returns {Promise<void>}
+ */
+export async function server__build(config) {
+	const {
+		rebuildjs,
+		...esbuild__config
+	} = config ?? {}
+	await rm(server_path_(app_ctx), { recursive: true, force: true })
+	const path_a = await new fdir()
+		.glob('**/*.server.{ts,js,tsx,jsx}')
+		.withFullPaths()
+		.crawl(app_path_(app_ctx))
+		.withPromise()
+	/** @type {string[]} */
+	const entryPoints = esbuild__config?.entryPoints ?? []
+	for (const path of path_a) {
+		entryPoints.push(path)
+	}
+	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
+	const esbuild_config = {
+		entryNames: '[name]-[hash]',
+		assetNames: '[name]-[hash]',
+		bundle: true,
+		target: 'es2020',
+		treeShaking: true,
+		minify: is_prod_(app_ctx),
+		sourcemap: 'external',
+		...esbuild__config,
+		entryPoints,
+		format: 'esm',
+		platform: 'node',
+		absWorkingDir: cwd_(app_ctx),
+		metafile: true,
+		outdir: server_path_(app_ctx),
+		external: server__external_(esbuild__config),
+		plugins,
+	}
+	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
+		const esbuild_ctx = await context(esbuild_config)
+		await esbuild_ctx.watch()
+		console.log('server__build|watch')
+	} else {
+		await build(esbuild_config)
+	}
+}
+/**
+ * @param {rebuildjs__build_config_T}[config]
+ * @returns {Promise<string[]>}
+ */
+export function server__external_(config) {
+	return ['bun', 'node_modules/*', ...(config.external || [])]
 }
 /**
  * @returns {Plugin}

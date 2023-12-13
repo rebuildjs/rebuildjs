@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.10.2
+
+### Patch Changes
+
+- patch:
+
+      fix: watch config logic:
+      	browser__build
+      	server__build
+
 ## 0.10.1
 
 ### Patch Changes
