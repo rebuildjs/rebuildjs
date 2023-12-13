@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.4.1
+
+### Patch Changes
+
+- ctx-core: ^4.15.0 -> ^4.16.0
+
 ## 0.4.0
 
 ### Minor Changes
