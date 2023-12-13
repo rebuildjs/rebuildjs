@@ -1,3 +1,4 @@
+/// <reference types="./index.d.ts" />
 /** @typedef {import('esbuild').BuildOptions}BuildOptions */
 /** @typedef {import('esbuild').Plugin}Plugin */
 import { writeFile } from '@ctx-core/monorepo'
@@ -16,10 +17,11 @@ import {
 	server__metafile__set
 } from '../server/index.js'
 /**
- * @param {Partial<BuildOptions>}config
+ * @param {rebuildjs__build_config_T}[config]
  * @returns {Promise<void>}
  */
-export async function server__build(config = {}) {
+export async function server__build(config) {
+	const { rebuildjs, ...esbuild__config } = config ?? {}
 	await rm(server_path_(app_ctx), { recursive: true, force: true })
 	const path_a = await new fdir()
 		.glob('**/*.server.{ts,js,tsx,jsx}')
@@ -27,11 +29,11 @@ export async function server__build(config = {}) {
 		.crawl(app_path_(app_ctx))
 		.withPromise()
 	/** @type {string[]} */
-	const entryPoints = config?.entryPoints ?? []
+	const entryPoints = esbuild__config?.entryPoints ?? []
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
+	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
@@ -40,17 +42,17 @@ export async function server__build(config = {}) {
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
-		...config,
+		...esbuild__config,
 		entryPoints,
 		format: 'esm',
 		platform: 'node',
 		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: server_path_(app_ctx),
-		external: server__external_(config),
+		external: server__external_(esbuild__config),
 		plugins,
 	}
-	if (is_prod_(app_ctx)) {
+	if (rebuildjs?.watch ?? is_prod_(app_ctx)) {
 		await build(esbuild_config)
 	} else {
 		const esbuild_ctx = await context(esbuild_config)
@@ -59,7 +61,7 @@ export async function server__build(config = {}) {
 	}
 }
 /**
- * @param {Partial<BuildOptions>}config
+ * @param {rebuildjs__build_config_T}[config]
  * @returns {Promise<string[]>}
  */
 export function server__external_(config) {
@@ -70,7 +72,8 @@ export function server__external_(config) {
  * @returns {Promise<void>}
  * @private
  */
-export async function browser__build(config = {}) {
+export async function browser__build(config) {
+	const { rebuildjs, ...esbuild__config } = config ?? {}
 	await rm(browser_path_(app_ctx), { recursive: true, force: true })
 	await mkdir(browser_path_(app_ctx), { recursive: true })
 	const path_a = await new fdir()
@@ -79,11 +82,11 @@ export async function browser__build(config = {}) {
 		.crawl(app_path_(app_ctx))
 		.withPromise()
 	/** @type {string[]} */
-	const entryPoints = config?.entryPoints ?? []
+	const entryPoints = esbuild__config?.entryPoints ?? []
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
+	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
 	/** @type {BuildOptions} */
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
@@ -94,7 +97,7 @@ export async function browser__build(config = {}) {
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
-		...config,
+		...esbuild__config,
 		entryPoints,
 		format: 'esm',
 		platform: 'browser',
@@ -103,7 +106,7 @@ export async function browser__build(config = {}) {
 		outdir: browser_path_(app_ctx),
 		plugins,
 	}
-	if (is_prod_(app_ctx)) {
+	if (rebuildjs?.watch ?? is_prod_(app_ctx)) {
 		await build(esbuild_config)
 	} else {
 		const esbuild_ctx = await context(esbuild_config)
@@ -116,9 +119,9 @@ export async function browser__build(config = {}) {
  * @returns {Plugin}
  * @private
  */
-export function rebuildjs_plugin_() {
+export function rebuildjs__plugin_() {
 	return {
-		name: 'rebuildjs_plugin',
+		name: 'rebuildjs__plugin',
 		setup(build) {
 			build.onEnd(async result=>{
 				if (result.metafile) {

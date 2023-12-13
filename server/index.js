@@ -2,7 +2,7 @@ import { file_exists_ } from '@ctx-core/fs'
 import { nullish__none_, tup } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
-import { join } from 'path'
+import { join, relative } from 'path'
 import { cwd_, server_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 export const [
@@ -68,5 +68,5 @@ export const [
 ] = be_memo_pair_(ctx=>
 	nullish__none_([server__cssBundle_(ctx)],
 		cssBundle=>
-			cssBundle.replace(server_path_(ctx), '')),
+			relative(server_path_(ctx), cssBundle)),
 { ...middleware_ctx__be_config, id: 'server__css' })

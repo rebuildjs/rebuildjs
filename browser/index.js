@@ -2,7 +2,7 @@ import { file_exists_ } from '@ctx-core/fs'
 import { nullish__none_, tup } from 'ctx-core/function'
 import { be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
-import { join } from 'path'
+import { join, relative } from 'path'
 import { browser_path_, browser__relative_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 import { server__input_path_ } from '../server/index.js'
@@ -60,6 +60,6 @@ export const [
 	browser__script_,
 ] = be_memo_pair_(ctx=>
 	nullish__none_([browser__output__relative_path_(ctx), browser__relative_path_(ctx)],
-		(browser__output_path, browser_relative_path)=>
-			browser__output_path.replace(browser_relative_path, '')),
+		(browser__output__relative_path, browser__relative_path)=>
+			relative(browser__relative_path, browser__output__relative_path)),
 { ...middleware_ctx__be_config, id: 'browser__script' })
