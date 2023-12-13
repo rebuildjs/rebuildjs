@@ -1,6 +1,6 @@
 import { be_lock_memosig_triple_, be_memosig_triple_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { join, resolve } from 'path'
-import { app_ctx__be_config } from 'relysjs'
+import { app_ctx__be_config } from '../ctx/index.js'
 export const [
 	port$_,
 	port_,

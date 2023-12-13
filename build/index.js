@@ -14,7 +14,7 @@ import {
 	server__input_path__set,
 	server__metafile_,
 	server__metafile__set
-} from '../server'
+} from '../server/index.js'
 /**
  * @param {Partial<BuildOptions>}config
  * @returns {Promise<void>}

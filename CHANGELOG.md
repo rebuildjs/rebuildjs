@@ -1,5 +1,12 @@
 # rebuildjs
 
+## 0.3.3
+
+### Patch Changes
+
+- ∋ esbuild
+- fix: import app_ctx\_\_be_config
+
 ## 0.3.2
 
 ### Patch Changes
