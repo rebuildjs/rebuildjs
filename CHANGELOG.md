@@ -1,5 +1,28 @@
 # rebuildjs
 
+## 0.9.1
+
+### Patch Changes
+
+- fix: rmemo id:
+
+      app_path
+      browser__relative_path
+
+- add rmemos:
+
+      + src__relative_path:
+      	+ src__relative_path$_
+      	+ src__relative_path_
+      + app__relative_path:
+      	+ app__relative_path$_
+      	+ app__relative_path_
+
+- fix: rmemo names:
+
+      browser_relative_path→browser__relative_path
+      server_relative_path→server__relative_path
+
 ## 0.9.0
 
 ### Minor Changes

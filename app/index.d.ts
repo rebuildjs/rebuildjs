@@ -1,3 +1,4 @@
+import { be_memo_pair_ } from 'ctx-core/rmemo'
 import type { be_lock_memosig_triple_T, be_memo_pair_T, be_sig_triple_T } from 'ctx-core/rmemo'
 export const [
 	port$_,
@@ -30,13 +31,21 @@ export const [
 	src_path__set,
 ]:be_lock_memosig_triple_T<string>
 export const [
+	src__relative_path$_,
+	src__relative_path_,
+]:be_memo_pair_T<string>
+export const [
 	app_path$_,
 	app_path_,
 	app_path__set,
 ]:be_lock_memosig_triple_T<string>
 export const [
-	browser_relative_path$_,
-	browser_relative_path_,
+	app__relative_path$_,
+	app__relative_path_,
+]:be_memo_pair_T<string>
+export const [
+	browser__relative_path$_,
+	browser__relative_path_,
 ]:be_memo_pair_T<string>
 export const [
 	browser_path$_,
@@ -44,8 +53,8 @@ export const [
 	browser_path__set,
 ]:be_lock_memosig_triple_T<string>
 export const [
-	server_relative_path$_,
-	server_relative_path_,
+	server__relative_path$_,
+	server__relative_path_,
 ]:be_memo_pair_T<string>
 export const [
 	server_path$_,
