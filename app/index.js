@@ -68,7 +68,7 @@ export const [
 	browser__relative_path$_,
 	browser__relative_path_,
 ] = be_memo_pair_(ctx=>
-	join('dist', is_prod_(ctx) ? 'browser' : 'browser__relative_path'),
+	join('dist', is_prod_(ctx) ? 'browser' : 'dev-browser'),
 { ...app_ctx__be_config, is: 'browser_relative_path' })
 export const [
 	browser_path$_,
