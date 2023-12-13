@@ -1,6 +1,9 @@
+import { file_exists_ } from '@ctx-core/fs'
 import { nullish__none_, tup } from 'ctx-core/function'
 import { be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
-import { browser_relative_path_ } from '../app/index.js'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
+import { browser_path_, browser_relative_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 import { server__input_path_ } from '../server/index.js'
 export const [
@@ -9,6 +12,15 @@ export const [
 	browser__metafile__set
 ] = be_sig_triple_(()=>
 	undefined,
+async (ctx, browser__metafile$)=>{
+	let metafile_path
+	if (
+		!browser__metafile$.lock
+			&& await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
+	) {
+		browser__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	}
+},
 { ...app_ctx__be_config, id: 'browser__metafile' })
 export const [
 	browser__input_path$_,

@@ -1,5 +1,19 @@
 # rebuildjs
 
+## 0.5.0
+
+### Minor Changes
+
+- browser**metafile,server**metafile: load the metafile.json on the file system as the default value
+- lock*memosig*: \_=: sets .lock = 1 to prevent the memo_def from running
+
+### Patch Changes
+
+- browser**build,server**build: !is_prod: + console.log to indicate watch is active
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@4.17.0
+
 ## 0.4.1
 
 ### Patch Changes

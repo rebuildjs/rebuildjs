@@ -1,5 +1,7 @@
+import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_, tup } from 'ctx-core/function'
-import { be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
+import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
+import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { cwd_, server_path_ } from '../app/index.js'
 import { middleware_ctx__be_config } from '../ctx/index.js'
@@ -7,8 +9,17 @@ export const [
 	server__metafile$_,
 	server__metafile_,
 	server__metafile__set
-] = be_sig_triple_(()=>
+] = be_lock_memosig_triple_(()=>
 	undefined,
+async (ctx, server__metafile$)=>{
+	let metafile_path
+	if (
+		!server__metafile$.lock
+		&& await file_exists_(metafile_path = join(server_path_(ctx), 'metafile.json'))
+	) {
+		server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	}
+},
 { ...middleware_ctx__be_config, id: 'server__metafile' })
 export const [
 	server__input_path$_,

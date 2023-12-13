@@ -56,6 +56,7 @@ export async function server__build(config = {}) {
 	} else {
 		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
+		console.log('server__build|watch')
 	}
 }
 /**
@@ -101,6 +102,7 @@ export async function browser__build(config = {}) {
 	} else {
 		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
+		console.log('browser__build|watch')
 	}
 	await public__cp()
 }
