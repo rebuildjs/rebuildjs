@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.10.1
+
+### Patch Changes
+
+- rebuildjs**build_config_T: fix: &{ rebuildjs?: rebuildjs**plugin_config_T }
+
 ## 0.10.0
 
 ### Minor Changes
