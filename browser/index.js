@@ -42,8 +42,8 @@ export const [
 		}),
 { ...middleware_ctx__be_config, id: 'browser__input_path' })
 export const [
-	browser__output_path$_,
-	browser__output_path_
+	browser__output__relative_path$_,
+	browser__output__relative_path_
 ] = be_memo_pair_(ctx=>
 	nullish__none_([browser__metafile_(ctx), browser__input_path_(ctx)],
 		(browser__metafile, browser__input_path)=>{
@@ -54,12 +54,12 @@ export const [
 				}
 			}
 		}),
-{ ...middleware_ctx__be_config, id: 'browser__output_path' })
+{ ...middleware_ctx__be_config, id: 'browser__output__relative_path' })
 export const [
 	browser__script$_,
 	browser__script_,
 ] = be_memo_pair_(ctx=>
-	nullish__none_([browser__output_path_(ctx), browser_relative_path_(ctx)],
+	nullish__none_([browser__output__relative_path_(ctx), browser_relative_path_(ctx)],
 		(browser__output_path, browser_relative_path)=>
 			browser__output_path.replace(browser_relative_path, '')),
 { ...middleware_ctx__be_config, id: 'browser__script' })

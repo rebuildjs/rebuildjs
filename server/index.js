@@ -34,8 +34,8 @@ export const [
 	undefined,
 { ...middleware_ctx__be_config, id: 'server__input_path' })
 export const [
-	server__output_path$_,
-	server__output_path_
+	server__output__relative_path$_,
+	server__output__relative_path_
 ] = be_memo_pair_(ctx=>
 	nullish__none_(tup(server__metafile_(ctx), server__input_path_(ctx)),
 		(server__metafile, input_path)=>{
@@ -45,12 +45,12 @@ export const [
 				if (output.entryPoint === input_path) return output_path
 			}
 		}),
-{ ...middleware_ctx__be_config, id: 'server__output_path' })
+{ ...middleware_ctx__be_config, id: 'server__output__relative_path' })
 export const [
 	server__output$_,
 	server__output_
 ] = be_memo_pair_(ctx=>
-	nullish__none_(tup(server__metafile_(ctx), server__output_path_(ctx)),
+	nullish__none_(tup(server__metafile_(ctx), server__output__relative_path_(ctx)),
 		(server__metafile, output_path)=>
 			server__metafile.outputs[output_path]),
 { ...middleware_ctx__be_config, id: 'server__output' })

@@ -15,8 +15,8 @@ export declare const [
 	server__input_path__set
 ]:be_sig_triple_T<string|undefined>
 export declare const [
-	server__output_path$_,
-	server__output_path_
+	server__output__relative_path$_,
+	server__output__relative_path_
 ]:be_memo_pair_T<string|undefined>
 export declare const [
 	server__output$_,

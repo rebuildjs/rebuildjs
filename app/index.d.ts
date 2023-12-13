@@ -15,14 +15,14 @@ export const [
 	is_prod__set,
 ]: be_lock_memosig_triple_T<string>
 export const [
-	dist_path$_,
-	dist_path_,
-	dist_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
 	public_path$_,
 	public_path_,
 	public_path__set,
+]:be_lock_memosig_triple_T<string>
+export const [
+	dist_path$_,
+	dist_path_,
+	dist_path__set,
 ]:be_lock_memosig_triple_T<string>
 export const [
 	src_path$_,

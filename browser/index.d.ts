@@ -14,8 +14,8 @@ export declare const [
 	browser__input_path_
 ]:be_memo_pair_T<string|undefined>
 export declare const [
-	browser__output_path$_,
-	browser__output_path_
+	browser__output__relative_path$_,
+	browser__output__relative_path_
 ]:be_memo_pair_T<string|undefined>
 export declare const [
 	browser__script$_,
