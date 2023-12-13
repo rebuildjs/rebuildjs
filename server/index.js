@@ -12,12 +12,12 @@ export const [
 ] = be_lock_memosig_triple_(()=>
 	undefined,
 async (ctx, server__metafile$)=>{
-	let metafile_path
-	if (
-		!server__metafile$.lock
-		&& await file_exists_(metafile_path = join(server_path_(ctx), 'metafile.json'))
-	) {
-		server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	if (!server__metafile$.lock) {
+		let metafile_path
+		server__metafile$._ =
+			await file_exists_(metafile_path = join(server_path_(ctx), 'metafile.json'))
+				? JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+				: null
 	}
 },
 { ...middleware_ctx__be_config, id: 'server__metafile' })

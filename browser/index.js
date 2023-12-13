@@ -13,12 +13,12 @@ export const [
 ] = be_sig_triple_(()=>
 	undefined,
 async (ctx, browser__metafile$)=>{
-	let metafile_path
-	if (
-		!browser__metafile$.lock
-			&& await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
-	) {
-		browser__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	if (!browser__metafile$.lock) {
+		let metafile_path
+		browser__metafile$._ =
+			await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
+				? JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+				: null
 	}
 },
 { ...app_ctx__be_config, id: 'browser__metafile' })

@@ -4,7 +4,7 @@ export declare const [
 	browser__metafile$_,
 	browser__metafile_,
 	browser__metafile__set
-]:be_sig_triple_T<Metafile|undefined>
+]:be_sig_triple_T<Metafile|null|undefined>
 export declare const [
 	browser__input_path$_,
 	browser__input_path_
