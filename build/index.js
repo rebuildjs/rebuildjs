@@ -1,4 +1,5 @@
-/// <reference types="esbuild" />
+/** @typedef {import('esbuild').BuildOptions}BuildOptions */
+/** @typedef {import('esbuild').Plugin}Plugin */
 import { writeFile } from '@ctx-core/monorepo'
 import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
@@ -30,7 +31,7 @@ export async function server__build(config = {}) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const external = ['/assets/*', 'bun', 'node_modules/*', ...(config.external || [])]
+	const external = ['bun', 'node_modules/*', ...(config.external || [])]
 	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
 	const esbuild_config = {
 		entryPoints,
@@ -57,6 +58,11 @@ export async function server__build(config = {}) {
 		await esbuild_ctx.watch()
 	}
 }
+/**
+ * @param {Plugin}config
+ * @returns {Promise<void>}
+ * @private
+ */
 export async function browser__build(config = {}) {
 	await rm(browser_path_(app_ctx), { recursive: true, force: true })
 	await mkdir(browser_path_(app_ctx), { recursive: true })
@@ -98,6 +104,10 @@ export async function browser__build(config = {}) {
 	}
 	await public__cp()
 }
+/**
+ * @returns {Plugin}
+ * @private
+ */
 export function rebuildjs_plugin_() {
 	return {
 		name: 'rebuildjs_plugin',
@@ -133,6 +143,9 @@ export function rebuildjs_plugin_() {
 		}
 	}
 }
+/**
+ * @returns {Promise<void>}
+ */
 async function public__cp() {
 	const path_a = new fdir()
 		.withFullPaths()

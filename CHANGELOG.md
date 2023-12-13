@@ -1,5 +1,21 @@
 # rebuildjs
 
+## 0.3.2
+
+### Patch Changes
+
+- patch:
+
+      server__build: external: fix: always include: 'bun', 'node_modules/*'
+      be_lock_memosig_triple_:
+      	is_prod
+      	dist_path
+      	public_path
+      	src_path
+      	app_path
+      	browser_path
+      	server_path
+
 ## 0.3.1
 
 ### Patch Changes
