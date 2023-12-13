@@ -27,14 +27,12 @@ export async function server__build(config = {}) {
 		.crawl(app_path_(app_ctx))
 		.withPromise()
 	/** @type {string[]} */
-	const entryPoints = []
+	const entryPoints = config?.entryPoints ?? []
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const external = ['bun', 'node_modules/*', ...(config.external || [])]
 	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
 	const esbuild_config = {
-		entryPoints,
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
 		bundle: true,
@@ -43,12 +41,13 @@ export async function server__build(config = {}) {
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
 		...config,
+		entryPoints,
 		format: 'esm',
 		platform: 'node',
 		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: server_path_(app_ctx),
-		external,
+		external: server__external_(config),
 		plugins,
 	}
 	if (is_prod_(app_ctx)) {
@@ -58,6 +57,13 @@ export async function server__build(config = {}) {
 		await esbuild_ctx.watch()
 		console.log('server__build|watch')
 	}
+}
+/**
+ * @param {Partial<BuildOptions>}config
+ * @returns {Promise<string[]>}
+ */
+export function server__external_(config) {
+	return ['bun', 'node_modules/*', ...(config.external || [])]
 }
 /**
  * @param {Plugin}config
@@ -73,14 +79,13 @@ export async function browser__build(config = {}) {
 		.crawl(app_path_(app_ctx))
 		.withPromise()
 	/** @type {string[]} */
-	const entryPoints = []
+	const entryPoints = config?.entryPoints ?? []
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
 	const plugins = [rebuildjs_plugin_(), ...(config.plugins || [])]
 	/** @type {BuildOptions} */
 	const esbuild_config = {
-		entryPoints,
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
 		bundle: true,
@@ -90,6 +95,7 @@ export async function browser__build(config = {}) {
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
 		...config,
+		entryPoints,
 		format: 'esm',
 		platform: 'browser',
 		absWorkingDir: cwd_(app_ctx),

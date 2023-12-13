@@ -4,12 +4,13 @@ import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { cwd_, server_path_ } from '../app/index.js'
-import { middleware_ctx__be_config } from '../ctx/index.js'
+import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 export const [
 	server__metafile_path$_,
 	server__metafile_path_,
 ] = be_memo_pair_(ctx=>
-	server_path_(ctx), 'metafile.json')
+	join(server_path_(ctx), 'metafile.json'),
+{ ...app_ctx__be_config, id: 'server__metafile_path' })
 export const [
 	server__metafile$_,
 	server__metafile_,
@@ -24,8 +25,7 @@ async (ctx, server__metafile$)=>{
 	) {
 		server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
 	}
-},
-{ ...middleware_ctx__be_config, id: 'server__metafile' })
+}, { ...app_ctx__be_config, id: 'server__metafile' })
 export const [
 	server__input_path$_,
 	server__input_path_,

@@ -1,5 +1,44 @@
 # rebuildjs
 
+## 0.8.0
+
+### Minor Changes
+
+- - server\__external_
+
+### Patch Changes
+
+- entryPoints: fix: always include route files:
+
+      browser__build
+      server__build
+
+- patch:
+
+      fix: rmemo source_ctx:
+      	browser__metafile_path: app_ctx
+      	server__metafile_path: app_ctx
+      	server__metafile: app_ctx
+      fix: rmemo id:
+      	port
+      	cwd
+      	is_prod
+      	public_path
+      	dist_path
+      	src_path
+      	app_path
+      	browser_relative_path
+      	browser_path
+      	server_relative_path
+      	server_path
+      	browser__metafile_path
+      	server__metafile_path
+
+- rmemo_T: fix: + |lock_memosig_T<val_T>
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@4.18.0
+
 ## 0.7.0
 
 ### Minor Changes

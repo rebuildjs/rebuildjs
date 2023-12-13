@@ -10,7 +10,8 @@ export const [
 	browser__metafile_path$_,
 	browser__metafile_path_,
 ] = be_memo_pair_(ctx=>
-	join(browser_path_(ctx), 'metafile.json'))
+	join(browser_path_(ctx), 'metafile.json'),
+{ ...app_ctx__be_config, id: 'browser__metafile_path' })
 export const [
 	browser__metafile$_,
 	browser__metafile_,
