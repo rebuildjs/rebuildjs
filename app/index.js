@@ -29,8 +29,13 @@ export const [
 	dist_path$_,
 	dist_path_,
 	dist_path__set,
-] = be_memosig_triple_(ctx=>
-	join(cwd_(ctx), 'dist'),
+] = be_sig_triple_((ctx, dist_path$)=>
+	dist_path$.custom
+		? dist_path$._
+		: join(cwd_(ctx), 'dist'),
+async dist_path$=>{
+	if (dist_path$._ != join(cwd_(ctx), 'dist')) dist_path$.custom = 1
+},
 app_ctx__be_config)
 export const [
 	public_path$_,

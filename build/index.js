@@ -37,7 +37,6 @@ export async function server__build(config = {}) {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
 		bundle: true,
-		external,
 		target: 'es2020',
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
@@ -48,6 +47,7 @@ export async function server__build(config = {}) {
 		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: server_path_(app_ctx),
+		external,
 		plugins,
 	}
 	if (is_prod_(app_ctx)) {
