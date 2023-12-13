@@ -1,5 +1,22 @@
 # rebuildjs
 
+## 0.4.0
+
+### Minor Changes
+
+- minor:
+
+      + browser_relative_path
+      	+ browser_relative_path$_
+      	+ browser_relative_path_
+      + server_relative_path
+      	+ server_relative_path$_
+      	+ server_relative_path_
+
+### Patch Changes
+
+- browser\_\_script: replace logic: fix: browser_relative_path instead of hard coded dist/dev-browser
+
 ## 0.3.3
 
 ### Patch Changes

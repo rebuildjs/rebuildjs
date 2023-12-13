@@ -1,5 +1,6 @@
 import { nullish__none_, tup } from 'ctx-core/function'
 import { be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
+import { browser_relative_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
 import { server__input_path_ } from '../server/index.js'
 export const [
@@ -40,7 +41,7 @@ export const [
 	browser__script$_,
 	browser__script_,
 ] = be_memo_pair_(ctx=>
-	nullish__none_([browser__output_path_(ctx)],
-		browser__output_path=>
-			browser__output_path.replace('dist/dev-browser', '')),
+	nullish__none_([browser__output_path_(ctx), browser_relative_path_(ctx)],
+		(browser__output_path, browser_relative_path)=>
+			browser__output_path.replace(browser_relative_path, '')),
 { ...middleware_ctx__be_config, id: 'browser__script' })
