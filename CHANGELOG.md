@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.11.2
+
+### Patch Changes
+
+- browser**output**relative_path: fix: lookup:
+
+      fixes downstream browser__script
+
 ## 0.11.1
 
 ### Patch Changes
