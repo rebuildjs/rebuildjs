@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.17.0
+
+### Minor Changes
+
+- - assets\_
+
 ## 0.16.0
 
 ### Minor Changes
