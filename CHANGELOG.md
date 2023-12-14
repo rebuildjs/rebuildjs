@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.13.0
+
+### Minor Changes
+
+- - cssjs*esbuild_plugin*
+
 ## 0.12.0
 
 ### Minor Changes
