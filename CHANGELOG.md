@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.15.1
+
+### Patch Changes
+
+- asset*path_a*: fix: type
+
 ## 0.15.0
 
 ### Minor Changes
