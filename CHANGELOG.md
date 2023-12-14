@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.16.0
+
+### Minor Changes
+
+- - var**css**replace
+
 ## 0.15.1
 
 ### Patch Changes
