@@ -1,4 +1,5 @@
 /// <reference types="./index.d.ts" />
+import { file_exists_ } from '@ctx-core/fs'
 /** @typedef {import('esbuild').BuildOptions}BuildOptions */
 /** @typedef {import('esbuild').Plugin}Plugin */
 import { writeFile } from '@ctx-core/monorepo'
@@ -150,10 +151,16 @@ export function rebuildjs__plugin_() {
 					server__input_path__set(middleware_ctx, input_path)
 					const cssBundle = server__cssBundle_(middleware_ctx)
 					if (cssBundle) {
-						let server__css = server__css_(middleware_ctx)
+						const server__css = server__css_(middleware_ctx)
 						await link(
 							join(server_path_(app_ctx), server__css),
 							join(browser_path_(app_ctx), server__css))
+						const server__css_map = `${server__css}.map`
+						if (await file_exists_(join(server_path_(app_ctx), server__css_map))) {
+							await link(
+								join(server_path_(app_ctx), server__css_map),
+								join(browser_path_(app_ctx), server__css_map))
+						}
 					}
 				}
 			})

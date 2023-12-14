@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.10.4
+
+### Patch Changes
+
+- rebuildjs\__plugin_: fix: link cssBundle map file
+
 ## 0.10.3
 
 ### Patch Changes
