@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.15.0
+
+### Minor Changes
+
+- - asset*path_a*
+
 ## 0.14.0
 
 ### Minor Changes
