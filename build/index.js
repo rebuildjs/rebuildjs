@@ -5,16 +5,8 @@ import { writeFile } from '@ctx-core/monorepo'
 import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
 import { link, mkdir, rm } from 'fs/promises'
-import { dirname, join, relative, resolve } from 'path'
-import {
-	app_path_,
-	browser_path_,
-	cwd_,
-	is_prod_,
-	public_path_,
-	server__relative_path_,
-	server_path_
-} from '../app/index.js'
+import { join, relative, resolve } from 'path'
+import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
 import { browser__metafile__set } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
 import { server__metafile_, server__metafile__set } from '../server/index.js'

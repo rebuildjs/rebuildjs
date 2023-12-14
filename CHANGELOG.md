@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.11.1
+
+### Patch Changes
+
+- remove unused import
+
 ## 0.11.0
 
 ### Minor Changes
