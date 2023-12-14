@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.13.2",
+	"version": "0.14.0",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -32,6 +32,7 @@
 		"build",
 		"css",
 		"ctx",
+		"metafile",
 		"middleware",
 		"server"
 	],
@@ -44,6 +45,7 @@
 		"./build": "./build/index.js",
 		"./css": "./css/index.js",
 		"./ctx": "./ctx/index.js",
+		"./metafile": "./metafile/index.js",
 		"./middleware": "./middleware/index.js",
 		"./server": "./server/index.js",
 		"./package.json": "./package.json"

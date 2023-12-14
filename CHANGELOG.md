@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.14.0
+
+### Minor Changes
+
+- - metafile\_\_wait
+
 ## 0.13.2
 
 ### Patch Changes
