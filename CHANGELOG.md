@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.12.0
+
+### Minor Changes
+
+- - asset*path*
+
 ## 0.11.3
 
 ### Patch Changes
