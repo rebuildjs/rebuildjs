@@ -10,14 +10,10 @@ export declare const [
 	server__metafile__set
 ]:be_sig_triple_T<Metafile|undefined>
 export declare const [
-	server__input_path$_,
-	server__input_path_,
-	server__input_path__set
-]:be_sig_triple_T<string|undefined>
-export declare const [
 	server__output__relative_path$_,
-	server__output__relative_path_
-]:be_memo_pair_T<string|undefined>
+	server__output__relative_path_,
+	server__output__relative_path__set,
+]:be_sig_triple_T<string|undefined>
 export declare const [
 	server__output$_,
 	server__output_

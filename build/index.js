@@ -1,22 +1,23 @@
 /// <reference types="./index.d.ts" />
-import { file_exists_ } from '@ctx-core/fs'
 /** @typedef {import('esbuild').BuildOptions}BuildOptions */
 /** @typedef {import('esbuild').Plugin}Plugin */
 import { writeFile } from '@ctx-core/monorepo'
 import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
 import { link, mkdir, rm } from 'fs/promises'
-import { dirname, join, resolve } from 'path'
-import { app_path_, browser_path_, cwd_, is_prod_, public_path_, server_path_ } from '../app/index.js'
-import { browser__metafile__set } from '../browser/index.js'
-import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
+import { dirname, join, relative, resolve } from 'path'
 import {
-	server__css_,
-	server__cssBundle_,
-	server__input_path__set,
-	server__metafile_,
-	server__metafile__set
-} from '../server/index.js'
+	app_path_,
+	browser_path_,
+	cwd_,
+	is_prod_,
+	public_path_,
+	server__relative_path_,
+	server_path_
+} from '../app/index.js'
+import { browser__metafile__set } from '../browser/index.js'
+import { app_ctx } from '../ctx/index.js'
+import { server__metafile_, server__metafile__set } from '../server/index.js'
 /**
  * @param {Plugin}config
  * @returns {Promise<void>}
@@ -66,7 +67,6 @@ export async function browser__build(config) {
 	} else {
 		await build(esbuild_config)
 	}
-	await public__cp()
 }
 /**
  * @param {rebuildjs__build_config_T}[config]
@@ -145,45 +145,15 @@ export function rebuildjs__plugin_() {
 							JSON.stringify(result.metafile, null, 2))
 					}
 				}
-				const inputs = server__metafile_(app_ctx)?.inputs ?? []
-				for (let input_path in inputs) {
-					const middleware_ctx = middleware_ctx_()
-					server__input_path__set(middleware_ctx, input_path)
-					const cssBundle = server__cssBundle_(middleware_ctx)
-					if (cssBundle) {
-						const server__css = server__css_(middleware_ctx)
-						await link(
-							join(server_path_(app_ctx), server__css),
-							join(browser_path_(app_ctx), server__css))
-						const server__css_map = `${server__css}.map`
-						if (await file_exists_(join(server_path_(app_ctx), server__css_map))) {
-							await link(
-								join(server_path_(app_ctx), server__css_map),
-								join(browser_path_(app_ctx), server__css_map))
-						}
-					}
+				const outputs = server__metafile_(app_ctx)?.outputs ?? {}
+				for (let output__relative_path in outputs) {
+					if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
+					const asset_path = join(cwd_(app_ctx), output__relative_path)
+					await link(
+						asset_path,
+						join(browser_path_(app_ctx), relative(server__relative_path_(app_ctx), output__relative_path)))
 				}
 			})
 		}
-	}
-}
-/**
- * @returns {Promise<void>}
- */
-async function public__cp() {
-	const path_a = new fdir()
-		.withFullPaths()
-		.crawl(public_path_(app_ctx))
-		.sync()
-	/** @type {Promise<unknown>[]} */
-	const promise_a = []
-	for (const path of path_a) {
-		promise_a.push(
-			(async ()=>{
-				const out_path = path.replace(public_path_(app_ctx), browser_path_(app_ctx))
-				await mkdir(dirname(out_path), { recursive: true })
-				await link(path, out_path)
-			})(),
-		)
 	}
 }

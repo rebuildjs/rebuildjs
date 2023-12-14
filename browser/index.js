@@ -1,11 +1,11 @@
 import { file_exists_ } from '@ctx-core/fs'
-import { nullish__none_, tup } from 'ctx-core/function'
+import { nullish__none_ } from 'ctx-core/function'
 import { be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
 import { join, relative } from 'path'
-import { browser_path_, browser__relative_path_ } from '../app/index.js'
+import { browser__relative_path_, browser_path_ } from '../app/index.js'
 import { app_ctx__be_config, middleware_ctx__be_config } from '../ctx/index.js'
-import { server__input_path_ } from '../server/index.js'
+import { server__output__relative_path_ } from '../server/index.js'
 export const [
 	browser__metafile_path$_,
 	browser__metafile_path_,
@@ -22,34 +22,23 @@ async (ctx, browser__metafile$)=>{
 	let metafile_path
 	if (
 		!browser__metafile$.lock
-		&& await file_exists_(metafile_path = join(browser_path_(ctx), 'metafile.json'))
+		&& await file_exists_(metafile_path = browser__metafile_path_(ctx))
 	) {
 		browser__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
 	}
 },
 { ...app_ctx__be_config, id: 'browser__metafile' })
 export const [
-	browser__input_path$_,
-	browser__input_path_
-] = be_memo_pair_(ctx=>
-	nullish__none_(tup(browser__metafile_(ctx), server__input_path_(ctx)),
-		(browser__metafile, server__input_path)=>{
-			const browser__input_path =
-					server__input_path.replace(
-						/\.server\.(ts|js|tsx|jsx)/,
-						'.browser.$1')
-			return browser__metafile.inputs[browser__input_path] && browser__input_path
-		}),
-{ ...middleware_ctx__be_config, id: 'browser__input_path' })
-export const [
 	browser__output__relative_path$_,
 	browser__output__relative_path_
 ] = be_memo_pair_(ctx=>
-	nullish__none_([browser__metafile_(ctx), browser__input_path_(ctx)],
-		(browser__metafile, browser__input_path)=>{
+	nullish__none_([browser__metafile_(ctx), server__output__relative_path_(ctx)],
+		(browser__metafile, server__output__relative_path)=>{
 			const { outputs } = browser__metafile
 			for (const output_path in outputs) {
-				if (outputs[output_path].entryPoint === browser__input_path) {
+				if (
+					output_path === server__output__relative_path.replace(/\.server\.(ts|js|tsx|jsx)/, '.browser.$1')
+				) {
 					return output_path
 				}
 			}

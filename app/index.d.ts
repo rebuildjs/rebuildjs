@@ -1,4 +1,3 @@
-import { be_memo_pair_ } from 'ctx-core/rmemo'
 import type { be_lock_memosig_triple_T, be_memo_pair_T, be_sig_triple_T } from 'ctx-core/rmemo'
 export const [
 	port$_,

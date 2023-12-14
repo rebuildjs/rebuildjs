@@ -27,24 +27,11 @@ async (ctx, server__metafile$)=>{
 	}
 }, { ...app_ctx__be_config, id: 'server__metafile' })
 export const [
-	server__input_path$_,
-	server__input_path_,
-	server__input_path__set
+	server__output__relative_path$_,
+	server__output__relative_path_,
+	server__output__relative_path__set,
 ] = be_sig_triple_(()=>
 	undefined,
-{ ...middleware_ctx__be_config, id: 'server__input_path' })
-export const [
-	server__output__relative_path$_,
-	server__output__relative_path_
-] = be_memo_pair_(ctx=>
-	nullish__none_(tup(server__metafile_(ctx), server__input_path_(ctx)),
-		(server__metafile, input_path)=>{
-			const { outputs } = server__metafile
-			for (const output_path in outputs) {
-				const output = outputs[output_path]
-				if (output.entryPoint === input_path) return output_path
-			}
-		}),
 { ...middleware_ctx__be_config, id: 'server__output__relative_path' })
 export const [
 	server__output$_,

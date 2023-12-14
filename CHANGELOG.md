@@ -1,5 +1,26 @@
 # rebuildjs
 
+## 0.11.0
+
+### Minor Changes
+
+- - minor:
+
+    rebuildjs\*\*plugin\_:
+
+    - link all non .js,.mjs,.js.map,.mjs.map server outputs to browser
+    - public\*\*cp: going to rely on asset file imports using esbuild
+    - server\_\_input_path:
+      - server\__input_path$_
+      - server\__input_path_
+      - server**input_path**set
+
+    * server**output**relative_path\_\_set
+
+    - browser\_\_input_path:
+      - browser\__input_path$_
+      - browser\__input_path_
+
 ## 0.10.4
 
 ### Patch Changes
