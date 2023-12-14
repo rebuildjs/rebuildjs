@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.11.3
+
+### Patch Changes
+
+- server\_\_css: fix: path
+
 ## 0.11.2
 
 ### Patch Changes

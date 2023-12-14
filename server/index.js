@@ -55,5 +55,5 @@ export const [
 ] = be_memo_pair_(ctx=>
 	nullish__none_([server__cssBundle_(ctx)],
 		cssBundle=>
-			relative(server_path_(ctx), cssBundle)),
+			join('/', relative(server_path_(ctx), cssBundle))),
 { ...middleware_ctx__be_config, id: 'server__css' })
