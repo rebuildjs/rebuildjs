@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.18.1
+
+### Patch Changes
+
+- esbuild: ^0.19.9 -> ^0.19.10
+- Updated dependencies
+  - @ctx-core/fs@1.4.37
+
 ## 0.18.0
 
 ### Minor Changes
