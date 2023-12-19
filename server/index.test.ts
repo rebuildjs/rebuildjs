@@ -1,5 +1,5 @@
-import { deep_equal } from '@ctx-core/fast-deep-equal'
 import { ctx_ } from 'ctx-core/be'
+import { deep_equal } from 'ctx-core/deep_equal'
 import * as rmemo from 'ctx-core/rmemo'
 import { rmemo__wait } from 'ctx-core/rmemo'
 import esmock from 'esmock'
