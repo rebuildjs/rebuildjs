@@ -1,62 +1,37 @@
-import type { be_lock_memosig_triple_T, be_memo_pair_T, be_sig_triple_T } from 'ctx-core/rmemo'
-export const [
-	port$_,
-	port_,
-	port__set
-]: be_sig_triple_T<number>
-export const [
-	cwd$_,
-	cwd_,
-	cwd__set,
-]: be_sig_triple_T<string>
-export const [
-	is_prod$_,
-	is_prod_,
-	is_prod__set,
-]: be_lock_memosig_triple_T<string>
-export const [
-	public_path$_,
-	public_path_,
-	public_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
-	dist_path$_,
-	dist_path_,
-	dist_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
-	src_path$_,
-	src_path_,
-	src_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
-	src__relative_path$_,
-	src__relative_path_,
-]:be_memo_pair_T<string>
-export const [
-	app_path$_,
-	app_path_,
-	app_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
-	app__relative_path$_,
-	app__relative_path_,
-]:be_memo_pair_T<string>
-export const [
-	browser__relative_path$_,
-	browser__relative_path_,
-]:be_memo_pair_T<string>
-export const [
-	browser_path$_,
-	browser_path_,
-	browser_path__set,
-]:be_lock_memosig_triple_T<string>
-export const [
-	server__relative_path$_,
-	server__relative_path_,
-]:be_memo_pair_T<string>
-export const [
-	server_path$_,
-	server_path_,
-	server_path__set,
-]:be_lock_memosig_triple_T<string>
+import type { ctx__be_T, ctx__get_T, ctx__set_T, lock_memosig_T, memo_T, sig_T } from 'ctx-core/rmemo'
+import { has_app_T } from '../ctx/index.js'
+export declare const port$_:ctx__be_T<has_app_T, sig_T<number>, 'app'>
+export declare const port_:ctx__get_T<has_app_T, number>
+export declare const port__set:ctx__set_T<has_app_T, number>
+export declare const cwd$_:ctx__be_T<has_app_T, sig_T<string>, 'app'>
+export declare const cwd_:ctx__get_T<has_app_T, string>
+export declare const cwd__set:ctx__set_T<has_app_T, string>
+export declare const is_prod$_:ctx__be_T<has_app_T, lock_memosig_T<boolean>, 'app'>
+export declare const is_prod_:ctx__get_T<has_app_T, boolean>
+export declare const is_prod__set:ctx__set_T<has_app_T, boolean>
+export declare const public_path$_:ctx__be_T<has_app_T, lock_memosig_T<string>, 'app'>
+export declare const public_path_:ctx__get_T<has_app_T, string>
+export declare const public_path__set:ctx__set_T<has_app_T, string>
+export declare const dist_path$_:ctx__be_T<has_app_T, lock_memosig_T<string>, 'app'>
+export declare const dist_path_:ctx__get_T<has_app_T, string>
+export declare const dist_path__set:ctx__set_T<has_app_T, string>
+export declare const dist__relative_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const dist__relative_path_:ctx__get_T<has_app_T, string>
+export declare const src_path$_:ctx__be_T<has_app_T, lock_memosig_T<string>, 'app'>
+export declare const src_path_:ctx__get_T<has_app_T, string>
+export declare const src_path__set:ctx__set_T<has_app_T, string>
+export declare const src__relative_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const src__relative_path_:ctx__get_T<has_app_T, string>
+export declare const app_path$_:ctx__be_T<has_app_T, lock_memosig_T<string>, 'app'>
+export declare const app_path_:ctx__get_T<has_app_T, string>
+export declare const app_path__set:ctx__set_T<has_app_T, string>
+export declare const app__relative_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const app__relative_path_:ctx__get_T<has_app_T, string>
+export declare const browser__relative_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const browser__relative_path_:ctx__get_T<has_app_T, string>
+export declare const browser_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const browser_path_:ctx__get_T<has_app_T, string>
+export declare const server__relative_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const server__relative_path_:ctx__get_T<has_app_T, string>
+export declare const server_path$_:ctx__be_T<has_app_T, memo_T<string>, 'app'>
+export declare const server_path_:ctx__get_T<has_app_T, string>

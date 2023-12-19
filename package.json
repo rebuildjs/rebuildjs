@@ -56,7 +56,7 @@
 		"exec": "$@",
 		"prepublishOnly": "pnpm clean && pnpm build && pnpm test",
 		"test": "pnpm test-unit && check-dts",
-		"test-unit": "tsx node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
+		"test-unit": "NODE_OPTIONS=--loader=esmock tsx node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
 		"test-unit-coverage": "c8 pnpm test-unit"
 	},
 	"dependencies": {
@@ -68,8 +68,10 @@
 		"picomatch": "^3.0.1"
 	},
 	"devDependencies": {
+		"@ctx-core/fast-deep-equal": "workspace:1.2.8",
 		"c8": "^8.0.1",
 		"check-dts": "^0.7.2",
+		"esmock": "^2.6.0",
 		"tsx": "^4.6.2",
 		"typescript": "next",
 		"uvu": "^0.5.6"

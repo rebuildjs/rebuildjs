@@ -1,1 +1,1 @@
-export declare function metafile__wait():Promise<void>
+export declare function metafile__wait(timeout?:number):Promise<void>
