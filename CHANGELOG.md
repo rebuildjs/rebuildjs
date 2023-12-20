@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.19.0
+
+### Minor Changes
+
+- minor:
+
+      + ctx__clear
+      + ondelete_be_
+      + ondelete_be__val__new_T
+
 ## 0.18.6
 
 ### Patch Changes
