@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.19.3
+
+### Patch Changes
+
+- browser build: es2021
+- Updated dependencies
+  - ctx-core@5.2.2
+
 ## 0.19.2
 
 ### Patch Changes

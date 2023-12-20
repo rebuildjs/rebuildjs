@@ -39,7 +39,7 @@ export async function browser__build(config) {
 		assetNames: '[name]-[hash]',
 		bundle: true,
 		external: [],
-		target: 'es2020',
+		target: 'es2021',
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
