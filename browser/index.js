@@ -1,7 +1,7 @@
 import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_ } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_ } from 'ctx-core/rmemo'
-import { readFile } from 'fs/promises'
+import { readFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { browser__relative_path_, browser_path_ } from '../app/index.js'
 import { server__output_ } from '../server/index.js'
