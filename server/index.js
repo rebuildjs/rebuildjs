@@ -1,4 +1,4 @@
-import { file_exists_ } from '@ctx-core/fs'
+import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_, tup } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
