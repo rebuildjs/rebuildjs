@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.19.2
+
+### Patch Changes
+
+- ctx-core: ^5.2.0 -> ^5.2.1
+- Updated dependencies
+  - @ctx-core/fs@1.4.43
+
 ## 0.19.1
 
 ### Patch Changes
