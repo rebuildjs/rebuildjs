@@ -1,4 +1,4 @@
-import { Equal, Expect } from 'ctx-core/test'
+import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
 import { app_ctx, middleware_ctx_T } from '../ctx/index.js'

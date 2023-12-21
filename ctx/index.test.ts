@@ -1,5 +1,5 @@
-import { Ctx } from 'ctx-core/be'
-import { Equal, Expect } from 'ctx-core/test'
+import { type Ctx } from 'ctx-core/be'
+import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { app_ctx, middleware_ctx_, route_ctx_ } from './index.js'
 test.after.each(()=>{
@@ -18,8 +18,8 @@ test('middleware_ctx_', ()=>{
 })
 test('route_ctx_', ()=>{
 	const route_ctx = route_ctx_(middleware_ctx_())
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    type test_route_ctx = Expect<Equal<typeof route_ctx, Ctx<''|'app'|'middleware'|'route'>>>
-    /* eslint-enable @typescript-eslint/no-unused-vars */
+	/* eslint-disable @typescript-eslint/no-unused-vars */
+	type test_route_ctx = Expect<Equal<typeof route_ctx, Ctx<''|'app'|'middleware'|'route'>>>
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 })
 test.run()
