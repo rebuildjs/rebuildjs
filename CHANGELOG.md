@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.20.1
+
+### Patch Changes
+
+- metafile**wait:
+  server**metafile:
+  browser\_\_metafile:
+
+      wait for metafile to be written to disk: ∋ subscribe_wait
+
 ## 0.20.0
 
 ### Minor Changes

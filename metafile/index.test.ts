@@ -31,7 +31,7 @@ test('metafile__wait|failure', async ()=>{
 	} catch (_err) {
 		err = _err as Error
 	}
-	equal(err?.message, 'browser & server metafile timeout')
+	equal(err?.message, 'metafile__wait|browser & server metafile timeout')
 	equal((err?.cause as Error)?.message, 'Timeout 0ms')
 })
 test.run()

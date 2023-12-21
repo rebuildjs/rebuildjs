@@ -8,6 +8,6 @@ export async function metafile__wait(timeout = 5000) {
 	val=>val !== undefined,
 	timeout
 	).catch(err=>{
-		throw Error('browser & server metafile timeout', { cause: err })
+		throw Error('metafile__wait|browser & server metafile timeout', { cause: err })
 	})
 }

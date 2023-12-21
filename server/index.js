@@ -1,5 +1,5 @@
 import { file_exists_ } from 'ctx-core/fs'
-import { nullish__none_, tup } from 'ctx-core/function'
+import { nullish__none_, promise_timeout, tup } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
 import { join, relative } from 'path'
@@ -20,7 +20,7 @@ async (ctx, server__metafile$)=>{
 	let metafile_path
 	if (
 		!server__metafile$.lock
-		&& await file_exists_(metafile_path = server__metafile_path_(ctx))
+		&& await promise_timeout(file_exists_(metafile_path = server__metafile_path_(ctx)), 200)
 	) {
 		server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
 	}
@@ -37,8 +37,8 @@ export const [
 	server__output_
 ] = be_memo_pair_(ctx=>
 	nullish__none_(tup(server__metafile_(ctx), server__output__relative_path_(ctx)),
-		(server__metafile, output_path)=>
-			server__metafile.outputs[output_path]),
+		(server__metafile, server__output__relative_path)=>
+			server__metafile.outputs[server__output__relative_path]),
 { ns: 'middleware', id: 'server__output' })
 export const [
 	server__cssBundle__relative_path$_,
