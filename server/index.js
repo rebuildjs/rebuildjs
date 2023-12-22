@@ -1,5 +1,5 @@
 import { file_exists_ } from 'ctx-core/fs'
-import { nullish__none_, promise_timeout, tup } from 'ctx-core/function'
+import { nullish__none_, tup, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { readFile } from 'fs/promises'
 import { join, relative } from 'path'
@@ -10,6 +10,7 @@ export const [
 ] = be_memo_pair_(ctx=>
 	join(server_path_(ctx), 'metafile.json'),
 { ns: 'app', id: 'server__metafile_path' })
+let server__metafile__waitfor_promise
 export const [
 	server__metafile$_,
 	server__metafile_,
@@ -17,12 +18,19 @@ export const [
 ] = be_lock_memosig_triple_(()=>
 	undefined,
 async (ctx, server__metafile$)=>{
+	server__metafile$() // ensure the subscriber is run when server__metafile$ changes
+	server__metafile__waitfor_promise?.cancel?.()
 	let metafile_path
-	if (
-		!server__metafile$.lock
-		&& await promise_timeout(file_exists_(metafile_path = server__metafile_path_(ctx)), 200)
-	) {
-		server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	if (!server__metafile$.lock) {
+		metafile_path = server__metafile_path_(ctx)
+		server__metafile__waitfor_promise = waitfor(
+			()=>file_exists_(server__metafile_path_(ctx)),
+			200
+		).catch(()=>false)
+		if (await server__metafile__waitfor_promise	&& metafile_path === server__metafile_path_(ctx)) {
+			// server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+			server__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf+''))
+		}
 	}
 }, { ns: 'app', id: 'server__metafile' })
 export const [

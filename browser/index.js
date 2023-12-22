@@ -1,5 +1,5 @@
 import { file_exists_ } from 'ctx-core/fs'
-import { nullish__none_, promise_timeout } from 'ctx-core/function'
+import { nullish__none_, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_ } from 'ctx-core/rmemo'
 import { readFile } from 'node:fs/promises'
 import { join, relative } from 'path'
@@ -11,6 +11,7 @@ export const [
 ] = be_memo_pair_(ctx=>
 	join(browser_path_(ctx), 'metafile.json'),
 { ns: 'app', id: 'browser__metafile_path' })
+let browser__metafile__waitfor_promise
 export const [
 	browser__metafile$_,
 	browser__metafile_,
@@ -18,12 +19,18 @@ export const [
 ] = be_lock_memosig_triple_(()=>
 	undefined,
 async (ctx, browser__metafile$)=>{
+	browser__metafile$() // ensure the subscriber is run when browser__metafile$ changes
 	let metafile_path
-	if (
-		!browser__metafile$.lock
-			&& await promise_timeout(file_exists_(metafile_path = browser__metafile_path_(ctx)), 200)
-	) {
-		browser__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
+	browser__metafile__waitfor_promise?.cancel?.()
+	if (!browser__metafile$.lock) {
+		metafile_path = browser__metafile_path_(ctx)
+		browser__metafile__waitfor_promise = waitfor(
+			()=>file_exists_(browser__metafile_path_(ctx)),
+			200
+		).catch(()=>false)
+		if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {
+			browser__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
+		}
 	}
 }, { ns: 'app', id: 'browser__metafile' })
 export const [

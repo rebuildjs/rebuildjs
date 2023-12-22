@@ -1,5 +1,17 @@
 # rebuildjs
 
+## 0.20.2
+
+### Patch Changes
+
+- server**metafile:
+  browser**metafile:
+
+      fix: race condition between the server__metafile_path,browser__metafile_path & the metafile.json being read from disk
+
+- Updated dependencies
+  - ctx-core@5.4.0
+
 ## 0.20.1
 
 ### Patch Changes

@@ -55,7 +55,7 @@ test('browser__metafile', async ()=>{
 			browser__metafile$_: _browser__metafile$_,
 			browser__metafile_: _browser__metafile_,
 			browser__metafile__set: _browser__metafile__set,
-		} = await esmock('./index.js', {}, {
+		} = await esmock.p('./index.js', import.meta.url, {}, {
 			'ctx-core/rmemo': rmemo,
 			'ctx-core/fs': {
 				file_exists_: async (path:string)=>{
@@ -64,6 +64,8 @@ test('browser__metafile', async ()=>{
 				}
 			},
 			'node:fs/promises': {
+				// TODO: use this when https://github.com/iambumblehead/esmock/issues/281 is addressed
+				// access: async ()=>{},
 				readFile: async (path:string)=>{
 					readFile_path = path
 					switch (path) {
@@ -78,7 +80,10 @@ test('browser__metafile', async ()=>{
 	}
 	equal(_browser__metafile$_(app_ctx)._, undefined)
 	equal(_browser__metafile_(app_ctx), undefined)
-	await rmemo__wait(_browser__metafile$_(app_ctx), m=>m, 100)
+	await rmemo__wait(
+		_browser__metafile$_(app_ctx),
+		m=>m,
+		100)
 	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
 	equal(_browser__metafile_(app_ctx), browser_metafile0)
 	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
@@ -86,13 +91,19 @@ test('browser__metafile', async ()=>{
 	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
 	equal(_browser__metafile_(app_ctx), browser_metafile0)
 	dist_path__set(app_ctx, '/cwd/dist1')
-	await rmemo__wait(_browser__metafile$_(app_ctx), m=>deep_equal(m, browser_metafile1), 100)
+	await rmemo__wait(
+		_browser__metafile$_(app_ctx),
+		m=>deep_equal(m, browser_metafile1),
+		100)
 	equal(_browser__metafile$_(app_ctx)._, browser_metafile1)
 	equal(_browser__metafile_(app_ctx), browser_metafile1)
 	equal(file_exists__path, '/cwd/dist1/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist1/browser/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
-	await rmemo__wait(_browser__metafile$_(app_ctx), m=>deep_equal(m, browser_metafile0), 100)
+	await rmemo__wait(
+		_browser__metafile$_(app_ctx),
+		m=>deep_equal(m, browser_metafile0),
+		100)
 	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
 	equal(_browser__metafile_(app_ctx), browser_metafile0)
 	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
@@ -103,7 +114,10 @@ test('browser__metafile', async ()=>{
 	dist_path__set(app_ctx, '/cwd/dist1')
 	let error_msg:string|undefined = undefined
 	try {
-		await rmemo__wait(_browser__metafile$_(app_ctx), m=>deep_equal(m, browser_metafile1), 100)
+		await rmemo__wait(
+			_browser__metafile$_(app_ctx),
+			m=>deep_equal(m, browser_metafile1),
+			100)
 	} catch (e) {
 		error_msg = (e as Error).message
 	}
