@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.20.2",
+	"version": "0.20.3",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -60,7 +60,7 @@
 		"test-unit-coverage": "c8 pnpm test-unit"
 	},
 	"dependencies": {
-		"ctx-core": "^5.4.0",
+		"ctx-core": "^5.4.1",
 		"elysia": "^0.7.30",
 		"esbuild": "^0.19.10",
 		"fdir": "^6.1.1",

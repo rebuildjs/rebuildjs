@@ -19,13 +19,12 @@ export const [
 ] = be_lock_memosig_triple_(()=>
 	undefined,
 async (ctx, browser__metafile$)=>{
-	browser__metafile$() // ensure the subscriber is run when browser__metafile$ changes
-	let metafile_path
 	browser__metafile__waitfor_promise?.cancel?.()
+	let metafile_path
 	if (!browser__metafile$.lock) {
 		metafile_path = browser__metafile_path_(ctx)
 		browser__metafile__waitfor_promise = waitfor(
-			()=>file_exists_(browser__metafile_path_(ctx)),
+			()=>file_exists_(metafile_path),
 			200
 		).catch(()=>false)
 		if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {

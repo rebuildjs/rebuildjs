@@ -18,17 +18,15 @@ export const [
 ] = be_lock_memosig_triple_(()=>
 	undefined,
 async (ctx, server__metafile$)=>{
-	server__metafile$() // ensure the subscriber is run when server__metafile$ changes
 	server__metafile__waitfor_promise?.cancel?.()
 	let metafile_path
 	if (!server__metafile$.lock) {
 		metafile_path = server__metafile_path_(ctx)
 		server__metafile__waitfor_promise = waitfor(
-			()=>file_exists_(server__metafile_path_(ctx)),
+			()=>file_exists_(metafile_path),
 			200
 		).catch(()=>false)
 		if (await server__metafile__waitfor_promise	&& metafile_path === server__metafile_path_(ctx)) {
-			// server__metafile$._ = JSON.parse(await readFile(metafile_path).then(buf=>buf.toString()))
 			server__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf+''))
 		}
 	}
