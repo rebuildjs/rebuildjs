@@ -21,5 +21,5 @@ export function middleware_ctx_() {
  * @private
  */
 export function route_ctx_(middleware_ctx) {
-	return ns_ctx_('route', middleware_ctx)
+	return ns_ctx_('', 'route', middleware_ctx)
 }

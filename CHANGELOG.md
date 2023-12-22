@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.20.6
+
+### Patch Changes
+
+- route*ctx*: js implementation: ns: + ''
+
 ## 0.20.5
 
 ### Patch Changes
