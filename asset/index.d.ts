@@ -11,10 +11,11 @@ export declare const assets_:ctx__get_T<has_route_T, assets_T>
 export declare const assets__set:ctx__set_T<has_route_T, assets_T>
 export declare function assets__assign<ctx_T extends has_route_T>(
 	ctx:ctx_T,
-	..._assets_a:assets_T[]):assets_T
-export declare function assets__new(..._assets_a:(assets_T|undefined)[]):assets_T
+	..._assets_a:assets_T[]
+):assets_T
+export declare function assets__new(..._assets_a:(Partial<assets_T>|undefined)[]):assets_T
 export type assets_T = {
-	css_a?:string[]
-	script_a?:string[]
+	css_a:string[]
+	script_a:string[]
 }
 type has_route_T = Ctx_wide_T<'route'>

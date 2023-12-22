@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.20.5
+
+### Patch Changes
+
+- patch:
+
+      assets_T: required props: css_a,script_a
+      assets__new: arguments: (..._assets_a:(Partial<assets_T>|undefined)[])
+
 ## 0.20.4
 
 ### Patch Changes
