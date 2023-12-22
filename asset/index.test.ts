@@ -28,7 +28,9 @@ test('assets', ()=>{
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	type test_ctx = Expect<Equal<typeof route_ctx, Ctx<''|'app'|'middleware'|'route'>>>
 	/* eslint-enable @typescript-eslint/no-unused-vars */
-	const assets = assets__new({ css_a: ['/foo.css'], script_a: ['/foo.js'] })
+	const assets = assets__new(
+		{ css_a: ['/foo.css'], script_a: ['/foo.js'] },
+		undefined)
 	assets__set(route_ctx, assets)
 	equal(assets_(route_ctx), assets)
 	equal(assets$_(route_ctx)(), assets)

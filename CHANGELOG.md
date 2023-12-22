@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.20.4
+
+### Patch Changes
+
+- assets\_\_new: arguments type: allow undefined
+
 ## 0.20.3
 
 ### Patch Changes
