@@ -140,9 +140,10 @@ export function rebuildjs__plugin_() {
 				for (let output__relative_path in outputs) {
 					if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
 					const asset_path = join(cwd_(app_ctx), output__relative_path)
-					await link(
-						asset_path,
-						join(browser_path_(app_ctx), relative(server__relative_path_(app_ctx), output__relative_path)))
+					const link_path =
+						join(browser_path_(app_ctx), relative(server__relative_path_(app_ctx), output__relative_path))
+					await rm(link_path, { force: true })
+					await link(asset_path, link_path)
 				}
 			})
 		}

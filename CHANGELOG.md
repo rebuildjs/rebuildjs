@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.20.10
+
+### Patch Changes
+
+- rebuildjs\_\_plugin: asset lins: fix: "File or folder exists" error: rm -f before link
+
 ## 0.20.9
 
 ### Patch Changes
