@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.20.9
+
+### Patch Changes
+
+- import node:fs/promises instead of fs/promises
+
 ## 0.20.8
 
 ### Patch Changes
