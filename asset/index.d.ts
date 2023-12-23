@@ -1,5 +1,6 @@
-import type { ctx__be_T, ctx__get_T, ctx__set_T, Ctx_wide_T } from 'ctx-core/be'
+import type { ctx__be_T, ctx__get_T, ctx__set_T } from 'ctx-core/be'
 import type { lock_memosig_T } from 'ctx-core/rmemo'
+import type { has_route_T } from '../ctx/index.js'
 export declare function asset_path_(mod_promise:Promise<{ default:string }>):Promise<string>
 export declare function asset_path_a_<
 	Tuple extends [...Promise<{ default:string }>[]]
@@ -18,4 +19,3 @@ export type assets_T = {
 	css_a:string[]
 	script_a:string[]
 }
-type has_route_T = Ctx_wide_T<'route'>

@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.20.7
+
+### Patch Changes
+
+- fix: type errors
+
 ## 0.20.6
 
 ### Patch Changes
