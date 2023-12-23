@@ -1,10 +1,10 @@
 /// <reference types="./index.d.ts" />
 /** @typedef {import('esbuild').BuildOptions}BuildOptions */
 /** @typedef {import('esbuild').Plugin}Plugin */
-import { writeFile } from '@ctx-core/monorepo'
 import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
 import { link, mkdir, rm } from 'fs/promises'
+import { writeFile } from 'node:fs/promises'
 import { join, relative, resolve } from 'path'
 import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
 import { browser__metafile__set } from '../browser/index.js'
