@@ -16,7 +16,7 @@ test('var__css__replace', ()=>{
 	`div { color: red; font-size: 16px; }`)
 })
 test('cssjs_esbuild_plugin_', async ()=>{
-	// stdin config does not with onLoad
+	// stdin config does not support onLoad
 	// see https://github.com/evanw/esbuild/issues/720
 	const result = await build({
 		entryPoints: [join(dirname(new URL(import.meta.url).pathname), '../_fixtures/index.css.ts')],
