@@ -43,7 +43,7 @@ test('browser__metafile_path', ()=>{
 	throws(()=>browser__metafile_path_(ctx_()))
 })
 test('browser__metafile', async ()=>{
-	let file_exists__path:string|undefined = undefined
+	const file_exists__path:string|undefined = undefined
 	let readFile_path:string|undefined = undefined
 	let _browser__metafile$_:typeof browser__metafile$_
 	let _browser__metafile_:typeof browser__metafile_
@@ -57,15 +57,17 @@ test('browser__metafile', async ()=>{
 			browser__metafile__set: _browser__metafile__set,
 		} = await esmock.p('./index.js', import.meta.url, {}, {
 			'ctx-core/rmemo': rmemo,
-			'ctx-core/fs': {
-				file_exists_: async (path:string)=>{
-					file_exists__path = path
-					return true
-				}
-			},
+			// 'ctx-core/fs': {
+			// 	file_exists_: async (path:string)=>{
+			// 		file_exists__path = path
+			// 		return true
+			// 	}
+			// },
 			'node:fs/promises': {
 				// TODO: use this when https://github.com/iambumblehead/esmock/issues/281 is addressed
-				// access: async ()=>{},
+				access: async ()=>{
+					console.debug('test|access|debug|1-----------------------')
+				},
 				readFile: async (path:string)=>{
 					readFile_path = path
 					switch (path) {

@@ -55,9 +55,10 @@
 		"clean": ":",
 		"exec": "$@",
 		"prepublishOnly": "pnpm clean && pnpm build && pnpm test",
-		"test": "pnpm test-unit && check-dts",
-		"test-unit": "NODE_OPTIONS=--loader=esmock tsx node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
-		"test-unit-coverage": "c8 pnpm test-unit"
+		"test": "pnpm test:build && pnpm test:unit && check-dts",
+		"test:build": "esbuild --outdir=dist **/*.js && esbuild --outdir=dist **/*.ts",
+		"test:unit": "NODE_OPTIONS='--loader=esmock' node node_modules/uvu/bin.js dist '\\.test\\.(ts|js)$'",
+		"test:unit:coverage": "c8 pnpm test-unit"
 	},
 	"dependencies": {
 		"ctx-core": "^5.5.0",

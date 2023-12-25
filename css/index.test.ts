@@ -1,3 +1,4 @@
+import { file_exists_ } from 'ctx-core/fs'
 import { build } from 'esbuild'
 import { dirname, join } from 'path'
 import { test } from 'uvu'
@@ -16,10 +17,16 @@ test('var__css__replace', ()=>{
 	`div { color: red; font-size: 16px; }`)
 })
 test('cssjs_esbuild_plugin_', async ()=>{
-	// stdin config does not with onLoad
+	const index_css_ts_path = join(dirname(new URL(import.meta.url).pathname), '../_fixtures/index.css.ts')
+	const index_css_js_path = join(dirname(new URL(import.meta.url).pathname), '../_fixtures/index.css.js')
+	const entryPoint =
+		await file_exists_(index_css_ts_path)
+			? index_css_ts_path
+			: index_css_js_path
+	// stdin config does not support onLoad
 	// see https://github.com/evanw/esbuild/issues/720
 	const result = await build({
-		entryPoints: [join(dirname(new URL(import.meta.url).pathname), '../_fixtures/index.css.ts')],
+		entryPoints: [entryPoint],
 		plugins: [cssjs_esbuild_plugin_()],
 		write: false,
 	})
