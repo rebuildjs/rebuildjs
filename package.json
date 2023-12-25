@@ -30,7 +30,6 @@
 		"asset",
 		"browser",
 		"build",
-		"css",
 		"ctx",
 		"metafile",
 		"middleware",
@@ -60,6 +59,7 @@
 		"test-unit-coverage": "c8 pnpm test-unit"
 	},
 	"dependencies": {
+		"cssesm": "^0.0.0",
 		"ctx-core": "^5.5.0",
 		"elysia": "^0.8.3",
 		"esbuild": "^0.19.10",
