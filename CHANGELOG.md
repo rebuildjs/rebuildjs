@@ -1,5 +1,17 @@
 # rebuildjs
 
+## 0.22.0
+
+### Minor Changes
+
+- minor: extracted into cssesm package:
+
+      cssesm supports:
+      	cssesm_esbuild_plugin_
+      	var__css__replace
+      - cssesm_ebuild_plugin_
+      - var__css__replace
+
 ## 0.21.0
 
 ### Minor Changes
