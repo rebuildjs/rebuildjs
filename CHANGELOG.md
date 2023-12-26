@@ -1,15 +1,21 @@
 # rebuildjs
 
+## 0.22.1
+
+### Patch Changes
+
+- fix: text & comment occurrences of esmcss
+
 ## 0.22.0
 
 ### Minor Changes
 
 - minor: extracted into cssesm package:
 
-      cssesm supports:
-      	cssesm_esbuild_plugin_
+      esmcss supports:
+      	esmcss_esbuild_plugin_
       	var__css__replace
-      - cssesm_ebuild_plugin_
+      - esmcss_ebuild_plugin_
       - var__css__replace
 
 ## 0.21.0
