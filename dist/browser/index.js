@@ -1,7 +1,10 @@
 "use strict";
-// import { file_exists_ } from "ctx-core/fs";
+// fail
+import { file_exists_ } from "ctx-core/fs";
+// fail
 // import { file_exists_ } from "./all/file_exists/index.js";
-import { file_exists_ } from "../../../ctx-core/all/file_exists/index.js";
+// fail
+// import { file_exists_ } from "../../../ctx-core/all/file_exists/index.js";
 import { nullish__none_, waitfor } from "ctx-core/function";
 import { be_lock_memosig_triple_, be_memo_pair_ } from "ctx-core/rmemo";
 import { readFile } from "node:fs/promises";
