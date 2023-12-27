@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.23.0
+
+### Minor Changes
+
+- exports: + ./types
+
 ## 0.22.2
 
 ### Patch Changes
