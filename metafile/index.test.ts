@@ -2,7 +2,7 @@
 import { sleep } from 'ctx-core/function'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
-import { browser_metafile0, server_metafile0 } from '../_fixtures/index.js'
+import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
 import { browser__metafile__set } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
 import { server__metafile__set } from '../server/index.js'
@@ -16,9 +16,9 @@ test('metafile__wait|success', async ()=>{
 	let promise0_resolved = false
 	metafile__wait(200).then(()=>promise0_resolved = true)
 	equal(promise0_resolved, false)
-	server__metafile__set(app_ctx, server_metafile0)
+	server__metafile__set(app_ctx, server__metafile0)
 	equal(promise0_resolved, false)
-	browser__metafile__set(app_ctx, browser_metafile0)
+	browser__metafile__set(app_ctx, browser__metafile0)
 	await sleep(0)
 	equal(promise0_resolved, true)
 })
@@ -31,7 +31,7 @@ test('metafile__wait|failure', async ()=>{
 	} catch (_err) {
 		err = _err as Error
 	}
-	equal(err?.message, 'metafile__wait|browser & server metafile timeout')
+	equal(err?.message, 'metafile__wait|browser__metafile & server__metafile timeout')
 	equal((err?.cause as Error)?.message, 'Timeout 0ms')
 })
 test.run()

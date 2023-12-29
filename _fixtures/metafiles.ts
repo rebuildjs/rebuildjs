@@ -1,5 +1,5 @@
-import { type Metafile } from 'esbuild'
-export const browser_metafile0 = Object.freeze({
+import { type rebuildjs_metafile_T } from '../metafile_l0/index.js'
+export const browser__metafile0 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -26,8 +26,10 @@ export const browser_metafile0 = Object.freeze({
 			'bytes': 98
 		}
 	},
-}) as Metafile
-export const server_metafile0 = Object.freeze({
+	rebuildjs_target: 'browser',
+	build_id: '1703808862263-OuJG4giiT8K7+PMT4mK+Bg',
+}) as rebuildjs_metafile_T
+export const server__metafile0 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -55,8 +57,10 @@ export const server_metafile0 = Object.freeze({
 			'bytes': 98
 		}
 	},
-}) as Metafile
-export const browser_metafile1 = Object.freeze({
+	rebuildjs_target: 'server',
+	build_id: '1703808862263-OuJG4giiT8K7+PMT4mK+Bg',
+}) as rebuildjs_metafile_T
+export const browser__metafile1 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -91,8 +95,10 @@ export const browser_metafile1 = Object.freeze({
 			'bytes': 148
 		},
 	},
-}) as Metafile
-export const server_metafile1 = Object.freeze({
+	"rebuildjs_target": "browser",
+	"build_id": "1703809126591-ihwT4FatSz6ubDMbQLEQNA",
+}) as rebuildjs_metafile_T
+export const server__metafile1 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -128,8 +134,10 @@ export const server_metafile1 = Object.freeze({
 			'bytes': 148
 		},
 	},
-}) as Metafile
-export const browser_metafile2 = Object.freeze({
+	"rebuildjs_target": "server",
+	"build_id": "1703809126591-ihwT4FatSz6ubDMbQLEQNA",
+}) as rebuildjs_metafile_T
+export const browser__metafile2 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -172,8 +180,10 @@ export const browser_metafile2 = Object.freeze({
 			'bytes': 228
 		}
 	},
-}) as Metafile
-export const server_metafile2 = Object.freeze({
+	"rebuildjs_target": "browser",
+	"build_id": "1703809154281-B6Mt0emJRWqIylzx4ZlOBQ",
+}) as rebuildjs_metafile_T
+export const server__metafile2 = Object.freeze({
 	inputs: {
 		'../input/path0': {
 			'bytes': 224,
@@ -216,4 +226,6 @@ export const server_metafile2 = Object.freeze({
 			'bytes': 228
 		}
 	},
-}) as Metafile
+	"rebuildjs_target": "server",
+	"build_id": "1703809154281-B6Mt0emJRWqIylzx4ZlOBQ",
+}) as rebuildjs_metafile_T

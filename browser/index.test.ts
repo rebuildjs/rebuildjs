@@ -5,7 +5,12 @@ import { rmemo__wait } from 'ctx-core/rmemo'
 import esmock from 'esmock'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { browser_metafile0, browser_metafile1, browser_metafile2, server_metafile0 } from '../_fixtures/index.js'
+import {
+	browser__metafile0,
+	browser__metafile1,
+	browser__metafile2,
+	server__metafile0
+} from '../_fixtures/metafiles.js'
 import { dist_path__set, is_prod__set } from '../app/index.js'
 import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
 import { server__metafile__set, server__output_, server__output__relative_path__set } from '../server/index.js'
@@ -70,9 +75,9 @@ test('browser__metafile', async ()=>{
 					readFile_path = path
 					switch (path) {
 						case '/cwd/dist0/browser/metafile.json':
-							return Buffer.from(JSON.stringify(browser_metafile0), 'utf-8')
+							return Buffer.from(JSON.stringify(browser__metafile0), 'utf-8')
 						case '/cwd/dist1/browser/metafile.json':
-							return Buffer.from(JSON.stringify(browser_metafile1), 'utf-8')
+							return Buffer.from(JSON.stringify(browser__metafile1), 'utf-8')
 					}
 				}
 			},
@@ -84,65 +89,65 @@ test('browser__metafile', async ()=>{
 		_browser__metafile$_(app_ctx),
 		m=>m,
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
-	equal(_browser__metafile_(app_ctx), browser_metafile0)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
-	equal(_browser__metafile_(app_ctx), browser_metafile0)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	await rmemo__wait(
 		_browser__metafile$_(app_ctx),
-		m=>deep_equal(m, browser_metafile1),
+		m=>deep_equal(m, browser__metafile1),
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile1)
-	equal(_browser__metafile_(app_ctx), browser_metafile1)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile1)
+	equal(_browser__metafile_(app_ctx), browser__metafile1)
 	equal(file_exists__path, '/cwd/dist1/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist1/browser/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
 	await rmemo__wait(
 		_browser__metafile$_(app_ctx),
-		m=>deep_equal(m, browser_metafile0),
+		m=>deep_equal(m, browser__metafile0),
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile0)
-	equal(_browser__metafile_(app_ctx), browser_metafile0)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
-	_browser__metafile__set(app_ctx, browser_metafile2)
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile2)
-	equal(_browser__metafile_(app_ctx), browser_metafile2)
+	_browser__metafile__set(app_ctx, browser__metafile2)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile2)
+	equal(_browser__metafile_(app_ctx), browser__metafile2)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	let error_msg:string|undefined = undefined
 	try {
 		await rmemo__wait(
 			_browser__metafile$_(app_ctx),
-			m=>deep_equal(m, browser_metafile1),
+			m=>deep_equal(m, browser__metafile1),
 			100)
 	} catch (e) {
 		error_msg = (e as Error).message
 	}
-	equal(_browser__metafile$_(app_ctx)._, browser_metafile2)
-	equal(_browser__metafile_(app_ctx), browser_metafile2)
+	equal(_browser__metafile$_(app_ctx)._, browser__metafile2)
+	equal(_browser__metafile_(app_ctx), browser__metafile2)
 	equal(error_msg, `Timeout 100ms`)
 	// @ts-expect-error TS2345
 	throws(()=>_browser__metafile$_(ctx_()))
 	// @ts-expect-error TS2345
 	throws(()=>_browser__metafile_(ctx_()))
 	// @ts-expect-error TS2345
-	throws(()=>_browser__metafile__set(ctx_(), browser_metafile0))
+	throws(()=>_browser__metafile__set(ctx_(), browser__metafile0))
 })
 test('browser__output__relative_path', ()=>{
 	const middleware_ctx = middleware_ctx_()
 	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
-	server__metafile__set(middleware_ctx, server_metafile0)
+	server__metafile__set(middleware_ctx, server__metafile0)
 	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
-	browser__metafile__set(middleware_ctx, browser_metafile0)
+	browser__metafile__set(middleware_ctx, browser__metafile0)
 	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
-	equal(server_metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'], {
+	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'], {
 		'imports': [],
 		'exports': [],
 		'entryPoint': 'src/app/index.server.ts',
@@ -154,7 +159,7 @@ test('browser__output__relative_path', ()=>{
 		},
 		'bytes': 98
 	})
-	equal(server__output_(middleware_ctx), server_metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
+	equal(server__output_(middleware_ctx), server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
 	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS0BRS0.js')
 	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS0BRS0.js')
 	// @ts-expect-error TS2345
@@ -166,10 +171,10 @@ test('browser__script', ()=>{
 	const middleware_ctx = middleware_ctx_()
 	equal(browser__script$_(middleware_ctx)._, undefined)
 	equal(browser__script_(middleware_ctx), undefined)
-	server__metafile__set(middleware_ctx, server_metafile0)
+	server__metafile__set(middleware_ctx, server__metafile0)
 	equal(browser__script$_(middleware_ctx)._, undefined)
 	equal(browser__script_(middleware_ctx), undefined)
-	browser__metafile__set(middleware_ctx, browser_metafile0)
+	browser__metafile__set(middleware_ctx, browser__metafile0)
 	equal(browser__script$_(middleware_ctx)._, undefined)
 	equal(browser__script_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')

@@ -1,9 +1,10 @@
 import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_ } from 'ctx-core/rmemo'
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { browser__relative_path_, browser_path_ } from '../app/index.js'
+import { app_ctx } from '../ctx/index.js'
 import { server__output_ } from '../server/index.js'
 export const [
 	browser__metafile_path$_,
@@ -16,22 +17,32 @@ export const [
 	browser__metafile$_,
 	browser__metafile_,
 	browser__metafile__set
-] = be_lock_memosig_triple_(()=>
-	undefined,
-async (ctx, browser__metafile$)=>{
-	browser__metafile__waitfor_promise?.cancel?.()
-	let metafile_path
-	if (!browser__metafile$.lock) {
-		metafile_path = browser__metafile_path_(ctx)
-		browser__metafile__waitfor_promise = waitfor(
-			()=>file_exists_(metafile_path),
-			200
-		).catch(()=>false)
-		if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {
-			browser__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
+] = /** @type {be_lock_memosig_triple_T<rebuildjs_metafile_T>} */
+	be_lock_memosig_triple_(()=>
+		undefined,
+	async (ctx, browser__metafile$)=>{
+		browser__metafile__waitfor_promise?.cancel?.()
+		let metafile_path
+		if (!browser__metafile$.lock) {
+			metafile_path = browser__metafile_path_(ctx)
+			browser__metafile__waitfor_promise = waitfor(
+				()=>file_exists_(metafile_path),
+				200
+			).catch(()=>false)
+			if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {
+				browser__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
+			}
 		}
-	}
-}, { ns: 'app', id: 'browser__metafile' })
+	}, { ns: 'app', id: 'browser__metafile' })
+export function browser__metafile__persist() {
+	return nullish__none_([
+		browser__metafile_path_(app_ctx),
+		browser__metafile_(app_ctx)
+	], (browser__metafile_path, browser__metafile)=>
+		writeFile(
+			browser__metafile_path,
+			JSON.stringify(browser__metafile, null, '\t')))
+}
 export const [
 	browser__output__relative_path$_,
 	browser__output__relative_path_

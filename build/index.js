@@ -1,16 +1,41 @@
+/// <reference types="../metafile_l0/index.d.ts" />
 /// <reference types="./index.d.ts" />
-/** @typedef {import('esbuild').BuildOptions}BuildOptions */
-/** @typedef {import('esbuild').Plugin}Plugin */
-import { build, context } from 'esbuild'
+import { nullish__none_, run } from 'ctx-core/function'
+import { be_, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
+import { short_uuid_ } from 'ctx-core/uuid'
+import { context } from 'esbuild'
 import { fdir } from 'fdir'
-import { link, mkdir, rm, writeFile } from 'node:fs/promises'
+import { link, mkdir, rm } from 'node:fs/promises'
 import { join, relative, resolve } from 'path'
 import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
-import { browser__metafile__set } from '../browser/index.js'
+import {
+	browser__metafile_,
+	browser__metafile__persist,
+	browser__metafile__set,
+	browser__output__relative_path_
+} from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__metafile_, server__metafile__set } from '../server/index.js'
+import { metafile__build_id_ } from '../metafile/index.js'
+import {
+	server__metafile_,
+	server__metafile__persist,
+	server__metafile__set,
+	server__output__relative_path_M_middleware_ctx_
+} from '../server/index.js'
+export const [
+	build_id$_,
+	build_id_,
+	build_id__set,
+] = be_sig_triple_(()=>
+	undefined,
+{ id: 'build_id', ns: 'app' })
+export function build_id__refresh() {
+	const build_id = Date.now() + '-' + short_uuid_()
+	build_id__set(app_ctx, build_id)
+	return build_id
+}
 /**
- * @param {Plugin}config
+ * @param {import('esbuild').Plugin}config
  * @returns {Promise<void>}
  * @private
  */
@@ -31,8 +56,8 @@ export async function browser__build(config) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
-	/** @type {BuildOptions} */
+	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
+	/** @type {import('esbuild').BuildOptions} */
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
@@ -51,16 +76,17 @@ export async function browser__build(config) {
 		outdir: browser_path_(app_ctx),
 		plugins,
 	}
+	const esbuild_ctx = await context(esbuild_config)
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
-		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
 		console.log('browser__build|watch')
 	} else {
-		await build(esbuild_config)
+		await esbuild_ctx.rebuild()
 	}
+	return esbuild_ctx
 }
 /**
- * @param {rebuildjs__build_config_T}[config]
+ * @param {rebuildjs_build_config_T}[config]
  * @returns {Promise<void>}
  */
 export async function server__build(config) {
@@ -79,7 +105,7 @@ export async function server__build(config) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [rebuildjs__plugin_(), ...(esbuild__config.plugins || [])]
+	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
@@ -98,54 +124,164 @@ export async function server__build(config) {
 		external: server__external_(esbuild__config),
 		plugins,
 	}
+	const esbuild_ctx = await context(esbuild_config)
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
-		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
 		console.log('server__build|watch')
 	} else {
-		await build(esbuild_config)
+		await esbuild_ctx.rebuild()
 	}
+	return esbuild_ctx
 }
 /**
- * @param {rebuildjs__build_config_T}[config]
+ * @param {rebuildjs_build_config_T}[config]
  * @returns {Promise<string[]>}
  */
 export function server__external_(config) {
 	return ['bun', 'node_modules/*', ...(config.external || [])]
 }
 /**
- * @returns {Plugin}
+ * @returns {import('esbuild').Plugin}
  * @private
+ *
  */
-export function rebuildjs__plugin_() {
-	return {
-		name: 'rebuildjs__plugin',
-		setup(build) {
+export function rebuildjs_plugin_() {
+	return { name: 'rebuildjs_plugin', setup: setup_() }
+	function setup_() {
+		/**
+		 * @param {import('esbuild').PluginBuild}build
+		 */
+		const setup = build=>{
 			build.onEnd(async result=>{
-				if (result.metafile) {
+				const {
+					/** @type {rebuildjs_metafile_T} */
+					metafile
+				} = result
+				if (metafile) {
 					const { outdir } = build.initialOptions
 					const resolve_outdir = resolve(outdir)
 					if (resolve_outdir === server_path_(app_ctx)) {
-						server__metafile__set(app_ctx, result.metafile)
+						const build_id = build_id__refresh()
+						await server__metafile__update(metafile, build_id)
+						if (build_id_(app_ctx) === build_id) {
+							await browser__metafile__update(browser__metafile_(app_ctx), build_id)
+						}
 					} else if (resolve_outdir === browser_path_(app_ctx)) {
-						browser__metafile__set(app_ctx, result.metafile)
+						const build_id = build_id__refresh()
+						await browser__metafile__update(metafile, build_id)
+						if (build_id_(app_ctx) === build_id) {
+							await server__metafile__update(server__metafile_(app_ctx), build_id)
+						}
 					}
-					if (outdir) {
-						await writeFile(
-							join(outdir, 'metafile.json'),
-							JSON.stringify(result.metafile, null, 2))
-					}
-				}
-				const outputs = server__metafile_(app_ctx)?.outputs ?? {}
-				for (let output__relative_path in outputs) {
-					if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
-					const asset_path = join(cwd_(app_ctx), output__relative_path)
-					const link_path =
-						join(browser_path_(app_ctx), relative(server__relative_path_(app_ctx), output__relative_path))
-					await rm(link_path, { force: true })
-					await link(asset_path, link_path)
 				}
 			})
 		}
+		setup.assets__link$ = assets__link$_()
+		return setup
 	}
+}
+async function server__metafile__update(server__metafile, build_id) {
+	if (!server__metafile) return
+	server__metafile = {
+		...server__metafile,
+		build_id,
+		rebuildjs_target: 'server'
+	}
+	server__metafile__set(app_ctx, server__metafile)
+	for (const [
+		server__output__relative_path,
+		middleware_ctx
+	] of server__output__relative_path_M_middleware_ctx_(app_ctx).entries()) {
+		const output = server__metafile.outputs[server__output__relative_path]
+		const { cssBundle } = output
+		if (cssBundle) {
+			output.esbuild_cssBundle = cssBundle
+			output.cssBundle_content = [
+				server__output__relative_path,
+				...(
+					browser__output__relative_path_(middleware_ctx)
+						? [browser__output__relative_path_(middleware_ctx)]
+						: [])
+			]
+		}
+	}
+	await server__metafile__persist()
+}
+async function browser__metafile__update(browser__metafile, build_id) {
+	if (!browser__metafile) return
+	browser__metafile = {
+		...browser__metafile,
+		build_id,
+		rebuildjs_target: 'browser'
+	}
+	browser__metafile__set(app_ctx, browser__metafile)
+	for (const middleware_ctx of server__output__relative_path_M_middleware_ctx_(app_ctx)?.values?.() ?? []) {
+		const browser__output__relative_path = browser__output__relative_path_(middleware_ctx)
+		if (browser__output__relative_path) {
+			const output = browser__metafile.outputs[browser__output__relative_path]
+			const { cssBundle } = output
+			if (cssBundle) {
+				output.esbuild_cssBundle = cssBundle
+				output.cssBundle_content = [browser__output__relative_path]
+			}
+		}
+	}
+	await browser__metafile__persist()
+}
+/**
+ *
+ * @returns {memo_T<void>}
+ * @private
+ */
+function assets__link$_() {
+	return (
+		be_(ctx=>{
+			return memo_(assets__link$=>{
+				nullish__none_([
+					build_id_(ctx),
+					metafile__build_id_(ctx),
+					server__metafile_(ctx),
+					cwd_(ctx),
+					browser_path_(ctx),
+					server__relative_path_(ctx),
+				], (
+					build_id,
+					metafile__build_id,
+					server__metafile,
+					cwd,
+					browser_path,
+					server__relative_path,
+				)=>{
+					if (build_id === metafile__build_id) {
+						run(async ()=>{
+							const outputs = server__metafile.outputs ?? {}
+							for (let output__relative_path in outputs) {
+								if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
+								const server_asset_path = join(cwd, output__relative_path)
+								const browser_asset_path = join(
+									browser_path,
+									relative(server__relative_path, output__relative_path))
+								if (cancel_()) return
+								await rm(browser_asset_path, { force: true })
+								if (cancel_()) return
+								await link(server_asset_path, browser_asset_path)
+							}
+						})
+					}
+					function cancel_() {
+						return (
+							build_id_(ctx) !== build_id
+								|| metafile__build_id_(ctx) !== metafile__build_id
+								|| server__metafile_(ctx) !== server__metafile
+								|| cwd_(ctx) !== cwd
+								|| browser_path_(ctx) !== browser_path
+								|| server__relative_path_(ctx) !== server__relative_path
+						)
+					}
+				})
+				return assets__link$
+			})()
+		},
+		{ id: 'assets__link$_', ns: 'app' })
+	)(app_ctx)
 }
