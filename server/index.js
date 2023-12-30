@@ -1,7 +1,7 @@
 import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_, tup, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
-import { readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { cwd_, server__relative_path_, server_path_ } from '../app/index.js'
 import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
@@ -37,10 +37,12 @@ export function server__metafile__persist() {
 	return nullish__none_([
 		server__metafile_path_(app_ctx),
 		server__metafile_(app_ctx)
-	], (server__metafile_path, server__metafile)=>
-		writeFile(
+	], async (server__metafile_path, server__metafile)=>{
+		await mkdir(server_path_(app_ctx), { recursive: true })
+		await writeFile(
 			server__metafile_path,
-			JSON.stringify(server__metafile, null, '\t')))
+			JSON.stringify(server__metafile, null, '\t'))
+	})
 }
 export const [
 	server__output__relative_path_M_middleware_ctx$_,

@@ -209,30 +209,41 @@ export function rebuildjs_plugin_() {
 							)=>{
 								if (build_id === metafile__build_id) {
 									run(async ()=>{
-										const outputs = server__metafile.outputs ?? {}
-										for (let output__relative_path in outputs) {
-											if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
-											const server_asset_path = join(cwd, output__relative_path)
-											const browser_asset_path = join(
-												browser_path,
-												relative(server__relative_path, output__relative_path))
-											if (cancel_()) return
-											await rm(browser_asset_path, { force: true })
-											if (cancel_()) return
-											await file_exists__waitfor(server_asset_path)
-											if (cancel_()) return
-											await link(server_asset_path, browser_asset_path)
+										try {
+											const outputs = server__metafile.outputs ?? {}
+											for (let output__relative_path in outputs) {
+												if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
+												const server_asset_path = join(cwd, output__relative_path)
+												const browser_asset_path = join(
+													browser_path,
+													relative(server__relative_path, output__relative_path))
+												await cmd(()=>
+													rm(browser_asset_path, { force: true }))
+												await cmd(()=>
+													file_exists__waitfor(server_asset_path))
+												await cmd(()=>
+													link(server_asset_path, browser_asset_path))
+											}
+										} catch (err) {
+											if (err instanceof RebuildjsInterrupt) return
+											throw err
 										}
 									})
+								}
+								async function cmd(fn) {
+									if (cancel_()) throw new RebuildjsInterrupt()
+									const ret = await fn()
+									if (cancel_()) throw new RebuildjsInterrupt()
+									return ret
 								}
 								function cancel_() {
 									return (
 										build_id_(ctx) !== build_id
-										|| metafile__build_id_(ctx) !== metafile__build_id
-										|| server__metafile_(ctx) !== server__metafile
-										|| cwd_(ctx) !== cwd
-										|| browser_path_(ctx) !== browser_path
-										|| server__relative_path_(ctx) !== server__relative_path
+											|| metafile__build_id_(ctx) !== metafile__build_id
+											|| server__metafile_(ctx) !== server__metafile
+											|| cwd_(ctx) !== cwd
+											|| browser_path_(ctx) !== browser_path
+											|| server__relative_path_(ctx) !== server__relative_path
 									)
 								}
 							})
@@ -290,4 +301,9 @@ async function browser__metafile__update(browser__metafile, build_id) {
 		}
 	}
 	await browser__metafile__persist()
+}
+export class RebuildjsInterrupt extends Error {
+	constructor() {
+		super('RebuildjsInterrupt')
+	}
 }

@@ -1,7 +1,7 @@
 import { file_exists_ } from 'ctx-core/fs'
 import { nullish__none_, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_ } from 'ctx-core/rmemo'
-import { readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { browser__relative_path_, browser_path_ } from '../app/index.js'
 import { app_ctx } from '../ctx/index.js'
@@ -38,10 +38,12 @@ export function browser__metafile__persist() {
 	return nullish__none_([
 		browser__metafile_path_(app_ctx),
 		browser__metafile_(app_ctx)
-	], (browser__metafile_path, browser__metafile)=>
-		writeFile(
+	], async (browser__metafile_path, browser__metafile)=>{
+		await mkdir(browser_path_(app_ctx), { recursive: true })
+		await writeFile(
 			browser__metafile_path,
-			JSON.stringify(browser__metafile, null, '\t')))
+			JSON.stringify(browser__metafile, null, '\t'))
+	})
 }
 export const [
 	browser__output__relative_path$_,

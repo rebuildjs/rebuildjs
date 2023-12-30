@@ -1,5 +1,19 @@
 # rebuildjs
 
+## 0.24.3
+
+### Patch Changes
+
+- minor: + RebuildjsInterrupt
+
+  patch: rebuildjs**assets**link$: strengthen interrupt logic
+
+- patch:
+
+      browser__metafile__persist:
+      server__metafile__persist:
+      	+ mkdir recursive: true before writeFile
+
 ## 0.24.2
 
 ### Patch Changes
