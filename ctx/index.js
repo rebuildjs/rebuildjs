@@ -1,6 +1,6 @@
 /// <reference types="./index.d.ts" />
 import { ns_ctx_ } from 'ctx-core/be'
-export const app_ctx = app_ctx_()
+export const app_ctx = globalThis.rebuildjs__app_ctx ??= app_ctx_()
 /**
  * @returns {app_ctx_T}
  * @private

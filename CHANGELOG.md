@@ -1,5 +1,47 @@
 # rebuildjs
 
+## 0.24.0
+
+### Minor Changes
+
+- minor:
+
+      exports: + ./metafile_l0
+      app_ctx: assigned to globalThis.rebuildjs__app_ctx:
+        fix: handle this module being bundled multiple times
+      + rebuildjs_metafile_T
+      	+ rebuildjs_target?:'browser'|'server'
+      	+ build_id?:string
+      	.outputs:
+      		+ esbuild_cssBundle?:string
+      		+ cssBundle_content?:string[]
+      + browser__metafile__persist
+      + build_id:
+      	+ build_id$_
+      	+ build_id_
+      	+ build_id__set
+      	+ build_id__refresh
+      rebuildjs__plugin_→rebuildjs_plugin_
+      rebuildjs__build_config_T→rebuildjs_plugin_config_T
+      + metafile__build_id:
+      	+ metafile__build_id$_
+      	+ metafile__build_id_
+      + server__metafile__persist
+      + server__output__relative_path_M_middleware_ctx:
+      	+ server__output__relative_path_M_middleware_ctx$_
+      	+ server__output__relative_path_M_middleware_ctx_
+
+- minor: rmemo: + be
+
+  patch: be: arguments: fix: + config?:be_config_T<ns_T>
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.6.0
+
 ## 0.23.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 /// <reference types="../metafile_l0/index.d.ts" />
 /// <reference types="./index.d.ts" />
 import { nullish__none_, run } from 'ctx-core/function'
-import { be_, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
+import { be, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
 import { fdir } from 'fdir'
@@ -176,8 +176,68 @@ export function rebuildjs_plugin_() {
 				}
 			})
 		}
-		setup.assets__link$ = assets__link$_()
+		// Prevent GC
+		setup.rebuildjs__assets__link$ = rebuildjs__assets__link$_()
 		return setup
+		/**
+		 *
+		 * @returns {memo_T<void>}
+		 * @private
+		 */
+		function rebuildjs__assets__link$_() {
+			return (
+				be(app_ctx, ctx=>
+					run(memo_(assets__link$=>{
+						r()
+						return assets__link$
+						function r() {
+							nullish__none_([
+								build_id_(ctx),
+								metafile__build_id_(ctx),
+								server__metafile_(ctx),
+								cwd_(ctx),
+								browser_path_(ctx),
+								server__relative_path_(ctx),
+							], (
+								build_id,
+								metafile__build_id,
+								server__metafile,
+								cwd,
+								browser_path,
+								server__relative_path,
+							)=>{
+								if (build_id === metafile__build_id) {
+									run(async ()=>{
+										const outputs = server__metafile.outputs ?? {}
+										for (let output__relative_path in outputs) {
+											if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
+											const server_asset_path = join(cwd, output__relative_path)
+											const browser_asset_path = join(
+												browser_path,
+												relative(server__relative_path, output__relative_path))
+											if (cancel_()) return
+											await rm(browser_asset_path, { force: true })
+											if (cancel_()) return
+											await link(server_asset_path, browser_asset_path)
+										}
+									})
+								}
+								function cancel_() {
+									return (
+										build_id_(ctx) !== build_id
+										|| metafile__build_id_(ctx) !== metafile__build_id
+										|| server__metafile_(ctx) !== server__metafile
+										|| cwd_(ctx) !== cwd
+										|| browser_path_(ctx) !== browser_path
+										|| server__relative_path_(ctx) !== server__relative_path
+									)
+								}
+							})
+						}
+					})),
+				{ id: 'rebuildjs__assets__link$', ns: 'app' })
+			)
+		}
 	}
 }
 async function server__metafile__update(server__metafile, build_id) {
@@ -227,61 +287,4 @@ async function browser__metafile__update(browser__metafile, build_id) {
 		}
 	}
 	await browser__metafile__persist()
-}
-/**
- *
- * @returns {memo_T<void>}
- * @private
- */
-function assets__link$_() {
-	return (
-		be_(ctx=>{
-			return memo_(assets__link$=>{
-				nullish__none_([
-					build_id_(ctx),
-					metafile__build_id_(ctx),
-					server__metafile_(ctx),
-					cwd_(ctx),
-					browser_path_(ctx),
-					server__relative_path_(ctx),
-				], (
-					build_id,
-					metafile__build_id,
-					server__metafile,
-					cwd,
-					browser_path,
-					server__relative_path,
-				)=>{
-					if (build_id === metafile__build_id) {
-						run(async ()=>{
-							const outputs = server__metafile.outputs ?? {}
-							for (let output__relative_path in outputs) {
-								if (/(\.js|\.mjs)(\.map)?$/.test(output__relative_path)) continue
-								const server_asset_path = join(cwd, output__relative_path)
-								const browser_asset_path = join(
-									browser_path,
-									relative(server__relative_path, output__relative_path))
-								if (cancel_()) return
-								await rm(browser_asset_path, { force: true })
-								if (cancel_()) return
-								await link(server_asset_path, browser_asset_path)
-							}
-						})
-					}
-					function cancel_() {
-						return (
-							build_id_(ctx) !== build_id
-								|| metafile__build_id_(ctx) !== metafile__build_id
-								|| server__metafile_(ctx) !== server__metafile
-								|| cwd_(ctx) !== cwd
-								|| browser_path_(ctx) !== browser_path
-								|| server__relative_path_(ctx) !== server__relative_path
-						)
-					}
-				})
-				return assets__link$
-			})()
-		},
-		{ id: 'assets__link$_', ns: 'app' })
-	)(app_ctx)
 }
