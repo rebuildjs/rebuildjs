@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.24.1
+
+### Patch Changes
+
+- elysia: ^0.8.5 -> ^0.8.6
+- esbuild: ^0.19.10 -> ^0.19.11
+- Updated dependencies
+  - ctx-core@5.6.1
+
 ## 0.24.0
 
 ### Minor Changes
