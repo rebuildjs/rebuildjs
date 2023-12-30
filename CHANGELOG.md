@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.24.2
+
+### Patch Changes
+
+- rebuildjs_plugin: assets**link$: fix: + file_exists**waitfor before link
+
 ## 0.24.1
 
 ### Patch Changes

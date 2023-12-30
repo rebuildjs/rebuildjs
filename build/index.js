@@ -1,5 +1,6 @@
 /// <reference types="../metafile_l0/index.d.ts" />
 /// <reference types="./index.d.ts" />
+import { file_exists__waitfor } from 'ctx-core/fs'
 import { nullish__none_, run } from 'ctx-core/function'
 import { be, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
@@ -217,6 +218,8 @@ export function rebuildjs_plugin_() {
 												relative(server__relative_path, output__relative_path))
 											if (cancel_()) return
 											await rm(browser_asset_path, { force: true })
+											if (cancel_()) return
+											await file_exists__waitfor(server_asset_path)
 											if (cancel_()) return
 											await link(server_asset_path, browser_asset_path)
 										}
