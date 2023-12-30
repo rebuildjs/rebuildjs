@@ -2,7 +2,7 @@
 /// <reference types="./index.d.ts" />
 import { file_exists__waitfor } from 'ctx-core/fs'
 import { nullish__none_, run } from 'ctx-core/function'
-import { be, be_sig_triple_, memo_ } from 'ctx-core/rmemo'
+import { be, be_memo_pair_, be_sig_triple_, memo_, rmemo__wait } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
 import { fdir } from 'fdir'
@@ -34,6 +34,31 @@ export function build_id__refresh() {
 	const build_id = Date.now() + '-' + short_uuid_()
 	build_id__set(app_ctx, build_id)
 	return build_id
+}
+export const [
+	rebuildjs__build_id$_,
+	rebuildjs__build_id_,
+	rebuildjs__build_id__set,
+] = be_sig_triple_(()=>undefined,
+	{ id: 'rebuildjs_plugin__build_id', ns: 'app' })
+export const [
+	rebuildjs__ready$_,
+	rebuildjs__ready_,
+] = be_memo_pair_(ctx=>
+	!!(
+		build_id_(ctx)
+			&& build_id_(ctx) === metafile__build_id_(ctx)
+			&& build_id_(ctx) === rebuildjs__build_id_(ctx)),
+{ id: 'rebuildjs__ready', ns: 'app' })
+/**
+ * @param {number}[timeout]
+ * @returns {Promise<void>}}
+ */
+export function rebuildjs__ready__wait(timeout) {
+	return rmemo__wait(
+		rebuildjs__ready$_(app_ctx),
+		ready=>ready,
+		timeout ?? 5000)
 }
 /**
  * @param {import('esbuild').Plugin}config
@@ -228,6 +253,7 @@ export function rebuildjs_plugin_() {
 											if (err instanceof RebuildjsInterrupt) return
 											throw err
 										}
+										rebuildjs__build_id__set(ctx, build_id)
 									})
 								}
 								async function cmd(fn) {

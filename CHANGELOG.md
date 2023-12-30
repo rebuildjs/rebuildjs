@@ -1,5 +1,28 @@
 # rebuildjs
 
+## 0.25.0
+
+### Minor Changes
+
+- rmemo\_\_wait: arguments: + error?:Error
+- minor:
+
+      + rebuildjs__build_id:
+      	+ rebuildjs__build_id$_
+      	+ rebuildjs__build_id_
+      	+ rebuildjs__build_id__set
+      + rebuildjs__ready:
+      	+ rebuildjs__ready$_
+      	+ rebuildjs__ready_
+      	+ rebuildjs__ready__set
+      + rebuildjs__ready__wait
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.7.0
+
 ## 0.24.3
 
 ### Patch Changes

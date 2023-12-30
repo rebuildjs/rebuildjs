@@ -6,12 +6,25 @@ import { rm } from 'node:fs/promises'
 import { dirname, join } from 'path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
+import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
 import { cwd__set } from '../app/index.js'
-import { browser__metafile_ } from '../browser/index.js'
+import { browser__metafile_, browser__metafile__set } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { metafile__wait } from '../metafile/index.js'
-import { server__metafile_ } from '../server/index.js'
-import { browser__build, build_id$_, build_id_, build_id__refresh, build_id__set, server__build } from './index.js'
+import { server__metafile_, server__metafile__set } from '../server/index.js'
+import {
+	browser__build,
+	build_id$_,
+	build_id_,
+	build_id__refresh,
+	build_id__set,
+	rebuildjs__build_id$_,
+	rebuildjs__build_id_,
+	rebuildjs__build_id__set,
+	rebuildjs__ready$_,
+	rebuildjs__ready_,
+	rebuildjs__ready__wait,
+	server__build
+} from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()
 })
@@ -37,6 +50,68 @@ test('build_id__refresh', ()=>{
 		parseInt(build_id.split('-')[0]) > Date.now() - 1000,
 		true)
 })
+test('rebuildjs__build_id', ()=>{
+	equal(rebuildjs__build_id$_(app_ctx)(), undefined)
+	equal(rebuildjs__build_id_(app_ctx), undefined)
+	build_id__refresh()
+	equal(typeof build_id_(app_ctx), 'string')
+	rebuildjs__build_id__set(app_ctx, build_id_(app_ctx)!)
+	equal(rebuildjs__build_id$_(app_ctx)(), build_id_(app_ctx)!)
+	equal(rebuildjs__build_id_(app_ctx), build_id_(app_ctx)!)
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__build_id$_(ctx_()))
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__build_id_(ctx_()))
+})
+test('rebuildjs__ready', ()=>{
+	equal(rebuildjs__ready$_(app_ctx)(), false)
+	equal(rebuildjs__ready_(app_ctx), false)
+	const build_id = server__metafile0.build_id!
+	build_id__set(app_ctx, build_id)
+	equal(rebuildjs__ready$_(app_ctx)(), false)
+	equal(rebuildjs__ready_(app_ctx), false)
+	server__metafile__set(app_ctx, server__metafile0)
+	equal(rebuildjs__ready$_(app_ctx)(), false)
+	equal(rebuildjs__ready_(app_ctx), false)
+	browser__metafile__set(app_ctx, browser__metafile0)
+	equal(rebuildjs__ready$_(app_ctx)(), false)
+	equal(rebuildjs__ready_(app_ctx), false)
+	rebuildjs__build_id__set(app_ctx, build_id)
+	equal(rebuildjs__ready$_(app_ctx)(), true)
+	equal(rebuildjs__ready_(app_ctx), true)
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__ready$_(ctx_()))
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__ready_(ctx_()))
+})
+test('rebuildjs__ready__wait', async ()=>{
+	let done = false
+	rebuildjs__ready__wait()
+		.then(()=>done = true)
+	equal(done, false)
+	const build_id = server__metafile0.build_id!
+	build_id__set(app_ctx, build_id)
+	await sleep(0)
+	equal(done, false)
+	server__metafile__set(app_ctx, server__metafile0)
+	await sleep(0)
+	equal(done, false)
+	browser__metafile__set(app_ctx, browser__metafile0)
+	await sleep(0)
+	equal(done, false)
+	rebuildjs__build_id__set(app_ctx, build_id)
+	await sleep(0)
+	equal(done, true)
+})
+test('rebuildjs__ready__wait|timeout', async ()=>{
+	let err:Error|undefined = undefined
+	try {
+		await rebuildjs__ready__wait(0)
+	} catch (_err) {
+		err = _err as Error
+	}
+	equal(err!.message, 'Timeout 0ms')
+})
 test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 	const test_dir = dirname(new URL(import.meta.url).pathname)
 	const cwd = join(test_dir, '../_fixtures')
@@ -47,7 +122,7 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 	try {
 		server__build_context = await server__build()
 		browser__build_context = await browser__build()
-		await metafile__wait()
+		await rebuildjs__ready__wait()
 		equal(await file_exists_(join(cwd, 'dist')), true)
 		equal(await file_exists_(join(cwd, 'dist', 'browser--dev')), true)
 		equal(await file_exists_(join(cwd, 'dist', 'server--dev')), true)

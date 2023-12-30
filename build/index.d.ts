@@ -5,6 +5,12 @@ export declare const build_id$_:ctx__be_T<has_app_T, sig_T<string|undefined>, 'a
 export declare const build_id_:ctx__get_T<has_app_T, string|undefined>
 export declare const build_id__set:ctx__set_T<has_app_T, string|undefined>
 export declare function build_id__refresh():string
+export declare const rebuildjs__build_id$_:ctx__be_T<has_app_T, sig_T<string>, 'app'>
+export declare const rebuildjs__build_id_:ctx__get_T<has_app_T, string>
+export declare const rebuildjs__build_id__set:ctx__set_T<has_app_T, string>
+export declare const rebuildjs__ready$_:ctx__be_T<has_app_T, sig_T<boolean>, 'app'>
+export declare const rebuildjs__ready_:ctx__get_T<has_app_T, boolean>
+export declare function rebuildjs__ready__wait(timeout?:number):Promise<void>
 export declare function browser__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
 export declare function server__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
 export declare function server__external_(config?:Partial<BuildOptions>):Promise<string[]>
