@@ -2,7 +2,7 @@
 /// <reference types="./index.d.ts" />
 import { file_exists__waitfor } from 'ctx-core/fs'
 import { nullish__none_, run } from 'ctx-core/function'
-import { be, be_memo_pair_, be_sig_triple_, memo_, rmemo__wait } from 'ctx-core/rmemo'
+import { be, be_memo_pair_, be_sig_triple_, memo_, off, rmemo__wait } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
 import { fdir } from 'fdir'
@@ -258,7 +258,15 @@ export function rebuildjs_plugin_() {
 								}
 								async function cmd(fn) {
 									if (cancel_()) throw new RebuildjsInterrupt()
-									const ret = await fn()
+									const promise = fn()
+									promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
+										if (cancel_()) {
+											promise.cancel?.()
+											off(rebuildjs_cancel$)
+										}
+										return rebuildjs_cancel$
+									}))
+									const ret = await promise
 									if (cancel_()) throw new RebuildjsInterrupt()
 									return ret
 								}

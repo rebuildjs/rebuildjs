@@ -1,5 +1,21 @@
 # rebuildjs
 
+## 0.26.0
+
+### Minor Changes
+
+- rmemo\_\_wait:
+
+      always calls promise_timeout
+      + .cancel(val:rmemo_val_T<_rmemo_T>)
+
+### Patch Changes
+
+- rebuildjs*plugin: cmd: + memo watching cancel*(): call .cancel() on promise when available
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.8.0
+
 ## 0.25.0
 
 ### Minor Changes
