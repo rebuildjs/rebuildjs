@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.26.1
+
+### Patch Changes
+
+- RebuildjsInterrupt: fix: export type
+
 ## 0.26.0
 
 ### Minor Changes

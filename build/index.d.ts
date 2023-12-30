@@ -15,6 +15,7 @@ export declare function browser__build(config?:rebuildjs_build_config_T):Promise
 export declare function server__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
 export declare function server__external_(config?:Partial<BuildOptions>):Promise<string[]>
 export declare function rebuildjs_plugin_():Plugin
+export declare class RebuildjsInterrupt extends Error {}
 export type rebuildjs_build_config_T =
 	Partial<BuildOptions>&{ rebuildjs?:rebuildjs_plugin_config_T }
 export type rebuildjs_plugin_config_T = {
