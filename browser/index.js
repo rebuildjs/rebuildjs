@@ -18,22 +18,21 @@ export const [
 	browser__metafile_,
 	browser__metafile__set
 ] = /** @type {be_lock_memosig_triple_T<rebuildjs_metafile_T>} */
-	be_lock_memosig_triple_(()=>
-		undefined,
-	async (ctx, browser__metafile$)=>{
-		browser__metafile__waitfor_promise?.cancel?.()
-		let metafile_path
-		if (!browser__metafile$.lock) {
-			metafile_path = browser__metafile_path_(ctx)
-			browser__metafile__waitfor_promise = waitfor(
-				()=>file_exists_(metafile_path),
-				200
-			).catch(()=>false)
-			if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {
-				browser__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
+	be_lock_memosig_triple_(()=>undefined,
+		async (ctx, browser__metafile$)=>{
+			browser__metafile__waitfor_promise?.cancel?.()
+			let metafile_path
+			if (!browser__metafile$.lock) {
+				metafile_path = browser__metafile_path_(ctx)
+				browser__metafile__waitfor_promise = waitfor(
+					()=>file_exists_(metafile_path),
+					200
+				).catch(()=>false)
+				if (await browser__metafile__waitfor_promise && metafile_path === browser__metafile_path_(ctx)) {
+					browser__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
+				}
 			}
-		}
-	}, { ns: 'app', id: 'browser__metafile' })
+		}, { ns: 'app', id: 'browser__metafile' })
 export function browser__metafile__persist() {
 	return nullish__none_([
 		browser__metafile_path_(app_ctx),

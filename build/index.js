@@ -1,18 +1,19 @@
 /// <reference types="../metafile_l0/index.d.ts" />
 /// <reference types="./index.d.ts" />
 import { file_exists__waitfor } from 'ctx-core/fs'
-import { nullish__none_, run } from 'ctx-core/function'
+import { Cancel, cancel__period_, nullish__none_, run, waitfor } from 'ctx-core/function'
 import { be, be_memo_pair_, be_sig_triple_, memo_, off, rmemo__wait } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
 import { fdir } from 'fdir'
-import { link, mkdir, rm } from 'node:fs/promises'
+import { link, mkdir, readFile, rm } from 'node:fs/promises'
 import { join, relative, resolve } from 'path'
 import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
 import {
 	browser__metafile_,
 	browser__metafile__persist,
 	browser__metafile__set,
+	browser__metafile_path_,
 	browser__output__relative_path_
 } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
@@ -21,6 +22,7 @@ import {
 	server__metafile_,
 	server__metafile__persist,
 	server__metafile__set,
+	server__metafile_path_,
 	server__output__relative_path_M_middleware_ctx_
 } from '../server/index.js'
 export const [
@@ -35,6 +37,69 @@ export function build_id__refresh() {
 	build_id__set(app_ctx, build_id)
 	return build_id
 }
+export const [
+	persist__metafile__build_id$_,
+	persist__metafile__build_id_,
+] = be_memo_pair_(()=>undefined,
+	(ctx, persist__metafile__build_id$)=>{
+		const build_id = build_id_(ctx)
+		const metafile__build_id = metafile__build_id_(ctx)
+		const server__metafile_path = server__metafile_path_(ctx)
+		const browser__metafile_path = browser__metafile_path_(ctx)
+		if (metafile__build_id) {
+			const cancel__period = cancel__period_(0, cancel_)
+			run(async ()=>{
+				try {
+					await cmd(
+						file_exists__waitfor(server__metafile_path, 1000, cancel__period))
+					await cmd(
+						waitfor(()=>
+							readFile(server__metafile_path).then(buf=>
+								JSON.parse('' + buf)?.build_id === build_id),
+						1000,
+						cancel__period))
+					await cmd(
+						file_exists__waitfor(browser__metafile_path, 1000, cancel__period))
+					await cmd(
+						waitfor(()=>
+							readFile(browser__metafile_path).then(buf=>
+								JSON.parse('' + buf)?.build_id === build_id),
+						1000,
+						cancel__period))
+					persist__metafile__build_id$._ = build_id
+				} catch (err) {
+					if (err instanceof Cancel) return
+					throw err
+				}
+			})
+		}
+		async function cmd(promise) {
+			if (cancel_()) throw new Cancel
+			const rv = await promise
+			if (cancel_()) {
+				promise.cancel?.()
+				throw new Cancel
+			}
+			return rv
+		}
+		function cancel_() {
+			return (
+				build_id_(ctx) !== build_id
+				|| metafile__build_id_(ctx) !== metafile__build_id
+				|| server__metafile_path_(ctx) !== server__metafile_path
+				|| browser__metafile_path_(ctx) !== browser__metafile_path
+			)
+		}
+	},
+	{ id: 'persist__metafile__build_id', ns: 'app' })
+export const [
+	persist__metafile__ready$_,
+	persist__metafile__ready_,
+] = be_memo_pair_(ctx=>
+	nullish__none_([build_id_(ctx), persist__metafile__build_id_(ctx)],
+		(build_id, persist__metafile__build_id)=>
+			!!(build_id && build_id === persist__metafile__build_id)),
+{ id: 'persist__metafile__ready', ns: 'app' })
 export const [
 	rebuildjs__build_id$_,
 	rebuildjs__build_id_,
@@ -217,6 +282,7 @@ export function rebuildjs_plugin_() {
 						r()
 						return assets__link$
 						function r() {
+							if (!persist__metafile__ready_(ctx)) return
 							nullish__none_([
 								build_id_(ctx),
 								metafile__build_id_(ctx),
@@ -242,23 +308,22 @@ export function rebuildjs_plugin_() {
 												const browser_asset_path = join(
 													browser_path,
 													relative(server__relative_path, output__relative_path))
-												await cmd(()=>
+												await cmd(
 													rm(browser_asset_path, { force: true }))
-												await cmd(()=>
+												await cmd(
 													file_exists__waitfor(server_asset_path))
-												await cmd(()=>
+												await cmd(
 													link(server_asset_path, browser_asset_path))
 											}
 										} catch (err) {
-											if (err instanceof RebuildjsInterrupt) return
+											if (err instanceof Cancel) return
 											throw err
 										}
 										rebuildjs__build_id__set(ctx, build_id)
 									})
 								}
-								async function cmd(fn) {
-									if (cancel_()) throw new RebuildjsInterrupt()
-									const promise = fn()
+								async function cmd(promise) {
+									if (cancel_()) throw new Cancel()
 									promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
 										if (cancel_()) {
 											promise.cancel?.()
@@ -267,7 +332,7 @@ export function rebuildjs_plugin_() {
 										return rebuildjs_cancel$
 									}))
 									const ret = await promise
-									if (cancel_()) throw new RebuildjsInterrupt()
+									if (cancel_()) throw new Cancel()
 									return ret
 								}
 								function cancel_() {
@@ -335,9 +400,4 @@ async function browser__metafile__update(browser__metafile, build_id) {
 		}
 	}
 	await browser__metafile__persist()
-}
-export class RebuildjsInterrupt extends Error {
-	constructor() {
-		super('RebuildjsInterrupt')
-	}
 }

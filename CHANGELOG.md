@@ -1,5 +1,36 @@
 # rebuildjs
 
+## 0.27.0
+
+### Minor Changes
+
+- minor:
+
+      + persist__metafile__build_id:
+      	+ persist__metafile__build_id$_
+      	+ persist__metafile__build_id_
+      + persist__metafile__build_id__ready:
+      	+ persist__metafile__build_id__ready$_
+      	+ persist__metafile__build_id__ready_
+      rebuildjs__ready__wait: return value: rmemo__wait_ret_T<unknown>
+      - RebuildjsInterrupt: use Cancel from ctx-core/function
+
+- - RebuildInterrupt: use Cancel from ctx-core/function instead
+
+### Patch Changes
+
+- be*memo_pair*:
+  be*sig_triple*:
+
+      fix: jsdoc type
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.9.0
+
 ## 0.26.1
 
 ### Patch Changes

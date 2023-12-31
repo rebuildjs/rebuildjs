@@ -6,7 +6,7 @@ import { rm } from 'node:fs/promises'
 import { dirname, join } from 'path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
+import { browser__metafile0, browser__metafile1, server__metafile0, server__metafile1 } from '../_fixtures/metafiles.js'
 import { cwd__set } from '../app/index.js'
 import { browser__metafile_, browser__metafile__set } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
@@ -63,7 +63,7 @@ test('rebuildjs__build_id', ()=>{
 	// @ts-expect-error TS2345
 	throws(()=>rebuildjs__build_id_(ctx_()))
 })
-test('rebuildjs__ready', ()=>{
+test('rebuildjs__ready', async ()=>{
 	equal(rebuildjs__ready$_(app_ctx)(), false)
 	equal(rebuildjs__ready_(app_ctx), false)
 	const build_id = server__metafile0.build_id!
@@ -86,22 +86,26 @@ test('rebuildjs__ready', ()=>{
 })
 test('rebuildjs__ready__wait', async ()=>{
 	let done = false
-	rebuildjs__ready__wait()
-		.then(()=>done = true)
-	equal(done, false)
-	const build_id = server__metafile0.build_id!
-	build_id__set(app_ctx, build_id)
-	await sleep(0)
-	equal(done, false)
-	server__metafile__set(app_ctx, server__metafile0)
-	await sleep(0)
-	equal(done, false)
-	browser__metafile__set(app_ctx, browser__metafile0)
-	await sleep(0)
-	equal(done, false)
-	rebuildjs__build_id__set(app_ctx, build_id)
-	await sleep(0)
-	equal(done, true)
+	const promise = rebuildjs__ready__wait()
+	promise.then(()=>done = true)
+	try {
+		equal(done, false)
+		const build_id = server__metafile1.build_id!
+		build_id__set(app_ctx, build_id)
+		await sleep(0)
+		equal(done, false)
+		server__metafile__set(app_ctx, server__metafile1)
+		await sleep(0)
+		equal(done, false)
+		browser__metafile__set(app_ctx, browser__metafile1)
+		await sleep(0)
+		equal(done, false)
+		rebuildjs__build_id__set(app_ctx, build_id)
+		await sleep(0)
+		equal(done, true)
+	} finally {
+		await promise.cancel()
+	}
 })
 test('rebuildjs__ready__wait|timeout', async ()=>{
 	let err:Error|undefined = undefined
