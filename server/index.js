@@ -1,5 +1,5 @@
-import { file_exists_ } from 'ctx-core/fs'
-import { nullish__none_, tup, waitfor } from 'ctx-core/function'
+import { file_exists__waitfor } from 'ctx-core/fs'
+import { Cancel, nullish__none_, sleep, tup, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
@@ -17,22 +17,52 @@ export const [
 	server__metafile_,
 	server__metafile__set
 ] = /** @type {be_lock_memosig_triple_T<rebuildjs_metafile_T>} */
-	be_lock_memosig_triple_(()=>
-		undefined,
-	async (ctx, server__metafile$)=>{
-		server__metafile__waitfor_promise?.cancel?.()
-		let metafile_path
-		if (!server__metafile$.lock) {
-			metafile_path = server__metafile_path_(ctx)
-			server__metafile__waitfor_promise = waitfor(
-				()=>file_exists_(metafile_path),
-				200
-			).catch(()=>false)
-			if (await server__metafile__waitfor_promise && metafile_path === server__metafile_path_(ctx)) {
-				server__metafile$._ = await readFile(metafile_path).then(buf=>JSON.parse(buf + ''))
-			}
-		}
-	}, { ns: 'app', id: 'server__metafile' })
+	be_lock_memosig_triple_(
+		()=>undefined,
+		async (ctx, server__metafile$)=>{
+			server__metafile__waitfor_promise?.cancel?.()
+			if (server__metafile$.lock) return
+			nullish__none_([server__metafile_path_(ctx)],
+				async server__metafile_path=>{
+					try {
+						if (await cmd(
+							server__metafile__waitfor_promise =
+								file_exists__waitfor(
+									server__metafile_path,
+									1000,
+									()=>cmd(sleep(0))))
+						) {
+							server__metafile$._ = await cmd(
+								waitfor(async ()=>{
+									const buf = await cmd(readFile(server__metafile_path))
+									const json = buf + ''
+									try {
+										return JSON.parse(json)
+									} catch {
+										return undefined
+									}
+								}, 1000))
+						}
+					} catch (err) {
+						if (err instanceof Cancel) return
+						throw err
+					}
+					async function cmd(promise) {
+						if (cancel_()) throw new Cancel()
+						const rv = await promise
+						if (cancel_()) {
+							promise.cancel?.()
+							throw new Cancel()
+						}
+						return rv
+					}
+					function cancel_() {
+						return (
+							server__metafile$.lock
+							|| server__metafile_path !== server__metafile_path_(ctx))
+					}
+				})
+		}, { ns: 'app', id: 'server__metafile' })
 export function server__metafile__persist() {
 	return nullish__none_([
 		server__metafile_path_(app_ctx),

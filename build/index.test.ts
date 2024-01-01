@@ -2,12 +2,13 @@ import { ctx_ } from 'ctx-core/be'
 import { file_exists_ } from 'ctx-core/fs'
 import { sleep } from 'ctx-core/function'
 import { BuildContext } from 'esbuild'
+import { readFile } from 'fs/promises'
 import { rm } from 'node:fs/promises'
-import { dirname, join } from 'path'
+import { basename, dirname, join } from 'path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
 import { browser__metafile0, browser__metafile1, server__metafile0, server__metafile1 } from '../_fixtures/metafiles.js'
-import { cwd__set } from '../app/index.js'
+import { cwd_, cwd__set } from '../app/index.js'
 import { browser__metafile_, browser__metafile__set } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
 import { server__metafile_, server__metafile__set } from '../server/index.js'
@@ -130,6 +131,7 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 		equal(await file_exists_(join(cwd, 'dist')), true)
 		equal(await file_exists_(join(cwd, 'dist', 'browser--dev')), true)
 		equal(await file_exists_(join(cwd, 'dist', 'server--dev')), true)
+		await rebuildjs__ready__wait()
 		const server__metafile = server__metafile_(app_ctx)!
 		equal(server__metafile.rebuildjs_target, 'server')
 		const browser__metafile = browser__metafile_(app_ctx)!
@@ -145,7 +147,10 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 			server__metafile.outputs[server__output__relative_path]
 		equal(server__entryPoint__output != null, true)
 		equal(server__entryPoint__output.cssBundle != null, true)
-		equal(server__entryPoint__output.esbuild_cssBundle, server__entryPoint__output.cssBundle)
+		equal(server__entryPoint__output.esbuild_cssBundle,
+			join(
+				dirname(server__entryPoint__output.cssBundle!),
+				basename(server__entryPoint__output.cssBundle!, '.css') + '_esbuild.css'))
 		const browser__output__relative_path =
 			Object.keys(browser__metafile.outputs)
 				.find(browser__output__relative_path=>
@@ -155,7 +160,10 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 			browser__metafile.outputs[browser__output__relative_path]
 		equal(browser__entryPoint__output != null, true)
 		equal(browser__entryPoint__output.cssBundle != null, true)
-		equal(browser__entryPoint__output.esbuild_cssBundle, browser__entryPoint__output.cssBundle)
+		equal(browser__entryPoint__output.esbuild_cssBundle,
+			join(
+				dirname(browser__entryPoint__output.cssBundle!),
+				basename(browser__entryPoint__output.cssBundle!, '.css') + '_esbuild.css'))
 		equal(server__entryPoint__output.cssBundle_content, [
 			server__output__relative_path,
 			browser__output__relative_path
@@ -164,7 +172,54 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 			browser__output__relative_path
 		])
 	} finally {
-		await sleep(100)
+		await rebuildjs__ready__wait()
+		server__build_context?.dispose?.()
+		browser__build_context?.dispose?.()
+	}
+})
+test('browser__build|server__build|rebuildjs_plugin_|css', async ()=>{
+	const test_dir = dirname(new URL(import.meta.url).pathname)
+	const cwd = join(test_dir, '../_fixtures')
+	cwd__set(app_ctx, cwd)
+	await rm(join(cwd, 'dist'), { recursive: true, force: true })
+	let server__build_context:BuildContext|undefined = undefined
+	let browser__build_context:BuildContext|undefined = undefined
+	try {
+		server__build_context = await server__build()
+		browser__build_context = await browser__build()
+		await rebuildjs__ready__wait()
+		const server__metafile = server__metafile_(app_ctx)!
+		const server__output__relative_path =
+			Object.keys(server__metafile.outputs)
+				.find(server__output__relative_path=>
+					server__metafile.outputs[server__output__relative_path].entryPoint)!
+		const server__entryPoint__output =
+			server__metafile.outputs[server__output__relative_path]
+		const browser__metafile = browser__metafile_(app_ctx)!
+		const browser__output__relative_path =
+			Object.keys(browser__metafile.outputs)
+				.find(browser__output__relative_path=>
+					browser__metafile.outputs[browser__output__relative_path].entryPoint)!
+		const browser__entryPoint__output =
+			browser__metafile.outputs[browser__output__relative_path]
+		equal(typeof server__entryPoint__output.cssBundle, 'string')
+		equal(typeof browser__entryPoint__output.cssBundle, 'string')
+		equal(typeof server__entryPoint__output.esbuild_cssBundle, 'string')
+		equal(typeof browser__entryPoint__output.esbuild_cssBundle, 'string')
+		equal(server__entryPoint__output.cssBundle !== server__entryPoint__output.esbuild_cssBundle, true)
+		equal(browser__entryPoint__output.cssBundle !== browser__entryPoint__output.esbuild_cssBundle, true)
+		equal(
+			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle!)).then(buf=>buf + '')
+			=== await readFile(join(cwd_(app_ctx), server__entryPoint__output.esbuild_cssBundle!)).then(buf=>buf + ''),
+			true
+		)
+		equal(
+			await readFile(join(cwd_(app_ctx), browser__entryPoint__output.cssBundle!)).then(buf=>buf + '')
+			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle!)).then(buf=>buf + ''),
+			true
+		)
+	} finally {
+		await rebuildjs__ready__wait()
 		server__build_context?.dispose?.()
 		browser__build_context?.dispose?.()
 	}

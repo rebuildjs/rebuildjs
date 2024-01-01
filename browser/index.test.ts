@@ -48,7 +48,7 @@ test('browser__metafile_path', ()=>{
 	throws(()=>browser__metafile_path_(ctx_()))
 })
 test('browser__metafile', async ()=>{
-	let file_exists__path:string|undefined = undefined
+	let file_exists__waitfor__path:string|undefined = undefined
 	let readFile_path:string|undefined = undefined
 	let _browser__metafile$_:typeof browser__metafile$_
 	let _browser__metafile_:typeof browser__metafile_
@@ -62,14 +62,15 @@ test('browser__metafile', async ()=>{
 			browser__metafile__set: _browser__metafile__set,
 		} = await esmock.p('./index.js', import.meta.url, {}, {
 			'ctx-core/rmemo': rmemo,
+			// TODO: remove with https://github.com/iambumblehead/esmock/issues/281
 			'ctx-core/fs': {
-				file_exists_: async (path:string)=>{
-					file_exists__path = path
+				file_exists__waitfor: async (path:string)=>{
+					file_exists__waitfor__path = path
 					return true
 				}
 			},
 			'node:fs/promises': {
-				// TODO: use this when https://github.com/iambumblehead/esmock/issues/281 is addressed
+				// TODO: https://github.com/iambumblehead/esmock/issues/281
 				// access: async ()=>{},
 				readFile: async (path:string)=>{
 					readFile_path = path
@@ -79,6 +80,7 @@ test('browser__metafile', async ()=>{
 						case '/cwd/dist1/browser/metafile.json':
 							return Buffer.from(JSON.stringify(browser__metafile1), 'utf-8')
 					}
+					return undefined
 				}
 			},
 		}))
@@ -91,7 +93,7 @@ test('browser__metafile', async ()=>{
 		100)
 	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
-	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
+	equal(file_exists__waitfor__path, '/cwd/dist0/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
 	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
@@ -102,7 +104,7 @@ test('browser__metafile', async ()=>{
 		100)
 	equal(_browser__metafile$_(app_ctx)._, browser__metafile1)
 	equal(_browser__metafile_(app_ctx), browser__metafile1)
-	equal(file_exists__path, '/cwd/dist1/browser/metafile.json')
+	equal(file_exists__waitfor__path, '/cwd/dist1/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist1/browser/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
 	await rmemo__wait(
@@ -111,7 +113,7 @@ test('browser__metafile', async ()=>{
 		100)
 	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
-	equal(file_exists__path, '/cwd/dist0/browser/metafile.json')
+	equal(file_exists__waitfor__path, '/cwd/dist0/browser/metafile.json')
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
 	_browser__metafile__set(app_ctx, browser__metafile2)
 	equal(_browser__metafile$_(app_ctx)._, browser__metafile2)

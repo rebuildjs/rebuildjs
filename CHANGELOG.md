@@ -1,5 +1,18 @@
 # rebuildjs
 
+## 0.27.1
+
+### Patch Changes
+
+- elysia: ^0.8.6 -> ^0.8.8
+- patch:
+
+      browser__metafile:
+      server__metafile:
+      	esbuild_cssBundle:
+      		fix: seperate file copied from cssBundle
+      	fix: implement cancel logic
+
 ## 0.27.0
 
 ### Minor Changes
