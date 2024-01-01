@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.27.2
+
+### Patch Changes
+
+- rebuildjs build: esbuild_cssBundle: fix: cp .map file
+
 ## 0.27.1
 
 ### Patch Changes

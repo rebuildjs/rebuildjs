@@ -327,6 +327,10 @@ export function rebuildjs_plugin_() {
 															file_exists__waitfor(cssBundle_path))
 														await cmd(
 															cp(cssBundle_path, esbuild_cssBundle_path))
+														await cmd(
+															file_exists__waitfor(cssBundle_path + '.map'))
+														await cmd(
+															cp(cssBundle_path + '.map', esbuild_cssBundle_path + '.map'))
 													}
 											}
 										}
