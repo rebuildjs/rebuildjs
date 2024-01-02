@@ -68,13 +68,14 @@ test('assets', ()=>{
 })
 test('assets|types', ()=>{
 	const route_ctx = route_ctx_(middleware_ctx_())
+	/* eslint-disable @typescript-eslint/ban-ts-comment */
 	/* eslint-disable @typescript-eslint/no-unused-vars */
+	// @ts-ignore TS6196
 	type test_ctx = Expect<Equal<typeof route_ctx, Ctx<''|'app'|'middleware'|'route'>>>
-	/* eslint-enable @typescript-eslint/no-unused-vars */
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	// @ts-expect-error TS2345
 	type test_assets$_ = Expect<Equal<typeof assets$_, number>>
 	/* eslint-enable @typescript-eslint/no-unused-vars */
+	/* eslint-enable @typescript-eslint/ban-ts-comment */
 })
 test('assets__assign', async ()=>{
 	const route_ctx = route_ctx_(middleware_ctx_())

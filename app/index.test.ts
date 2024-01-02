@@ -45,9 +45,12 @@ test.after.each(()=>{
 	app_ctx.s.app.clear()
 })
 test('app_ctx', ()=>{
+	/* eslint-disable @typescript-eslint/ban-ts-comment */
 	/* eslint-disable @typescript-eslint/no-unused-vars */
+	// @ts-ignore TS6196
 	type test_app_ctx = Expect<Equal<typeof app_ctx, Ctx<'app'>>>
 	/* eslint-enable @typescript-eslint/no-unused-vars */
+	/* eslint-enable @typescript-eslint/ban-ts-comment */
 })
 test('port', ()=>{
 	equal(process.env.PORT, undefined)
