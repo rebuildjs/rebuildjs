@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.29.1
+
+### Patch Changes
+
+- browser\_\_output: fix: type
+
 ## 0.29.0
 
 ### Minor Changes
