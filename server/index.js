@@ -84,12 +84,11 @@ export const [
 				Object.keys(server__metafile.outputs)
 					.filter(server__output__relative_path=>
 						server__metafile.outputs[server__output__relative_path].entryPoint)
-					.map(
-						server__output__relative_path=>{
-							const middleware_ctx = middleware_ctx_()
-							server__output__relative_path__set(middleware_ctx, server__output__relative_path)
-							return [server__output__relative_path, middleware_ctx]
-						}))),
+					.map(server__output__relative_path=>{
+						const middleware_ctx = middleware_ctx_()
+						server__output__relative_path__set(middleware_ctx, server__output__relative_path)
+						return [server__output__relative_path, middleware_ctx]
+					}))),
 {
 	id: 'server__output__relative_path_M_middleware_ctx',
 	ns: 'app'
@@ -114,7 +113,7 @@ export const [
 	server__cssBundle__relative_path_
 ] = be_memo_pair_(ctx=>
 	server__output_(ctx)?.cssBundle,
-{ ns: 'middleware', id: 'server__cssBundle', })
+{ ns: 'middleware', id: 'server__cssBundle__relative_path', })
 export const [
 	server__cssBundle$_,
 	server__cssBundle_

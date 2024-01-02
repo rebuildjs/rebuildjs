@@ -1,5 +1,24 @@
 # rebuildjs
 
+## 0.29.0
+
+### Minor Changes
+
+- minor:
+
+      + browser__output:
+      	+ browser__output$_
+      	+ browser__output_
+      + browser__cssBundle__relative_path:
+      	+ browser__cssBundle__relative_path$_
+      	+ browser__cssBundle__relative_path_
+      + browser__cssBundle:
+      	+ browser__cssBundle$_
+      	+ browser__cssBundle_
+      + browser__css:
+      	+ browser__css$_
+      	+ browser__css_
+
 ## 0.28.0
 
 ### Minor Changes

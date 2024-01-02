@@ -18,12 +18,17 @@ export const browser__metafile0 = Object.freeze({
 			'imports': [],
 			'exports': [],
 			'entryPoint': 'src/app/index.browser.ts',
+			'cssBundle': 'dist/browser--dev/index.browser-BRS0BRS0.css',
 			'inputs': {
 				'../input/path0': {
 					'bytesInOutput': 98
 				},
 			},
-			'bytes': 98
+			'bytes': 98,
+			'esbuild_cssBundle': 'dist/browser--dev/index.browser-BRS0BRS0_esbuild.css',
+			'cssBundle_content': [
+				'dist/browser--dev/index.browser-BRS0BRS0.js'
+			]
 		}
 	},
 	rebuildjs_target: 'browser',
@@ -84,6 +89,7 @@ export const browser__metafile1 = Object.freeze({
 			'imports': [],
 			'exports': [],
 			'entryPoint': 'src/app/index.browser.ts',
+			'cssBundle': 'dist/browser--dev/index.browser-BRS1BRS1.css',
 			'inputs': {
 				'../input/path0': {
 					'bytesInOutput': 98
@@ -92,11 +98,15 @@ export const browser__metafile1 = Object.freeze({
 					'bytesInOutput': 50
 				},
 			},
-			'bytes': 148
+			'bytes': 148,
+			'esbuild_cssBundle': 'dist/browser--dev/index.browser-BRS1BRS1_esbuild.css',
+			'cssBundle_content': [
+				'dist/browser--dev/index.browser-BRS1BRS1.js'
+			],
 		},
 	},
-	"rebuildjs_target": "browser",
-	"build_id": "1703809126591-ihwT4FatSz6ubDMbQLEQNA",
+	'rebuildjs_target': 'browser',
+	'build_id': '1703809126591-ihwT4FatSz6ubDMbQLEQNA',
 }) as rebuildjs_metafile_T
 export const server__metafile1 = Object.freeze({
 	inputs: {
@@ -134,8 +144,8 @@ export const server__metafile1 = Object.freeze({
 			'bytes': 148
 		},
 	},
-	"rebuildjs_target": "server",
-	"build_id": "1703809126591-ihwT4FatSz6ubDMbQLEQNA",
+	'rebuildjs_target': 'server',
+	'build_id': '1703809126591-ihwT4FatSz6ubDMbQLEQNA',
 }) as rebuildjs_metafile_T
 export const browser__metafile2 = Object.freeze({
 	inputs: {
@@ -166,6 +176,7 @@ export const browser__metafile2 = Object.freeze({
 			'imports': [],
 			'exports': [],
 			'entryPoint': 'src/app/index.browser.ts',
+			'cssBundle': 'dist/browser--dev/index.browser-BRS2BRS2.css',
 			'inputs': {
 				'../input/path0': {
 					'bytesInOutput': 98
@@ -177,11 +188,15 @@ export const browser__metafile2 = Object.freeze({
 					'bytesInOutput': 80
 				}
 			},
-			'bytes': 228
+			'bytes': 228,
+			'esbuild_cssBundle': 'dist/browser--dev/index.browser-BRS2BRS2_esbuild.css',
+			'cssBundle_content': [
+				'dist/browser--dev/index.browser-BRS2BRS2.js'
+			]
 		}
 	},
-	"rebuildjs_target": "browser",
-	"build_id": "1703809154281-B6Mt0emJRWqIylzx4ZlOBQ",
+	'rebuildjs_target': 'browser',
+	'build_id': '1703809154281-B6Mt0emJRWqIylzx4ZlOBQ',
 }) as rebuildjs_metafile_T
 export const server__metafile2 = Object.freeze({
 	inputs: {
@@ -226,6 +241,6 @@ export const server__metafile2 = Object.freeze({
 			'bytes': 228
 		}
 	},
-	"rebuildjs_target": "server",
-	"build_id": "1703809154281-B6Mt0emJRWqIylzx4ZlOBQ",
+	'rebuildjs_target': 'server',
+	'build_id': '1703809154281-B6Mt0emJRWqIylzx4ZlOBQ',
 }) as rebuildjs_metafile_T

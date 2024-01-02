@@ -1,11 +1,11 @@
 import { file_exists__waitfor } from 'ctx-core/fs'
-import { Cancel, nullish__none_, sleep, waitfor } from 'ctx-core/function'
+import { Cancel, nullish__none_, sleep, tup, waitfor } from 'ctx-core/function'
 import { be_lock_memosig_triple_, be_memo_pair_ } from 'ctx-core/rmemo'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
-import { browser__relative_path_, browser_path_ } from '../app/index.js'
+import { browser__relative_path_, browser_path_, cwd_, server__relative_path_ } from '../app/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__output_ } from '../server/index.js'
+import { server__metafile_, server__output_, server__output__relative_path_ } from '../server/index.js'
 export const [
 	browser__metafile_path$_,
 	browser__metafile_path_,
@@ -94,6 +94,36 @@ export const [
 				}
 			}
 		}), { ns: 'middleware', id: 'browser__output__relative_path' })
+export const [
+	browser__output$_,
+	browser__output_
+] = be_memo_pair_(ctx=>
+	nullish__none_(tup(browser__metafile_(ctx), browser__output__relative_path_(ctx)),
+		(browser__metafile, browser__output__relative_path)=>
+			browser__metafile.outputs[browser__output__relative_path]),
+{ ns: 'middleware', id: 'browser__output' })
+export const [
+	browser__cssBundle__relative_path$_,
+	browser__cssBundle__relative_path_
+] = be_memo_pair_(ctx=>
+	browser__output_(ctx)?.cssBundle,
+{ ns: 'middleware', id: 'browser__cssBundle__relative_path', })
+export const [
+	browser__cssBundle$_,
+	browser__cssBundle_
+] = be_memo_pair_(ctx=>
+	nullish__none_([browser__output_(ctx)?.cssBundle],
+		cssBundle=>
+			join(cwd_(ctx), cssBundle)),
+{ ns: 'middleware', id: 'browser__cssBundle', })
+export const [
+	browser__css$_,
+	browser__css_
+] = be_memo_pair_(ctx=>
+	nullish__none_([browser__relative_path_(ctx), browser__cssBundle__relative_path_(ctx)],
+		(browser__relative_path, browser__cssBundle__relative_path)=>
+			join('/', relative(browser__relative_path, browser__cssBundle__relative_path))),
+{ ns: 'middleware', id: 'browser__css' })
 export const [
 	browser__script$_,
 	browser__script_,

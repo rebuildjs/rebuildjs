@@ -14,6 +14,7 @@ import {
 	browser__metafile__persist,
 	browser__metafile__set,
 	browser__metafile_path_,
+	browser__output_,
 	browser__output__relative_path_
 } from '../browser/index.js'
 import { app_ctx } from '../ctx/index.js'
@@ -23,6 +24,7 @@ import {
 	server__metafile__persist,
 	server__metafile__set,
 	server__metafile_path_,
+	server__output_,
 	server__output__relative_path_M_middleware_ctx_
 } from '../server/index.js'
 export const [
@@ -337,7 +339,7 @@ export function rebuildjs_plugin_() {
 									}
 								}
 								async function rebuildjs__assets__link() {
-									const outputs= server__metafile.outputs ?? {}
+									const outputs = server__metafile.outputs ?? {}
 									for (let output__relative_path in outputs) {
 										switch (extname(output__relative_path)) {
 											case '.js':
@@ -401,11 +403,11 @@ async function server__metafile__update(server__metafile, build_id) {
 		server__output__relative_path,
 		middleware_ctx
 	] of server__output__relative_path_M_middleware_ctx_(app_ctx).entries()) {
-		const output = server__metafile.outputs[server__output__relative_path]
-		const { cssBundle } = output
+		const server__output = server__output_(middleware_ctx)
+		const { cssBundle } = server__output
 		if (cssBundle) {
-			output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
-			output.cssBundle_content = [
+			server__output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
+			server__output.cssBundle_content = [
 				server__output__relative_path,
 				...(
 					browser__output__relative_path_(middleware_ctx)
@@ -425,13 +427,12 @@ async function browser__metafile__update(browser__metafile, build_id) {
 	}
 	browser__metafile__set(app_ctx, browser__metafile)
 	for (const middleware_ctx of server__output__relative_path_M_middleware_ctx_(app_ctx)?.values?.() ?? []) {
-		const browser__output__relative_path = browser__output__relative_path_(middleware_ctx)
-		if (browser__output__relative_path) {
-			const output = browser__metafile.outputs[browser__output__relative_path]
-			const { cssBundle } = output
+		const browser__output = browser__output_(middleware_ctx)
+		if (browser__output) {
+			const { cssBundle } = browser__output
 			if (cssBundle) {
-				output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
-				output.cssBundle_content = [browser__output__relative_path]
+				browser__output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
+				browser__output.cssBundle_content = [browser__output__relative_path_(middleware_ctx)]
 			}
 		}
 	}
