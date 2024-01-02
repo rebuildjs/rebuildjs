@@ -91,16 +91,16 @@ test('assets__assign', async ()=>{
 		css_a: ['/index.server-SVR0SVR0.css', '/index.browser-BRS0BRS0.css'],
 		script_a: ['/index.browser-BRS0BRS0.js'],
 	})
-	assets__assign(route_ctx, assets__new({
+	assets__assign(route_ctx, {
 		css_a: ['/test0.css']
-	}))
+	})
 	equal(assets_(route_ctx), {
 		css_a: ['/index.server-SVR0SVR0.css', '/index.browser-BRS0BRS0.css', '/test0.css'],
 		script_a: ['/index.browser-BRS0BRS0.js'],
 	})
-	assets__assign(route_ctx, assets__new({
+	assets__assign(route_ctx, {
 		script_a: ['/test0.js']
-	}))
+	})
 	equal(assets_(route_ctx), {
 		css_a: ['/index.server-SVR0SVR0.css', '/index.browser-BRS0BRS0.css', '/test0.css'],
 		script_a: ['/index.browser-BRS0BRS0.js', '/test0.js'],

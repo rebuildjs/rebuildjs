@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.29.3
+
+### Patch Changes
+
+- assets\_\_assign: arguments: ...\_assets_a:Partial<assets_T>[]
+
 ## 0.29.2
 
 ### Patch Changes
