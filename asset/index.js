@@ -1,6 +1,7 @@
 /// <reference types="./index.d.ts" />
+import { compact } from 'ctx-core/array'
 import { be_lock_memosig_triple_ } from 'ctx-core/rmemo'
-import { browser__script_ } from '../browser/index.js'
+import { browser__css_, browser__script_ } from '../browser/index.js'
 import { server__css_ } from '../server/index.js'
 export async function asset_path_(mod_promise) {
 	return (await mod_promise.then(mod=>mod.default)).replace(/^\.\//, '/')
@@ -14,12 +15,12 @@ export const [
 	assets__set,
 ] = be_lock_memosig_triple_(ctx=>
 	assets__new({
-		css_a: [server__css_(ctx)],
-		script_a: [browser__script_(ctx)]
+		css_a: compact([server__css_(ctx), browser__css_(ctx)]),
+		script_a: compact([browser__script_(ctx)]),
 	}),
 { ns: 'route', id: 'assets' })
 export function assets__assign(route_ctx, ..._assets_a) {
-	assets__set(route_ctx, assets__new(assets_(route_ctx, ..._assets_a)))
+	assets__set(route_ctx, assets__new(assets_(route_ctx), ..._assets_a))
 }
 /**
  * @param {assets_T[]}_assets_a

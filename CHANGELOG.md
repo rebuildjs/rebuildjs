@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.29.2
+
+### Patch Changes
+
+- assets\_\_assign: fix: implementation
+
 ## 0.29.1
 
 ### Patch Changes
