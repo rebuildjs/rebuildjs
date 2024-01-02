@@ -209,16 +209,16 @@ test('browser__build|server__build|rebuildjs_plugin_|css', async ()=>{
 		equal(server__entryPoint__output.cssBundle !== server__entryPoint__output.esbuild_cssBundle, true)
 		equal(browser__entryPoint__output.cssBundle !== browser__entryPoint__output.esbuild_cssBundle, true)
 		equal(
-			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')
-			=== await readFile(join(cwd_(app_ctx), server__entryPoint__output.esbuild_cssBundle + '.map')).then(buf=>buf + ''),
+			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle!)).then(buf=>buf + '')
+			=== await readFile(join(cwd_(app_ctx), server__entryPoint__output.esbuild_cssBundle!)).then(buf=>buf + ''),
 			true)
 		equal(
 			await readFile(join(cwd_(app_ctx), browser__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')
 			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle + '.map')).then(buf=>buf + ''),
 			true)
 		equal(
-			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')
-			=== await readFile(join(cwd_(app_ctx), server__entryPoint__output.esbuild_cssBundle + '.map')).then(buf=>buf + ''),
+			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle!)).then(buf=>buf + '')
+			=== await readFile(join(cwd_(app_ctx), server__entryPoint__output.esbuild_cssBundle!)).then(buf=>buf + ''),
 			true)
 		equal(
 			await readFile(join(cwd_(app_ctx), browser__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')

@@ -5,6 +5,7 @@ export default (middleware_ctx:middleware_ctx_T)=>{
 	return (request:Request)=>{
 		const route_ctx = route_ctx_(middleware_ctx)
 		return new Response(
+			'<!DOCTYPE html>' +
 			'<html>' +
 			'<head>' +
 			assets_(route_ctx).css_a.map(css=>
