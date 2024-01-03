@@ -1,5 +1,19 @@
 # rebuildjs
 
+## 0.30.0
+
+### Minor Changes
+
+- minor:
+
+      + rmemo__on: aliased by on
+      + rmemo__off: aliased by off
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.11.0
+
 ## 0.29.3
 
 ### Patch Changes
