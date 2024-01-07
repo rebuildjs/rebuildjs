@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.32.0
+
+### Minor Changes
+
+- ondelete*be*: .d: fix: clear ondelete callbacks when run
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.14.0
+
 ## 0.31.1
 
 ### Patch Changes
