@@ -53,58 +53,59 @@ export function build_id__refresh() {
 export const [
 	persist__metafile__build_id$_,
 	persist__metafile__build_id_,
-] = be_memo_pair_(()=>undefined,
-	(ctx, persist__metafile__build_id$)=>{
-		const build_id = build_id_(ctx)
-		const metafile__build_id = metafile__build_id_(ctx)
-		const server__metafile_path = server__metafile_path_(ctx)
-		const browser__metafile_path = browser__metafile_path_(ctx)
-		if (metafile__build_id) {
-			const cancel__period = cancel__period_(0, cancel_)
-			run(async ()=>{
-				try {
-					await cmd(
-						file_exists__waitfor(server__metafile_path, 1000, cancel__period))
-					await cmd(
-						waitfor(()=>
-							readFile(server__metafile_path).then(buf=>
-								JSON.parse('' + buf)?.build_id === build_id),
-						1000,
-						cancel__period))
-					await cmd(
-						file_exists__waitfor(browser__metafile_path, 1000, cancel__period))
-					await cmd(
-						waitfor(()=>
-							readFile(browser__metafile_path).then(buf=>
-								JSON.parse('' + buf)?.build_id === build_id),
-						1000,
-						cancel__period))
-					persist__metafile__build_id$._ = build_id
-				} catch (err) {
-					if (err instanceof Cancel) return
-					throw err
-				}
-			})
-		}
-		async function cmd(promise) {
-			if (cancel_()) throw new Cancel
-			const rv = await promise
-			if (cancel_()) {
-				promise.cancel?.()
-				throw new Cancel
+] = be_memo_pair_(
+	()=>undefined,
+	{ id: 'persist__metafile__build_id', ns: 'app' }
+).add((ctx, persist__metafile__build_id$)=>{
+	const build_id = build_id_(ctx)
+	const metafile__build_id = metafile__build_id_(ctx)
+	const server__metafile_path = server__metafile_path_(ctx)
+	const browser__metafile_path = browser__metafile_path_(ctx)
+	if (metafile__build_id) {
+		const cancel__period = cancel__period_(0, cancel_)
+		run(async ()=>{
+			try {
+				await cmd(
+					file_exists__waitfor(server__metafile_path, 1000, cancel__period))
+				await cmd(
+					waitfor(()=>
+						readFile(server__metafile_path).then(buf=>
+							JSON.parse('' + buf)?.build_id === build_id),
+					1000,
+					cancel__period))
+				await cmd(
+					file_exists__waitfor(browser__metafile_path, 1000, cancel__period))
+				await cmd(
+					waitfor(()=>
+						readFile(browser__metafile_path).then(buf=>
+							JSON.parse('' + buf)?.build_id === build_id),
+					1000,
+					cancel__period))
+				persist__metafile__build_id$._ = build_id
+			} catch (err) {
+				if (err instanceof Cancel) return
+				throw err
 			}
-			return rv
+		})
+	}
+	async function cmd(promise) {
+		if (cancel_()) throw new Cancel
+		const rv = await promise
+		if (cancel_()) {
+			promise.cancel?.()
+			throw new Cancel
 		}
-		function cancel_() {
-			return (
-				build_id_(ctx) !== build_id
-				|| metafile__build_id_(ctx) !== metafile__build_id
-				|| server__metafile_path_(ctx) !== server__metafile_path
-				|| browser__metafile_path_(ctx) !== browser__metafile_path
-			)
-		}
-	},
-	{ id: 'persist__metafile__build_id', ns: 'app' })
+		return rv
+	}
+	function cancel_() {
+		return (
+			build_id_(ctx) !== build_id
+			|| metafile__build_id_(ctx) !== metafile__build_id
+			|| server__metafile_path_(ctx) !== server__metafile_path
+			|| browser__metafile_path_(ctx) !== browser__metafile_path
+		)
+	}
+})
 export const [
 	persist__metafile__ready$_,
 	persist__metafile__ready_,

@@ -1,5 +1,30 @@
 # rebuildjs
 
+## 0.34.0
+
+### Minor Changes
+
+- minor:
+
+      memo_T:
+      sig_T:
+      	+ .add<add_val_T>(add_def:(sig:sig_T<val_T>, prev_val:add_val_T|undefined)=>add_val_T):memo_T<val_T>
+      memo_:
+      sig_:
+      memosig_:
+      lock_memosig_:
+      	arguments: - ...subscriber_a
+      rmemo__subscribe→rmemo__add
+
+  patch:
+
+      rmemo__add: fix: add_def is not called until memo argument is called
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.16.0
+
 ## 0.33.0
 
 ### Minor Changes
