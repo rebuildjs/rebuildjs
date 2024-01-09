@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.34.3
+
+### Patch Changes
+
+- rebuildjs*plugin*: rebuildjs*plugin\_\_postprocess$*: memo: void
+
 ## 0.34.2
 
 ### Patch Changes
