@@ -27,50 +27,51 @@ export const [
 ] = /** @type {be_lock_memosig_triple_T<rebuildjs_metafile_T>} */
 	be_lock_memosig_triple_(
 		()=>undefined,
-		async (ctx, server__metafile$)=>{
-			server__metafile__waitfor_promise?.cancel?.()
-			if (server__metafile$.lock) return
-			nullish__none_([server__metafile_path_(ctx)],
-				async server__metafile_path=>{
-					try {
-						if (await cmd(
-							server__metafile__waitfor_promise =
-								file_exists__waitfor(
-									server__metafile_path,
-									1000,
-									()=>cmd(sleep(0))))
-						) {
-							server__metafile$._ = await cmd(
-								waitfor(async ()=>{
-									const buf = await cmd(readFile(server__metafile_path))
-									const json = buf + ''
-									try {
-										return JSON.parse(json)
-									} catch {
-										return undefined
-									}
-								}, 1000))
-						}
-					} catch (err) {
-						if (err instanceof Cancel) return
-						throw err
+		{ ns: 'app', id: 'server__metafile' }
+	).add(async (ctx, server__metafile$)=>{
+		server__metafile__waitfor_promise?.cancel?.()
+		if (server__metafile$.lock) return
+		nullish__none_([server__metafile_path_(ctx)],
+			async server__metafile_path=>{
+				try {
+					if (await cmd(
+						server__metafile__waitfor_promise =
+							file_exists__waitfor(
+								server__metafile_path,
+								1000,
+								()=>cmd(sleep(0))))
+					) {
+						server__metafile$._ = await cmd(
+							waitfor(async ()=>{
+								const buf = await cmd(readFile(server__metafile_path))
+								const json = buf + ''
+								try {
+									return JSON.parse(json)
+								} catch {
+									return undefined
+								}
+							}, 1000))
 					}
-					async function cmd(promise) {
-						if (cancel_()) throw new Cancel()
-						const rv = await promise
-						if (cancel_()) {
-							promise.cancel?.()
-							throw new Cancel()
-						}
-						return rv
+				} catch (err) {
+					if (err instanceof Cancel) return
+					throw err
+				}
+				async function cmd(promise) {
+					if (cancel_()) throw new Cancel()
+					const rv = await promise
+					if (cancel_()) {
+						promise.cancel?.()
+						throw new Cancel()
 					}
-					function cancel_() {
-						return (
-							server__metafile$.lock
-							|| server__metafile_path !== server__metafile_path_(ctx))
-					}
-				})
-		}, { ns: 'app', id: 'server__metafile' })
+					return rv
+				}
+				function cancel_() {
+					return (
+						server__metafile$.lock
+						|| server__metafile_path !== server__metafile_path_(ctx))
+				}
+			})
+	})
 export function server__metafile__persist() {
 	return nullish__none_([
 		server__metafile_path_(app_ctx),

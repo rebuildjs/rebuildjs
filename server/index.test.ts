@@ -103,13 +103,19 @@ test('server__metafile', async ()=>{
 	equal(_server__metafile$_(app_ctx)._, server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
 	dist_path__set(app_ctx, '/cwd/dist1')
-	await rmemo__wait(_server__metafile$_(app_ctx), m=>deep_equal(m, server__metafile1), 100)
+	await rmemo__wait(
+		_server__metafile$_(app_ctx),
+		m=>deep_equal(m, server__metafile1),
+		100)
 	equal(_server__metafile$_(app_ctx)._, server__metafile1)
 	equal(_server__metafile_(app_ctx), server__metafile1)
 	equal(file_exists__waitfor__path, '/cwd/dist1/server/metafile.json')
 	equal(readFile_path, '/cwd/dist1/server/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
-	await rmemo__wait(_server__metafile$_(app_ctx), m=>deep_equal(m, server__metafile0), 100)
+	await rmemo__wait(
+		_server__metafile$_(app_ctx),
+		m=>deep_equal(m, server__metafile0),
+		100)
 	equal(_server__metafile$_(app_ctx)._, server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
 	equal(file_exists__waitfor__path, '/cwd/dist0/server/metafile.json')
@@ -120,7 +126,10 @@ test('server__metafile', async ()=>{
 	dist_path__set(app_ctx, '/cwd/dist1')
 	let error_msg:string|undefined = undefined
 	try {
-		await rmemo__wait(_server__metafile$_(app_ctx), m=>deep_equal(m, server__metafile1), 100)
+		await rmemo__wait(
+			_server__metafile$_(app_ctx),
+			m=>deep_equal(m, server__metafile1),
+			100)
 	} catch (e) {
 		error_msg = (e as Error).message
 	}
