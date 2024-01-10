@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.34.5
+
+### Patch Changes
+
+- rmemo\_\_add: fix: arguments match the .add method
+- Updated dependencies
+  - ctx-core@5.16.2
+
 ## 0.34.4
 
 ### Patch Changes
