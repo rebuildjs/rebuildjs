@@ -1,5 +1,14 @@
 import { file_exists__waitfor } from 'ctx-core/fs'
-import { be_lock_memosig_triple_, be_memo_pair_, Cancel, nullish__none_, sleep, tup, waitfor } from 'ctx-core/rmemo'
+import {
+	be_lock_memosig_triple_,
+	be_memo_pair_,
+	Cancel,
+	memo_,
+	nullish__none_,
+	sleep,
+	tup,
+	waitfor
+} from 'ctx-core/rmemo'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { browser__relative_path_, browser_path_, cwd_ } from '../app/index.js'
@@ -11,7 +20,6 @@ export const [
 ] = be_memo_pair_(ctx=>
 	join(browser_path_(ctx), 'metafile.json'),
 { ns: 'app', id: 'browser__metafile_path' })
-let browser__metafile__waitfor_promise
 export const [
 	browser__metafile$_,
 	browser__metafile_,
@@ -20,51 +28,54 @@ export const [
 	be_lock_memosig_triple_(
 		()=>undefined,
 		{ ns: 'app', id: 'browser__metafile' }
-	).add(async (ctx, browser__metafile$)=>{
-		browser__metafile__waitfor_promise?.cancel?.()
-		if (browser__metafile$.lock) return
-		nullish__none_([browser__metafile_path_(ctx)],
-			async browser__metafile_path=>{
-				try {
-					if (await cmd(
-						browser__metafile__waitfor_promise =
-							file_exists__waitfor(
-								browser__metafile_path,
-								1000,
-								()=>cmd(sleep(0))))
-					) {
-						browser__metafile$._ = await cmd(
-							waitfor(async ()=>{
-								const buf = await cmd(readFile(browser__metafile_path))
-								const json = buf + ''
-								try {
-									return JSON.parse(json)
-								} catch {
-									return undefined
-								}
-							}, 1000))
+	).add((ctx, browser__metafile$)=>
+		memo_(browser__metafile__waitfor_promise$=>{
+			browser__metafile__waitfor_promise$.val?.cancel?.()
+			if (browser__metafile$.lock) return
+			return nullish__none_([browser__metafile_path_(ctx)],
+				browser__metafile_path=>{
+					const browser__metafile__waitfor_promise =
+						file_exists__waitfor(
+							browser__metafile_path,
+							1000,
+							()=>cmd(sleep(0)))
+					cmd(browser__metafile__waitfor_promise)
+						.then(async success=>{
+							if (success) {
+								browser__metafile$._ = await cmd(
+									waitfor(async ()=>{
+										const buf = await cmd(readFile(browser__metafile_path))
+										const json = buf + ''
+										try {
+											return JSON.parse(json)
+										} catch {
+											return undefined
+										}
+									}, 1000))
+							}
+						}).catch(err=>{
+							if (err instanceof Cancel) return
+							throw err
+						})
+					return browser__metafile__waitfor_promise
+					async function cmd(promise) {
+						if (cancel_()) throw new Cancel()
+						const rv = await promise
+						if (cancel_()) {
+							promise.cancel?.()
+							throw new Cancel()
+						}
+						return rv
 					}
-				} catch (err) {
-					if (err instanceof Cancel) return
-					throw err
-				}
-				async function cmd(promise) {
-					if (cancel_()) throw new Cancel()
-					const rv = await promise
-					if (cancel_()) {
-						promise.cancel?.()
-						throw new Cancel()
+					function cancel_() {
+						return (
+							browser__metafile$.lock
+							|| browser__metafile_path !== browser__metafile_path_(ctx)
+						)
 					}
-					return rv
-				}
-				function cancel_() {
-					return (
-						browser__metafile$.lock
-						|| browser__metafile_path !== browser__metafile_path_(ctx)
-					)
-				}
-			})
-	})
+				})
+		})
+	)
 export function browser__metafile__persist() {
 	return nullish__none_([
 		browser__metafile_path_(app_ctx),
