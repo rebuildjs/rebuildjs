@@ -1,5 +1,12 @@
 # rebuildjs
 
+## 0.35.1
+
+### Patch Changes
+
+- memo\_: add: fix: error when return value is nullish
+- ctx-core: ^5.17.0 -> ^5.17.1
+
 ## 0.35.0
 
 ### Minor Changes
@@ -19,7 +26,7 @@
       rmemo__off:
       	+ <val_T> generic type
       - rmemo__add_T
-      rmemo_add_def_T: arguments: - old_val
+      rmemo_add_def_T: arguments: - old_val"
 
 ### Patch Changes
 
