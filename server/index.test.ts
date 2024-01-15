@@ -7,7 +7,7 @@ import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
 import { server__metafile0, server__metafile1, server__metafile2 } from '../_fixtures/metafiles.js'
 import { cwd__set, dist_path_, dist_path__set, is_prod__set, server_path_ } from '../app/index.js'
-import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
+import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 import {
 	server__css$_,
 	server__css_,
@@ -186,7 +186,7 @@ test('server__output__relative_path_M_middleware_ctx', ()=>{
 	throws(()=>server__output__relative_path_M_middleware_ctx_(ctx_()))
 })
 test('server__output__relative_path', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(server__output__relative_path$_(middleware_ctx)._, undefined)
 	equal(server__output__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
@@ -200,7 +200,7 @@ test('server__output__relative_path', ()=>{
 	throws(()=>server__output__relative_path__set(app_ctx, 'dist/server--dev/index.HASH.js'))
 })
 test('server__output', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
 	equal(server__output$_(middleware_ctx)._, undefined)
 	equal(server__output_(middleware_ctx), undefined)
@@ -228,7 +228,7 @@ test('server__output', ()=>{
 	throws(()=>server__output_(app_ctx))
 })
 test('server__cssBundle__relative_path', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
 	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
@@ -261,7 +261,7 @@ test('server__cssBundle__relative_path', ()=>{
 	throws(()=>server__cssBundle__relative_path_(app_ctx))
 })
 test('server__cssBundle', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
 	cwd__set(app_ctx, '/cwd')
 	equal(dist_path_(app_ctx), '/cwd/dist')
@@ -297,7 +297,7 @@ test('server__cssBundle', ()=>{
 	throws(()=>server__cssBundle_(app_ctx))
 })
 test('server__css', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
 	cwd__set(app_ctx, '/cwd')
 	equal(dist_path_(app_ctx), '/cwd/dist')

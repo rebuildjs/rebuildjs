@@ -12,7 +12,7 @@ import {
 	server__metafile0
 } from '../_fixtures/metafiles.js'
 import { cwd__set, dist_path__set, is_prod__set } from '../app/index.js'
-import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
+import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 import { server__metafile__set, server__output_, server__output__relative_path__set } from '../server/index.js'
 import {
 	browser__css$_,
@@ -147,7 +147,7 @@ test('browser__metafile', async ()=>{
 	throws(()=>_browser__metafile__set(ctx_(), browser__metafile0))
 })
 test('browser__output__relative_path', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
@@ -178,7 +178,7 @@ test('browser__output__relative_path', ()=>{
 	throws(()=>browser__output__relative_path_(ctx_()))
 })
 test('browser__output', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__output$_(middleware_ctx)(), undefined)
 	equal(browser__output_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
@@ -194,7 +194,7 @@ test('browser__output', ()=>{
 	throws(()=>browser__output_(app_ctx))
 })
 test('browser__cssBundle__relative_path', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(browser__cssBundle__relative_path_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
@@ -210,7 +210,7 @@ test('browser__cssBundle__relative_path', ()=>{
 	throws(()=>browser__cssBundle__relative_path_(app_ctx))
 })
 test('browser__cssBundle', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__cssBundle$_(middleware_ctx)(), undefined)
 	equal(browser__cssBundle_(middleware_ctx), undefined)
 	cwd__set(app_ctx, '/cwd')
@@ -227,7 +227,7 @@ test('browser__cssBundle', ()=>{
 	throws(()=>browser__cssBundle_(app_ctx))
 })
 test('browser__css', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__css$_(middleware_ctx)(), undefined)
 	equal(browser__css_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
@@ -243,7 +243,7 @@ test('browser__css', ()=>{
 	throws(()=>browser__css_(app_ctx))
 })
 test('browser__script', ()=>{
-	const middleware_ctx = middleware_ctx_()
+	const middleware_ctx = middleware_ctx__new()
 	equal(browser__script$_(middleware_ctx)._, undefined)
 	equal(browser__script_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)

@@ -1,9 +1,9 @@
 import './index.server.css'
 import { assets_ } from '../../../asset/index.js'
-import { type middleware_ctx_T, route_ctx_ } from '../../../ctx/index.js'
+import { type middleware_ctx_T, route_ctx__new } from '../../../ctx/index.js'
 export default (middleware_ctx:middleware_ctx_T)=>{
 	return (request:Request)=>{
-		const route_ctx = route_ctx_(middleware_ctx)
+		const route_ctx = route_ctx__new(middleware_ctx)
 		return new Response(
 			'<!DOCTYPE html>' +
 			'<html>' +

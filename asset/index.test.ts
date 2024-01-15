@@ -4,7 +4,7 @@ import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
 import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
 import { browser__metafile__set } from '../browser/index.js'
-import { app_ctx, middleware_ctx_, route_ctx_ } from '../ctx/index.js'
+import { app_ctx, middleware_ctx__new, route_ctx__new } from '../ctx/index.js'
 import { server__metafile__set, server__output__relative_path__set } from '../server/index.js'
 import { asset_path_, asset_path_a_, assets$_, assets_, assets__assign, assets__new, assets__set } from './index.js'
 test.after.each(()=>{
@@ -27,7 +27,7 @@ test('asset_path_a_', async ()=>{
 	])
 })
 test('assets', ()=>{
-	const route_ctx = route_ctx_(middleware_ctx_())
+	const route_ctx = route_ctx__new(middleware_ctx__new())
 	equal(assets$_(route_ctx)(), {
 		css_a: [],
 		script_a: [],
@@ -56,18 +56,18 @@ test('assets', ()=>{
 	// @ts-expect-error TS2345
 	throws(()=>assets$_(ctx_()))
 	// @ts-expect-error TS2345
-	throws(()=>assets$_(middleware_ctx_()))
+	throws(()=>assets$_(middleware_ctx__new()))
 	// @ts-expect-error TS2345
 	throws(()=>assets_(ctx_()))
 	// @ts-expect-error TS2345
-	throws(()=>assets_(middleware_ctx_()))
+	throws(()=>assets_(middleware_ctx__new()))
 	// @ts-expect-error TS2345
 	throws(()=>assets__set(ctx_(), test_assets))
 	// @ts-expect-error TS2345
-	throws(()=>assets__set(middleware_ctx_(), test_assets))
+	throws(()=>assets__set(middleware_ctx__new(), test_assets))
 })
 test('assets|types', ()=>{
-	const route_ctx = route_ctx_(middleware_ctx_())
+	const route_ctx = route_ctx__new(middleware_ctx__new())
 	/* eslint-disable @typescript-eslint/ban-ts-comment */
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	// @ts-ignore TS6196
@@ -78,7 +78,7 @@ test('assets|types', ()=>{
 	/* eslint-enable @typescript-eslint/ban-ts-comment */
 })
 test('assets__assign', async ()=>{
-	const route_ctx = route_ctx_(middleware_ctx_())
+	const route_ctx = route_ctx__new(middleware_ctx__new())
 	server__metafile__set(route_ctx, server__metafile0)
 	browser__metafile__set(route_ctx, browser__metafile0)
 	server__output__relative_path__set(route_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
@@ -118,7 +118,7 @@ test('assets__assign', async ()=>{
 	// @ts-expect-error TS2345
 	throws(()=>assets__assign(ns_ctx_(ctx_())))
 	// @ts-expect-error TS2345
-	throws(()=>assets__assign(middleware_ctx_()))
+	throws(()=>assets__assign(middleware_ctx__new()))
 	// @ts-expect-error TS2345
 	throws(()=>assets__assign(app_ctx, assets__new()))
 })

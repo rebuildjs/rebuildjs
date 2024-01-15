@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.37.0
+
+### Minor Changes
+
+- minor:
+
+      middleware_ctx_→middleware_ctx__new
+      route_ctx_→route_ctx__new
+
 ## 0.36.3
 
 ### Patch Changes

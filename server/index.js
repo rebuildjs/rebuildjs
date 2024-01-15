@@ -13,7 +13,7 @@ import {
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'path'
 import { cwd_, server__relative_path_, server_path_ } from '../app/index.js'
-import { app_ctx, middleware_ctx_ } from '../ctx/index.js'
+import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 export const [
 	server__metafile_path$_,
 	server__metafile_path_,
@@ -97,7 +97,7 @@ export const [
 					.filter(server__output__relative_path=>
 						server__metafile.outputs[server__output__relative_path].entryPoint)
 					.map(server__output__relative_path=>{
-						const middleware_ctx = middleware_ctx_()
+						const middleware_ctx = middleware_ctx__new()
 						server__output__relative_path__set(middleware_ctx, server__output__relative_path)
 						return [server__output__relative_path, middleware_ctx]
 					}))),
