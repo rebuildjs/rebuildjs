@@ -1,5 +1,12 @@
 # rebuildjs
 
+## 0.37.5
+
+### Patch Changes
+
+- @typescript-eslint/eslint-plugin: ^6.18.1 -> ^6.19.0
+- @typescript-eslint/parser: ^6.18.1 -> ^6.19.0
+
 ## 0.37.4
 
 ### Patch Changes
