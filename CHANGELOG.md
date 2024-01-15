@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.37.4
+
+### Patch Changes
+
+- ./types: fix: <reference lib="dom" />
+
 ## 0.37.3
 
 ### Patch Changes
