@@ -18,7 +18,7 @@ import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
 import { fdir } from 'fdir'
 import { cp, link, mkdir, readFile, rm } from 'node:fs/promises'
-import { basename, dirname, extname, join, relative, resolve } from 'path'
+import { basename, dirname, extname, join, relative, resolve } from 'node:path'
 import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
 import {
 	browser__metafile_,

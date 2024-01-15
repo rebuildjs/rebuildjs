@@ -1,5 +1,5 @@
 import { be_lock_memosig_triple_, be_memo_pair_, be_sig_triple_ } from 'ctx-core/rmemo'
-import { join, relative, resolve } from 'path'
+import { join, relative, resolve } from 'node:path'
 export const [
 	port$_,
 	port_,

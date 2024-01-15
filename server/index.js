@@ -11,7 +11,7 @@ import {
 	waitfor
 } from 'ctx-core/rmemo'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { join, relative } from 'path'
+import { join, relative } from 'node:path'
 import { cwd_, server__relative_path_, server_path_ } from '../app/index.js'
 import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 export const [

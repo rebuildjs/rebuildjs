@@ -1,6 +1,6 @@
 import { type Ctx, ctx_ } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { test } from 'uvu'
 import { equal, not, throws } from 'uvu/assert'
 import { app_ctx } from '../ctx/index.js'
