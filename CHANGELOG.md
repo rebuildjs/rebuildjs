@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.37.9
+
+### Patch Changes
+
+- browser**build,server**build: fix: dist directory is external to esbuild
+
 ## 0.37.8
 
 ### Patch Changes

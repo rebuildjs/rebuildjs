@@ -19,7 +19,15 @@ import { context } from 'esbuild'
 import { fdir } from 'fdir'
 import { cp, link, mkdir, readFile, rm } from 'node:fs/promises'
 import { basename, dirname, extname, join, relative, resolve } from 'node:path'
-import { app_path_, browser_path_, cwd_, is_prod_, server__relative_path_, server_path_ } from '../app/index.js'
+import {
+	app_path_,
+	browser_path_,
+	cwd_,
+	dist_path_,
+	is_prod_,
+	server__relative_path_,
+	server_path_
+} from '../app/index.js'
 import {
 	browser__metafile_,
 	browser__metafile__persist,
@@ -162,13 +170,13 @@ export async function browser__build(config) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
-	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
+	const external = [dist_path_(app_ctx) + '/*', ...(esbuild__config.external ?? [])]
+	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins ?? [])]
 	/** @type {import('esbuild').BuildOptions} */
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
 		bundle: true,
-		external: [],
 		target: 'es2021',
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
@@ -180,6 +188,7 @@ export async function browser__build(config) {
 		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: browser_path_(app_ctx),
+		external,
 		plugins,
 	}
 	const esbuild_ctx = await context(esbuild_config)
@@ -211,6 +220,7 @@ export async function server__build(config) {
 	for (const path of path_a) {
 		entryPoints.push(path)
 	}
+	const external = [dist_path_(app_ctx) + '/*', ...server__external_(esbuild__config)]
 	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
@@ -227,7 +237,7 @@ export async function server__build(config) {
 		absWorkingDir: cwd_(app_ctx),
 		metafile: true,
 		outdir: server_path_(app_ctx),
-		external: server__external_(esbuild__config),
+		external,
 		plugins,
 	}
 	const esbuild_ctx = await context(esbuild_config)
