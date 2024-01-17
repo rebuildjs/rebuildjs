@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.37.12
+
+### Patch Changes
+
+- ctx-core: ^5.19.2 -> ^5.20.0
+
 ## 0.37.11
 
 ### Patch Changes
