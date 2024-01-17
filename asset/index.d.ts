@@ -7,9 +7,9 @@ export declare function asset_path_a_<
 >(...mod_promise_a:Tuple):Promise<{
 	[Index in keyof Tuple]:string
 }>
-export declare const assets$_:ctx__be_T<has_route_T, lock_memosig_T<assets_T>, 'route'>
-export declare const assets_:ctx__get_T<has_route_T, assets_T>
-export declare const assets__set:ctx__set_T<has_route_T, assets_T>
+export declare const assets$_:ctx__be_T<lock_memosig_T<assets_T>, 'route'>
+export declare const assets_:ctx__get_T<assets_T, 'route'>
+export declare const assets__set:ctx__set_T<assets_T, 'route'>
 export declare function assets__assign<ctx_T extends has_route_T>(
 	ctx:ctx_T,
 	..._assets_a:Partial<assets_T>[]
