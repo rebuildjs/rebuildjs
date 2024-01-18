@@ -1,5 +1,31 @@
 # rebuildjs
 
+## 0.41.0
+
+### Minor Changes
+
+- - be_config_arg_a_T
+- minor:
+
+      + ns_be_sig_triple_
+      + id_be_sig_triple_
+      + ns_id_be_sig_triple_
+      + ns_be_memo_pair_
+      + id_be_memo_pair_
+      + ns_id_be_memo_pair_
+      + ns_be_memosig_triple_
+      + id_be_memosig_triple_
+      + ns_id_be_memosig_triple_
+      + ns_be_lock_memosig_triple_
+      + id_be_lock_memosig_triple_
+      + ns_id_be_lock_memosig_triple_
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.25.0
+
 ## 0.40.0
 
 ### Minor Changes
