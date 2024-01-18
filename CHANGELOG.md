@@ -1,5 +1,22 @@
 # rebuildjs
 
+## 0.40.0
+
+### Minor Changes
+
+- minor:
+
+      + ns_be_
+      + id_be_
+      + ns_id_be_
+      be_: ns_T generic type specified: config:be_config_T is required
+      be_memo_pair_: config?:be_config_T<ns_T> argument: fix: generic type
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.24.0
+
 ## 0.39.0
 
 ### Minor Changes
