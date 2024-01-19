@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.41.3
+
+### Patch Changes
+
+- memo_T: fix: readonly a?:rmemo_a_T
+- Updated dependencies
+  - ctx-core@5.25.3
+
 ## 0.41.2
 
 ### Patch Changes
