@@ -177,7 +177,7 @@ export async function browser__build(config) {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
 		bundle: true,
-		target: 'es2021',
+		target: 'es2022',
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',

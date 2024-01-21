@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.42.0
+
+### Minor Changes
+
+- browser\_\_build: target: es2022
+
 ## 0.41.3
 
 ### Patch Changes
