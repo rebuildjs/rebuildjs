@@ -1,5 +1,17 @@
 # rebuildjs
 
+## 0.45.0
+
+### Minor Changes
+
+- minor:
+
+      ./server:
+      	+ default_loader
+      	rebuildjs_browser__build: loader: default_loader
+      	rebuildjs_server__build: loader: default_loader
+      + ./browser: export ./any
+
 ## 0.44.2
 
 ### Patch Changes
