@@ -5,7 +5,7 @@ import { rmemo__wait } from 'ctx-core/rmemo'
 import esmock from 'esmock'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { server__metafile0, server__metafile1, server__metafile2 } from '../_fixtures/metafiles.js'
+import { server__metafile0, server__metafile1, server__metafile2 } from '../../_fixtures/metafiles.js'
 import { cwd__set, dist_path_, dist_path__set, is_prod__set, server_path_ } from '../app/index.js'
 import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 import {

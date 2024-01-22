@@ -1,7 +1,7 @@
 import { be_memo_pair_, nullish__none_, rmemo__wait } from 'ctx-core/rmemo'
-import { browser__metafile_ } from '../browser/index.js'
+import { browser__metafile_ } from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__metafile_ } from '../server/index.js'
+import { server__metafile_ } from '../rebuildjs_server/index.js'
 export const [
 	metafile__build_id$_,
 	metafile__build_id_,

@@ -2,10 +2,10 @@
 import { sleep } from 'ctx-core/function'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
-import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
-import { browser__metafile__set } from '../browser/index.js'
+import { browser__metafile0, server__metafile0 } from '../../_fixtures/metafiles.js'
+import { browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__metafile__set } from '../server/index.js'
+import { server__metafile__set } from '../rebuildjs_server/index.js'
 import { metafile__wait } from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()

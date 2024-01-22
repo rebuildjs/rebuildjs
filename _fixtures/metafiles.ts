@@ -1,4 +1,4 @@
-import { type rebuildjs_metafile_T } from '../metafile_l0/index.js'
+import { type rebuildjs_metafile_T } from '../server/metafile_l0/index.js'
 export const browser__metafile0 = Object.freeze({
 	inputs: {
 		'../input/path0': {

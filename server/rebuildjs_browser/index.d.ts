@@ -1,5 +1,4 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T, lock_memosig_T, memo_T } from 'ctx-core/rmemo'
-import type { has_app_T, has_middleware_T } from '../ctx/index.js'
 import type { rebuildjs_metafile_T } from '../metafile_l0/index.js'
 export declare const browser__metafile_path$_:ctx__be_T<memo_T<string>, 'app'>
 export declare const browser__metafile_path_:ctx__get_T<string, 'app'>

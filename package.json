@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.42.0",
+	"version": "0.43.0",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -27,29 +27,31 @@
 		"*.js",
 		"*.json",
 		"_fixtures",
-		"app",
-		"asset",
-		"browser",
-		"build",
-		"ctx",
-		"metafile",
-		"metafile_l0",
-		"middleware",
-		"server",
-		"types"
+		"any",
+		"file_types",
+		"server"
 	],
-	"types": "./index.d.ts",
 	"exports": {
-		".": "./index.js",
-		"./app": "./app/index.js",
-		"./asset": "./asset/index.js",
-		"./browser": "./browser/index.js",
-		"./build": "./build/index.js",
-		"./ctx": "./ctx/index.js",
-		"./metafile": "./metafile/index.js",
-		"./middleware": "./middleware/index.js",
-		"./server": "./server/index.js",
-		"./types": "./types/index.js",
+		".": {
+			"default": "./index.js",
+			"module": "./index.js",
+			"types": "./index.d.ts"
+		},
+		"./any": {
+			"default": "./any/index.js",
+			"module": "./any/index.js",
+			"types": "./any/index.d.ts"
+		},
+		"./file_types": {
+			"default": "./file_types/index.js",
+			"module": "./file_types/index.js",
+			"types": "./file_types/index.d.ts"
+		},
+		"./server": {
+			"default": "./server/index.js",
+			"module": "./server/index.js",
+			"types": "./server/index.d.ts"
+		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {

@@ -13,7 +13,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import { browser__relative_path_, browser_path_, cwd_ } from '../app/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__output_ } from '../server/index.js'
+import { server__output_ } from '../rebuildjs_server/index.js'
 export const [
 	browser__metafile_path$_,
 	browser__metafile_path_,

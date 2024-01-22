@@ -1,14 +1,8 @@
 /// <reference types="./index.d.ts" />
 import { compact } from 'ctx-core/array'
 import { be_lock_memosig_triple_ } from 'ctx-core/rmemo'
-import { browser__css_, browser__script_ } from '../browser/index.js'
-import { server__css_ } from '../server/index.js'
-export async function asset_path_(mod_promise) {
-	return (await mod_promise.then(mod=>mod.default)).replace(/^\.\//, '/')
-}
-export async function asset_path_a_(...mod_promise_a) {
-	return Promise.all(mod_promise_a.map(asset_path_))
-}
+import { browser__css_, browser__script_ } from '../rebuildjs_browser/index.js'
+import { server__css_ } from '../rebuildjs_server/index.js'
 export const [
 	assets$_,
 	assets_,

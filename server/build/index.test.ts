@@ -7,13 +7,13 @@ import { rm } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { browser__metafile0, browser__metafile1, server__metafile0, server__metafile1 } from '../_fixtures/metafiles.js'
+import { browser__metafile0, browser__metafile1, server__metafile0, server__metafile1 } from '../../_fixtures/metafiles.js'
 import { cwd_, cwd__set } from '../app/index.js'
-import { browser__metafile_, browser__metafile__set } from '../browser/index.js'
+import { browser__metafile_, browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
-import { server__metafile_, server__metafile__set } from '../server/index.js'
+import { server__metafile_, server__metafile__set } from '../rebuildjs_server/index.js'
 import {
-	browser__build,
+	rebuildjs_browser__build,
 	build_id$_,
 	build_id_,
 	build_id__refresh,
@@ -24,7 +24,7 @@ import {
 	rebuildjs__ready$_,
 	rebuildjs__ready_,
 	rebuildjs__ready__wait,
-	server__build
+	rebuildjs_server__build
 } from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()
@@ -117,16 +117,16 @@ test('rebuildjs__ready__wait|timeout', async ()=>{
 	}
 	equal(err!.message, 'Timeout 0ms')
 })
-test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
+test('rebuildjs_browser__build|rebuildjs_server__build|rebuildjs_plugin_|metafile', async ()=>{
 	const test_dir = dirname(new URL(import.meta.url).pathname)
-	const cwd = join(test_dir, '../_fixtures')
+	const cwd = join(test_dir, '../../_fixtures')
 	cwd__set(app_ctx, cwd)
 	await rm(join(cwd, 'dist'), { recursive: true, force: true })
 	let server__build_context:BuildContext|undefined = undefined
 	let browser__build_context:BuildContext|undefined = undefined
 	try {
-		server__build_context = await server__build()
-		browser__build_context = await browser__build()
+		server__build_context = await rebuildjs_server__build()
+		browser__build_context = await rebuildjs_browser__build()
 		await rebuildjs__ready__wait()
 		equal(await file_exists_(join(cwd, 'dist')), true)
 		equal(await file_exists_(join(cwd, 'dist', 'browser--dev')), true)
@@ -177,16 +177,16 @@ test('browser__build|server__build|rebuildjs_plugin_|metafile', async ()=>{
 		browser__build_context?.dispose?.()
 	}
 })
-test('browser__build|server__build|rebuildjs_plugin_|css', async ()=>{
+test('rebuildjs_browser__build|rebuildjs_server__build|rebuildjs_plugin_|css', async ()=>{
 	const test_dir = dirname(new URL(import.meta.url).pathname)
-	const cwd = join(test_dir, '../_fixtures')
+	const cwd = join(test_dir, '../../_fixtures')
 	cwd__set(app_ctx, cwd)
 	await rm(join(cwd, 'dist'), { recursive: true, force: true })
 	let server__build_context:BuildContext|undefined = undefined
 	let browser__build_context:BuildContext|undefined = undefined
 	try {
-		server__build_context = await server__build()
-		browser__build_context = await browser__build()
+		server__build_context = await rebuildjs_server__build()
+		browser__build_context = await rebuildjs_browser__build()
 		await rebuildjs__ready__wait()
 		const server__metafile = server__metafile_(app_ctx)!
 		const server__output__relative_path =

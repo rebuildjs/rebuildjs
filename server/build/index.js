@@ -35,7 +35,7 @@ import {
 	browser__metafile_path_,
 	browser__output_,
 	browser__output__relative_path_
-} from '../browser/index.js'
+} from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
 import { metafile__build_id_ } from '../metafile/index.js'
 import {
@@ -45,7 +45,7 @@ import {
 	server__metafile_path_,
 	server__output_,
 	server__output__relative_path_M_middleware_ctx_
-} from '../server/index.js'
+} from '../rebuildjs_server/index.js'
 export const [
 	build_id$_,
 	build_id_,
@@ -109,9 +109,9 @@ export const [
 		function cancel_() {
 			return (
 				build_id_(ctx) !== build_id
-			|| metafile__build_id_(ctx) !== metafile__build_id
-			|| server__metafile_path_(ctx) !== server__metafile_path
-			|| browser__metafile_path_(ctx) !== browser__metafile_path
+				|| metafile__build_id_(ctx) !== metafile__build_id
+				|| server__metafile_path_(ctx) !== server__metafile_path
+				|| browser__metafile_path_(ctx) !== browser__metafile_path
 			)
 		}
 	}))
@@ -153,7 +153,7 @@ export function rebuildjs__ready__wait(timeout) {
  * @returns {Promise<void>}
  * @private
  */
-export async function browser__build(config) {
+export async function rebuildjs_browser__build(config) {
 	const {
 		rebuildjs,
 		...esbuild__config
@@ -181,6 +181,37 @@ export async function browser__build(config) {
 		treeShaking: true,
 		minify: is_prod_(app_ctx),
 		sourcemap: 'external',
+		loader: {
+			'.aac': 'file',
+			'.apng': 'file',
+			'.avif': 'file',
+			'.eot': 'file',
+			'.flac': 'file',
+			'.gif': 'file',
+			'.ico': 'file',
+			'.jfif': 'file',
+			'.jpeg': 'file',
+			'.jpg': 'file',
+			'.mov': 'file',
+			'.mp3': 'file',
+			'.mp4': 'file',
+			'.ogg': 'file',
+			'.opus': 'file',
+			'.otf': 'file',
+			'.pdf': 'file',
+			'.pjp': 'file',
+			'.pjpeg': 'file',
+			'.png': 'file',
+			'.svg': 'file',
+			'.ttf': 'file',
+			'.wav': 'file',
+			'.webm': 'file',
+			'.webmanifest': 'file',
+			'.webp': 'file',
+			'.woff': 'file',
+			'.woff2': 'file',
+			'.txt': 'text',
+		},
 		...esbuild__config,
 		entryPoints,
 		format: 'esm',
@@ -204,7 +235,7 @@ export async function browser__build(config) {
  * @param {rebuildjs_build_config_T}[config]
  * @returns {Promise<void>}
  */
-export async function server__build(config) {
+export async function rebuildjs_server__build(config) {
 	const {
 		rebuildjs,
 		...esbuild__config

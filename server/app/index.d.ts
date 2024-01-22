@@ -1,5 +1,4 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T, lock_memosig_T, memo_T, sig_T } from 'ctx-core/rmemo'
-import { has_app_T } from '../ctx/index.js'
 export declare const port$_:ctx__be_T<sig_T<number>, 'app'>
 export declare const port_:ctx__get_T<number, 'app'>
 export declare const port__set:ctx__set_T<number, 'app'>

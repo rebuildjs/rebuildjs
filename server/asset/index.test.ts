@@ -2,29 +2,13 @@ import { type Ctx, ctx_, ns_ctx_ } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { browser__metafile0, server__metafile0 } from '../_fixtures/metafiles.js'
-import { browser__metafile__set } from '../browser/index.js'
+import { browser__metafile0, server__metafile0 } from '../../_fixtures/metafiles.js'
+import { browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { app_ctx, middleware_ctx__new, route_ctx__new } from '../ctx/index.js'
-import { server__metafile__set, server__output__relative_path__set } from '../server/index.js'
-import { asset_path_, asset_path_a_, assets$_, assets_, assets__assign, assets__new, assets__set } from './index.js'
+import { server__metafile__set, server__output__relative_path__set } from '../rebuildjs_server/index.js'
+import { assets$_, assets_, assets__assign, assets__new, assets__set } from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()
-})
-test('asset_path_', async ()=>{
-	equal(await asset_path_(mod_('./path.png')), '/path.png')
-})
-test('asset_path_a_', async ()=>{
-	equal(await asset_path_a_(
-		mod_('./path0.png'),
-		mod_('./path1.png'),
-		mod_('./path2.png'),
-		mod_('./path3.png'),
-	), [
-		'/path0.png',
-		'/path1.png',
-		'/path2.png',
-		'/path3.png',
-	])
 })
 test('assets', ()=>{
 	const route_ctx = route_ctx__new(middleware_ctx__new())
@@ -136,6 +120,3 @@ test('assets__new', async ()=>{
 	})
 })
 test.run()
-async function mod_(out_path:string) {
-	return { default: out_path }
-}
