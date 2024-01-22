@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.44.2
+
+### Patch Changes
+
+- ./server export: fix: export ./any
+
 ## 0.44.1
 
 ### Patch Changes
