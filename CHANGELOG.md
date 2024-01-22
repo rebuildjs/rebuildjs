@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.44.1
+
+### Patch Changes
+
+- ./file_types: declarations only: not a module
+
 ## 0.44.0
 
 ### Minor Changes
