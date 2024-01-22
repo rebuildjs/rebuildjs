@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.44.0
+
+### Minor Changes
+
+- import from 'rebuildjs': alias to import from 'rebuildjs/any'
+
+### Patch Changes
+
+- ./server: fix: export error
+
 ## 0.43.0
 
 ### Minor Changes
