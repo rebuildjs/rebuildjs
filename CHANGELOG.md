@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.46.0
+
+### Minor Changes
+
+- ./file_types→./types
+
 ## 0.45.0
 
 ### Minor Changes

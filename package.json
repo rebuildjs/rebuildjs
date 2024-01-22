@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.45.0",
+	"version": "0.46.0",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -29,7 +29,7 @@
 		"_fixtures",
 		"any",
 		"browser",
-		"file_types",
+		"types",
 		"server"
 	],
 	"exports": {
@@ -48,8 +48,8 @@
 			"default": "./browser/index.js",
 			"module": "./browser/index.js"
 		},
-		"./file_types": {
-			"types": "./file_types/index.d.ts"
+		"./types": {
+			"types": "./types/index.d.ts"
 		},
 		"./server": {
 			"types": "./server/index.d.ts",
