@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.47.0
+
+### Minor Changes
+
+- - run*or_val*
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.28.0
+
 ## 0.46.6
 
 ### Patch Changes
