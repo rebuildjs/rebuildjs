@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.47.1
+
+### Patch Changes
+
+- esmock: ^2.6.2 -> ^2.6.3
+- Updated dependencies
+  - ctx-core@5.28.1
+
 ## 0.47.0
 
 ### Minor Changes
