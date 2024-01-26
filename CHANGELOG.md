@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.49.1
+
+### Patch Changes
+
+- be\_: argument type: ...config→...config_arg_a
+- Updated dependencies
+  - ctx-core@5.31.1
+
 ## 0.49.0
 
 ### Minor Changes
