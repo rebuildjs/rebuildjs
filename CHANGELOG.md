@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.49.0
+
+### Minor Changes
+
+- rmemo\_\_unset: delete rmemo.val
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.31.0
+
 ## 0.48.1
 
 ### Patch Changes
