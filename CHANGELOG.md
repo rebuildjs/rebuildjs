@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.48.0
+
+### Minor Changes
+
+- - memo\_\_bind_T<A extends unknown[], R, E = unknown>
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.30.0
+
 ## 0.47.3
 
 ### Patch Changes
