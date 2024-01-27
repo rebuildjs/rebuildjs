@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.50.1
+
+### Patch Changes
+
+- esbuild: ^0.19.12 -> ^0.20.0
+- Updated dependencies
+  - ctx-core@5.31.2
+
 ## 0.50.0
 
 ### Minor Changes
