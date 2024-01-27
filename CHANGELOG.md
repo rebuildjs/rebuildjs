@@ -1,5 +1,18 @@
 # rebuildjs
 
+## 0.50.0
+
+### Minor Changes
+
+- minor:
+
+      request_ctx__ensure: fix: fresh request_ctx for each request
+      ns:'route'→'request'
+      route_ctx→request_ctx
+      route_ctx__new→request_ctx__new
+      route_ctx__ensure→request_ctx__ensure
+      has_route_T→has_request_T
+
 ## 0.49.1
 
 ### Patch Changes
@@ -416,7 +429,7 @@
 - minor:
 
       middleware_ctx_→middleware_ctx__new
-      route_ctx_→route_ctx__new
+      request_ctx_→request_ctx__new
 
 ## 0.36.3
 
@@ -972,7 +985,7 @@
 
 ### Minor Changes
 
-- route_ctx,route_ctx_T: ns: + ''
+- request_ctx,request_ctx_T: ns: + ''
 
 ## 0.19.8
 
@@ -1566,7 +1579,7 @@
       + middleware_MapCtx_T
       + middleware_ctx_T
       + route_MapCtx_T
-      + route_ctx_T
+      + request_ctx_T
       + middleware*
       + server**metafile:
         + server**metafile$_

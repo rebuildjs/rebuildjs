@@ -2,7 +2,7 @@ import { be_, type Ctx } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
-import { app_ctx, middleware_ctx__new, route_ctx__new } from './index.js'
+import { app_ctx, middleware_ctx__new, request_ctx__new } from './index.js'
 test.after.each(()=>{
 	app_ctx.s.app.clear()
 })
@@ -32,28 +32,28 @@ test('middleware_ctx|ns', ()=>{
 	type test_middleware_ctx = Expect<Equal<typeof middleware_ctx, Ctx<'app'|'middleware'>>>
 	equal({} as test_middleware_ctx, {})
 })
-test('route_ctx__new', ()=>{
-	const route_ctx = route_ctx__new(middleware_ctx__new())
+test('request_ctx__new', ()=>{
+	const request_ctx = request_ctx__new(middleware_ctx__new())
 	const ns_blank_ = be_(()=>
 		'',
 	{ ns: '' })
 	const ns_route_ = be_(()=>
-		'route',
-	{ ns: 'route' })
+		'request',
+	{ ns: 'request' })
 	const ns_middleware_ = be_(()=>
 		'middleware',
 	{ ns: 'middleware' })
 	const ns_app_ = be_(()=>
 		'app',
 	{ ns: 'app' })
-	equal(ns_blank_(route_ctx), '')
-	equal(ns_route_(route_ctx), 'route')
-	equal(ns_middleware_(route_ctx), 'middleware')
-	equal(ns_app_(route_ctx), 'app')
+	equal(ns_blank_(request_ctx), '')
+	equal(ns_route_(request_ctx), 'request')
+	equal(ns_middleware_(request_ctx), 'middleware')
+	equal(ns_app_(request_ctx), 'app')
 })
-test('route_ctx|ns', ()=>{
-	const route_ctx = route_ctx__new(middleware_ctx__new())
-	type test_route_ctx = Expect<Equal<typeof route_ctx, Ctx<''|'app'|'middleware'|'route'>>>
-	equal({} as test_route_ctx, {})
+test('request_ctx|ns', ()=>{
+	const request_ctx = request_ctx__new(middleware_ctx__new())
+	type test_request_ctx = Expect<Equal<typeof request_ctx, Ctx<''|'app'|'middleware'|'request'>>>
+	equal({} as test_request_ctx, {})
 })
 test.run()

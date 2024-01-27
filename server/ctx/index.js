@@ -17,9 +17,9 @@ export function middleware_ctx__new() {
 }
 /**
  * @param {middleware_ctx_T}middleware_ctx
- * @returns {route_ctx_T}
+ * @returns {request_ctx_T}
  * @private
  */
-export function route_ctx__new(middleware_ctx) {
-	return ns_ctx_('', 'route', middleware_ctx)
+export function request_ctx__new(middleware_ctx) {
+	return ns_ctx_('', 'request', middleware_ctx)
 }

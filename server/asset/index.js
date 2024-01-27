@@ -12,9 +12,9 @@ export const [
 		css_a: compact([server__css_(ctx), browser__css_(ctx)]),
 		script_a: compact([browser__script_(ctx)]),
 	}),
-{ ns: 'route', id: 'assets' })
-export function assets__assign(route_ctx, ..._assets_a) {
-	assets__set(route_ctx, assets__new(assets_(route_ctx), ..._assets_a))
+{ ns: 'request', id: 'assets' })
+export function assets__assign(request_ctx, ..._assets_a) {
+	assets__set(request_ctx, assets__new(assets_(request_ctx), ..._assets_a))
 }
 /**
  * @param {assets_T[]}_assets_a
