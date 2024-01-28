@@ -51,7 +51,6 @@ test('server__metafile_path', ()=>{
 	throws(()=>server__metafile_path_(ctx_()))
 })
 test('server__metafile', async ()=>{
-	let file_exists__waitfor__path:string|undefined = undefined
 	let readFile_path:string|undefined = undefined
 	let _server__metafile$_:typeof server__metafile$_
 	let _server__metafile_:typeof server__metafile_
@@ -63,16 +62,8 @@ test('server__metafile', async ()=>{
 			server__metafile__set: _server__metafile__set,
 		} = await esmock('./index.js', {}, {
 			'ctx-core/rmemo': rmemo,
-			// TODO: remove with https://github.com/iambumblehead/esmock/issues/281
-			'ctx-core/fs': {
-				file_exists__waitfor: async (path:string)=>{
-					file_exists__waitfor__path = path
-					return true
-				}
-			},
 			'node:fs/promises': {
-				// TODO: https://github.com/iambumblehead/esmock/issues/281
-				// access: async ()=>{},
+				access: async ()=>{},
 				readFile: async (path:string)=>{
 					readFile_path = path
 					switch (path) {
@@ -98,7 +89,6 @@ test('server__metafile', async ()=>{
 		100)
 	equal(_server__metafile$_(app_ctx)._, server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
-	equal(file_exists__waitfor__path, '/cwd/dist0/server/metafile.json')
 	equal(readFile_path, '/cwd/dist0/server/metafile.json')
 	equal(_server__metafile$_(app_ctx)._, server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
@@ -109,7 +99,6 @@ test('server__metafile', async ()=>{
 		100)
 	equal(_server__metafile$_(app_ctx)._, server__metafile1)
 	equal(_server__metafile_(app_ctx), server__metafile1)
-	equal(file_exists__waitfor__path, '/cwd/dist1/server/metafile.json')
 	equal(readFile_path, '/cwd/dist1/server/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
 	await rmemo__wait(
@@ -118,7 +107,6 @@ test('server__metafile', async ()=>{
 		100)
 	equal(_server__metafile$_(app_ctx)._, server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
-	equal(file_exists__waitfor__path, '/cwd/dist0/server/metafile.json')
 	equal(readFile_path, '/cwd/dist0/server/metafile.json')
 	_server__metafile__set(app_ctx, server__metafile2)
 	equal(_server__metafile$_(app_ctx)._, server__metafile2)

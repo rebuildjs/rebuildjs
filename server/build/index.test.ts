@@ -7,7 +7,12 @@ import { rm } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
-import { browser__metafile0, browser__metafile1, server__metafile0, server__metafile1 } from '../../_fixtures/metafiles.js'
+import {
+	browser__metafile0,
+	browser__metafile1,
+	server__metafile0,
+	server__metafile1
+} from '../../_fixtures/metafiles.js'
 import { cwd_, cwd__set } from '../app/index.js'
 import { browser__metafile_, browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
@@ -214,7 +219,8 @@ test('rebuildjs_browser__build|rebuildjs_server__build|rebuildjs_plugin_|css', a
 			true)
 		equal(
 			await readFile(join(cwd_(app_ctx), browser__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')
-			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle + '.map')).then(buf=>buf + ''),
+			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle + '.map')).then(
+				buf=>buf + ''),
 			true)
 		equal(
 			await readFile(join(cwd_(app_ctx), server__entryPoint__output.cssBundle!)).then(buf=>buf + '')
@@ -222,7 +228,8 @@ test('rebuildjs_browser__build|rebuildjs_server__build|rebuildjs_plugin_|css', a
 			true)
 		equal(
 			await readFile(join(cwd_(app_ctx), browser__entryPoint__output.cssBundle + '.map')).then(buf=>buf + '')
-			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle + '.map')).then(buf=>buf + ''),
+			=== await readFile(join(cwd_(app_ctx), browser__entryPoint__output.esbuild_cssBundle + '.map')).then(
+				buf=>buf + ''),
 			true)
 	} finally {
 		await rebuildjs__ready__wait()

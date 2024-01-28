@@ -5,9 +5,9 @@ import {
 	Cancel,
 	memo_,
 	nullish__none_,
+	promise__cancel__throw,
 	sleep,
-	tup,
-	waitfor
+	tup
 } from 'ctx-core/rmemo'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
@@ -32,39 +32,29 @@ export const [
 		memo_(browser__metafile__waitfor_promise$=>{
 			browser__metafile__waitfor_promise$.val?.cancel?.()
 			if (browser__metafile$.lock) return
-			return nullish__none_([browser__metafile_path_(ctx)],
+			nullish__none_([browser__metafile_path_(ctx)],
 				browser__metafile_path=>{
-					const browser__metafile__waitfor_promise =
-						file_exists__waitfor(
-							browser__metafile_path,
-							1000,
-							()=>cmd(sleep(0)))
-					cmd(browser__metafile__waitfor_promise)
-						.then(async success=>{
-							if (success) {
-								browser__metafile$._ = await cmd(
-									waitfor(async ()=>{
-										const buf = await cmd(readFile(browser__metafile_path))
-										const json = buf + ''
-										try {
-											return JSON.parse(json)
-										} catch {
-											return undefined
-										}
-									}, 1000))
+					browser__metafile__waitfor_promise$._ =
+						file_exists__waitfor(async ()=>{
+							const buf = await cmd(
+								readFile(browser__metafile_path))
+							const json = buf + ''
+							try {
+								return browser__metafile$._ = JSON.parse(json)
+							} catch {
+								return undefined
 							}
-						}).catch(err=>{
+						},
+						1000,
+						()=>cmd(sleep(0))
+						).catch(err=>{
 							if (err instanceof Cancel) return
 							throw err
 						})
-					return browser__metafile__waitfor_promise
 					async function cmd(promise) {
-						if (cancel_()) throw new Cancel()
+						if (cancel_()) promise__cancel__throw(promise)
 						const rv = await promise
-						if (cancel_()) {
-							promise.cancel?.()
-							throw new Cancel()
-						}
+						if (cancel_()) promise__cancel__throw(promise)
 						return rv
 					}
 					function cancel_() {

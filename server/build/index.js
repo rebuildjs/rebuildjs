@@ -1,6 +1,6 @@
 /// <reference types="../metafile_l0/index.d.ts" />
-/// <reference types="./index.d.ts" />
 import { file_exists__waitfor } from 'ctx-core/fs'
+/// <reference types="./index.d.ts" />
 import {
 	be,
 	be_memo_pair_,
@@ -9,10 +9,10 @@ import {
 	cancel__period_,
 	memo_,
 	nullish__none_,
-	off,
+	off, promise__cancel,
+	promise__cancel__throw,
 	rmemo__wait,
-	run,
-	waitfor
+	run
 } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
 import { context } from 'esbuild'
@@ -28,6 +28,8 @@ import {
 	server__relative_path_,
 	server_path_
 } from '../app/index.js'
+import { app_ctx } from '../ctx/index.js'
+import { metafile__build_id_ } from '../metafile/index.js'
 import {
 	browser__metafile_,
 	browser__metafile__persist,
@@ -36,8 +38,6 @@ import {
 	browser__output_,
 	browser__output__relative_path_
 } from '../rebuildjs_browser/index.js'
-import { app_ctx } from '../ctx/index.js'
-import { metafile__build_id_ } from '../metafile/index.js'
 import {
 	server__metafile_,
 	server__metafile__persist,
@@ -70,26 +70,12 @@ export const [
 		const metafile__build_id = metafile__build_id_(ctx)
 		const server__metafile_path = server__metafile_path_(ctx)
 		const browser__metafile_path = browser__metafile_path_(ctx)
+		const cancel__period = cancel__period_(0, cancel_)
 		if (metafile__build_id) {
-			const cancel__period = cancel__period_(0, cancel_)
 			run(async ()=>{
 				try {
-					await cmd(
-						file_exists__waitfor(server__metafile_path, 1000, cancel__period))
-					await cmd(
-						waitfor(()=>
-							readFile(server__metafile_path).then(buf=>
-								JSON.parse('' + buf)?.build_id === build_id),
-						1000,
-						cancel__period))
-					await cmd(
-						file_exists__waitfor(browser__metafile_path, 1000, cancel__period))
-					await cmd(
-						waitfor(()=>
-							readFile(browser__metafile_path).then(buf=>
-								JSON.parse('' + buf)?.build_id === build_id),
-						1000,
-						cancel__period))
+					await build_id__match__waitfor(server__metafile_path)
+					await build_id__match__waitfor(browser__metafile_path)
 					persist__metafile__build_id$._ = build_id
 				} catch (err) {
 					if (err instanceof Cancel) return
@@ -97,13 +83,23 @@ export const [
 				}
 			})
 		}
+		function build_id__match__waitfor(metafile_path) {
+			return file_exists__waitfor(async ()=>{
+				const buf = await cmd(readFile(metafile_path))
+				const json = buf + ''
+				try {
+					return JSON.parse(json).build_id === build_id
+				} catch {
+					return undefined
+				}
+			},
+			1000,
+			cancel__period)
+		}
 		async function cmd(promise) {
-			if (cancel_()) throw new Cancel
+			if (cancel_()) promise__cancel__throw(promise)
 			const rv = await promise
-			if (cancel_()) {
-				promise.cancel?.()
-				throw new Cancel
-			}
+			if (cancel_()) promise__cancel__throw(promise)
 			return rv
 		}
 		function cancel_() {
@@ -196,6 +192,10 @@ export async function rebuildjs_browser__build(config) {
 		.withFullPaths()
 		.crawl(app_path_(app_ctx))
 		.withPromise()
+		.catch(err=>{
+			console.error('fdir|browser|catch', { err })
+			throw err
+		})
 	/** @type {string[]} */
 	const entryPoints = esbuild__config?.entryPoints ?? []
 	for (const path of path_a) {
@@ -247,6 +247,10 @@ export async function rebuildjs_server__build(config) {
 		.withFullPaths()
 		.crawl(app_path_(app_ctx))
 		.withPromise()
+		.catch(err=>{
+			console.error('fdir|server|catch', { err })
+			throw err
+		})
 	/** @type {string[]} */
 	const entryPoints = esbuild__config?.entryPoints ?? []
 	for (const path of path_a) {
@@ -381,14 +385,18 @@ export function rebuildjs_plugin_() {
 													if (cssBundle && esbuild_cssBundle) {
 														const cssBundle_path = join(cwd_(ctx), cssBundle)
 														const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
-														await cmd(
-															file_exists__waitfor(cssBundle_path))
-														await cmd(
-															cp(cssBundle_path, esbuild_cssBundle_path))
-														await cmd(
-															file_exists__waitfor(cssBundle_path + '.map'))
-														await cmd(
-															cp(cssBundle_path + '.map', esbuild_cssBundle_path + '.map'))
+														await file_exists__waitfor(async ()=>{
+															await cmd(
+																cp(cssBundle_path, esbuild_cssBundle_path))
+															return true
+														})
+														await file_exists__waitfor(async ()=>{
+															await cmd(
+																cp(
+																	cssBundle_path + '.map',
+																	esbuild_cssBundle_path + '.map'))
+															return true
+														})
 													}
 											}
 										}
@@ -407,25 +415,26 @@ export function rebuildjs_plugin_() {
 										const browser_asset_path = join(
 											browser_path,
 											relative(server__relative_path, output__relative_path))
-										await cmd(
-											rm(browser_asset_path, { force: true }))
-										await cmd(
-											file_exists__waitfor(server_asset_path))
-										await cmd(
-											link(server_asset_path, browser_asset_path))
+										await file_exists__waitfor(async ()=>{
+											await cmd(
+												rm(browser_asset_path, { force: true }))
+											await cmd(
+												link(server_asset_path, browser_asset_path))
+											return true
+										})
 									}
 								}
 								async function cmd(promise) {
-									if (cancel_()) throw new Cancel()
+									if (cancel_()) promise__cancel__throw(promise)
 									promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
 										if (cancel_()) {
-											promise.cancel?.()
+											promise__cancel(promise)
 											off(rebuildjs_cancel$)
 										}
 										return rebuildjs_cancel$
 									}))
 									const ret = await promise
-									if (cancel_()) throw new Cancel()
+									if (cancel_()) promise__cancel__throw(promise)
 									return ret
 								}
 								function cancel_() {
