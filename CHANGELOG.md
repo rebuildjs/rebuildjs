@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.52.2
+
+### Patch Changes
+
+- elysia: ^0.8.14 -> ^0.8.15
+- @typescript-eslint/eslint-plugin: ^6.19.1 -> ^6.20.0
+- @typescript-eslint/parser: ^6.19.1 -> ^6.20.0
+
 ## 0.52.1
 
 ### Patch Changes
