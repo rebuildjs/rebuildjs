@@ -13,7 +13,11 @@ import {
 } from '../../_fixtures/metafiles.js'
 import { cwd__set, dist_path__set, is_prod__set } from '../app/index.js'
 import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
-import { server__metafile__set, server__output_, server__output__relative_path__set } from '../rebuildjs_server/index.js'
+import {
+	server__metafile__set,
+	server__output_,
+	server__output__relative_path__set
+} from '../rebuildjs_server/index.js'
 import {
 	browser__css$_,
 	browser__css_,

@@ -5,7 +5,8 @@ import {
 	be_sig_triple_,
 	Cancel,
 	memo_,
-	nullish__none_, promise__cancel__throw,
+	nullish__none_,
+	promise__cancel__throw,
 	sleep,
 	tup
 } from 'ctx-core/rmemo'

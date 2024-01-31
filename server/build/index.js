@@ -9,7 +9,8 @@ import {
 	cancel__period_,
 	memo_,
 	nullish__none_,
-	off, promise__cancel,
+	off,
+	promise__cancel,
 	promise__cancel__throw,
 	rmemo__wait,
 	run

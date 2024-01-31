@@ -2,8 +2,7 @@ import { ctx_ } from 'ctx-core/be'
 import { file_exists_ } from 'ctx-core/fs'
 import { sleep } from 'ctx-core/function'
 import { BuildContext } from 'esbuild'
-import { readFile } from 'node:fs/promises'
-import { rm } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
@@ -14,11 +13,10 @@ import {
 	server__metafile1
 } from '../../_fixtures/metafiles.js'
 import { cwd_, cwd__set } from '../app/index.js'
-import { browser__metafile_, browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { app_ctx } from '../ctx/index.js'
+import { browser__metafile_, browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { server__metafile_, server__metafile__set } from '../rebuildjs_server/index.js'
 import {
-	rebuildjs_browser__build,
 	build_id$_,
 	build_id_,
 	build_id__refresh,
@@ -29,6 +27,7 @@ import {
 	rebuildjs__ready$_,
 	rebuildjs__ready_,
 	rebuildjs__ready__wait,
+	rebuildjs_browser__build,
 	rebuildjs_server__build
 } from './index.js'
 test.after.each(()=>{
