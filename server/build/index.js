@@ -127,13 +127,46 @@ export const [
 ] = be_sig_triple_(()=>undefined,
 	{ id: 'rebuildjs_plugin__build_id', ns: 'app' })
 export const [
-	rebuildjs__ready$_,
-	rebuildjs__ready_,
+	rebuildjs_core__ready$_,
+	rebuildjs_core__ready_,
 ] = be_memo_pair_(ctx=>
 	!!(
 		build_id_(ctx)
 			&& build_id_(ctx) === metafile__build_id_(ctx)
 			&& build_id_(ctx) === rebuildjs__build_id_(ctx)),
+{ id: 'rebuildjs_core__ready', ns: 'app' })
+/**
+ * @param {number}[timeout]
+ * @returns {Promise<void>}}
+ */
+export function rebuildjs_core__ready__wait(timeout) {
+	return rmemo__wait(
+		rebuildjs_core__ready$_(app_ctx),
+		ready=>ready,
+		timeout ?? 5000)
+}
+export const [
+	rebuildjs__ready__add__ready__a1$_,
+	rebuildjs__ready__add__ready__a1_,
+	rebuildjs__ready__add__ready__a1__set,
+] = be_sig_triple_(
+	()=>[],
+	{ id: 'Uc', ns: 'app' })
+export function rebuildjs__ready__add(ready_) {
+	let rebuildjs__ready__add_a1 = rebuildjs__ready__add__ready__a1_(app_ctx)
+	if (!rebuildjs__ready__add_a1.includes(ready_)) {
+		rebuildjs__ready__add_a1 = [...rebuildjs__ready__add_a1, ready_]
+		rebuildjs__ready__add__ready__a1__set(app_ctx, rebuildjs__ready__add_a1)
+	}
+	return rebuildjs__ready__add_a1
+}
+export const [
+	rebuildjs__ready$_,
+	rebuildjs__ready_,
+] = be_memo_pair_(ctx=>
+	!!(
+		rebuildjs_core__ready_(ctx)
+	&& rebuildjs__ready__add__ready__a1_(ctx).every(ready_=>ready_(ctx))),
 { id: 'rebuildjs__ready', ns: 'app' })
 /**
  * @param {number}[timeout]

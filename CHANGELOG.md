@@ -1,5 +1,22 @@
 # rebuildjs
 
+## 0.54.0
+
+### Minor Changes
+
+- minor: rebuildjs**ready**wait: enable rebuildjs plugins to complete by using rebuildjs**ready**add:
+
+      + rebuildjs_core__ready:
+      	+ rebuildjs_core__ready$_
+      	+ rebuildjs_core__ready_
+      + rebuildjs_core__ready__wait
+      + rebuildjs__ready__add__ready__a1:
+      	+ rebuildjs__ready__add__ready__a1$_
+      	+ rebuildjs__ready__add__ready__a1_
+      	+ rebuildjs__ready__add__ready__a1__set
+      + rebuildjs__ready__add
+      + rebuildjs__ready__add__ready__T
+
 ## 0.53.0
 
 ### Minor Changes

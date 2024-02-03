@@ -1,5 +1,6 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T, nullish, rmemo__wait_ret_T, sig_T } from 'ctx-core/rmemo'
 import type { BuildContext, BuildOptions, Plugin } from 'esbuild'
+import type { has_app_T } from '../ctx/index.js'
 import type { rebuildjs_metafile_T } from '../metafile_l0/index.js'
 export declare const build_id$_:ctx__be_T<sig_T<string|undefined>, 'app'>
 export declare const build_id_:ctx__get_T<string|undefined, 'app'>
@@ -12,8 +13,15 @@ export declare function build_id__refresh():string
 export declare const rebuildjs__build_id$_:ctx__be_T<sig_T<string>, 'app'>
 export declare const rebuildjs__build_id_:ctx__get_T<string, 'app'>
 export declare const rebuildjs__build_id__set:ctx__set_T<string, 'app'>
+export declare const rebuildjs_core__ready$_:ctx__be_T<sig_T<boolean>, 'app'>
+export declare const rebuildjs_core__ready_:ctx__get_T<boolean, 'app'>
+export declare function rebuildjs_core__ready__wait(timeout?:number):rmemo__wait_ret_T<unknown>
+export declare const rebuildjs__ready__add__ready__a1$_:ctx__be_T<sig_T<rebuildjs__ready__add__ready__T[]>, 'app'>
+export declare const rebuildjs__ready__add__ready__a1_:ctx__get_T<rebuildjs__ready__add__ready__T[], 'app'>
+export declare const rebuildjs__ready__add__ready__a1__set:ctx__set_T<rebuildjs__ready__add__ready__T[], 'app'>
 export declare const rebuildjs__ready$_:ctx__be_T<sig_T<boolean>, 'app'>
 export declare const rebuildjs__ready_:ctx__get_T<boolean, 'app'>
+export declare function rebuildjs__ready__add(ready_:rebuildjs__ready__add__ready__T):rebuildjs__ready__add__ready__T[]
 export declare function rebuildjs__ready__wait(timeout?:number):rmemo__wait_ret_T<unknown>
 export declare function rebuildjs_browser__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
 export declare function rebuildjs_server__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
@@ -33,3 +41,4 @@ export type rebuildjs_build_config_T =
 export type rebuildjs_plugin_config_T = {
 	watch?:boolean
 }
+export type rebuildjs__ready__add__ready__T = (ctx:has_app_T)=>boolean

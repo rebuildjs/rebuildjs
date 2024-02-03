@@ -1,6 +1,7 @@
 import { ctx_ } from 'ctx-core/be'
 import { file_exists_ } from 'ctx-core/fs'
 import { sleep } from 'ctx-core/function'
+import { ns_be_sig_triple_ } from 'ctx-core/rmemo'
 import { BuildContext } from 'esbuild'
 import { readFile, rm } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
@@ -13,7 +14,7 @@ import {
 	server__metafile1
 } from '../../_fixtures/metafiles.js'
 import { cwd_, cwd__set } from '../app/index.js'
-import { app_ctx } from '../ctx/index.js'
+import { app_ctx, has_app_T } from '../ctx/index.js'
 import { browser__metafile_, browser__metafile__set } from '../rebuildjs_browser/index.js'
 import { server__metafile_, server__metafile__set } from '../rebuildjs_server/index.js'
 import {
@@ -26,8 +27,15 @@ import {
 	rebuildjs__build_id__set,
 	rebuildjs__ready$_,
 	rebuildjs__ready_,
+	rebuildjs__ready__add,
+	rebuildjs__ready__add__ready__a1$_,
+	rebuildjs__ready__add__ready__a1_,
+	rebuildjs__ready__add__ready__a1__set,
 	rebuildjs__ready__wait,
 	rebuildjs_browser__build,
+	rebuildjs_core__ready$_,
+	rebuildjs_core__ready_,
+	rebuildjs_core__ready__wait,
 	rebuildjs_server__build
 } from './index.js'
 test.after.each(()=>{
@@ -68,7 +76,52 @@ test('rebuildjs__build_id', ()=>{
 	// @ts-expect-error TS2345
 	throws(()=>rebuildjs__build_id_(ctx_()))
 })
+test('rebuildjs_core__ready', async ()=>{
+	equal(rebuildjs_core__ready$_(app_ctx)(), false)
+	equal(rebuildjs_core__ready_(app_ctx), false)
+	const build_id = server__metafile0.build_id!
+	build_id__set(app_ctx, build_id)
+	equal(rebuildjs_core__ready$_(app_ctx)(), false)
+	equal(rebuildjs_core__ready_(app_ctx), false)
+	server__metafile__set(app_ctx, server__metafile0)
+	equal(rebuildjs_core__ready$_(app_ctx)(), false)
+	equal(rebuildjs_core__ready_(app_ctx), false)
+	browser__metafile__set(app_ctx, browser__metafile0)
+	equal(rebuildjs_core__ready$_(app_ctx)(), false)
+	equal(rebuildjs_core__ready_(app_ctx), false)
+	rebuildjs__build_id__set(app_ctx, build_id)
+	equal(rebuildjs_core__ready$_(app_ctx)(), true)
+	equal(rebuildjs_core__ready_(app_ctx), true)
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs_core__ready$_(ctx_()))
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs_core__ready_(ctx_()))
+})
+test('rebuildjs__ready__add__ready__a1,rebuildjs__ready__add', async ()=>{
+	equal(rebuildjs__ready__add__ready__a1$_(app_ctx)(), [])
+	equal(rebuildjs__ready__add__ready__a1_(app_ctx), [])
+	const ready1_ = (ctx:has_app_T)=>!!ctx
+	rebuildjs__ready__add__ready__a1__set(app_ctx, [ready1_])
+	equal(rebuildjs__ready__add__ready__a1$_(app_ctx)(), [ready1_])
+	equal(rebuildjs__ready__add__ready__a1_(app_ctx), [ready1_])
+	const ready2_ = (ctx:has_app_T)=>!!ctx
+	rebuildjs__ready__add(ready2_)
+	equal(rebuildjs__ready__add__ready__a1$_(app_ctx)(), [ready1_, ready2_])
+	equal(rebuildjs__ready__add__ready__a1_(app_ctx), [ready1_, ready2_])
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__ready__add__ready__a1$_(ctx_()))
+	// @ts-expect-error TS2345
+	throws(()=>rebuildjs__ready__add__ready__a1_(ctx_()))
+})
 test('rebuildjs__ready', async ()=>{
+	const [
+		,
+		plugin__ready_,
+		plugin__ready__set
+	] = ns_be_sig_triple_(
+		'app',
+		()=>false)
+	rebuildjs__ready__add(plugin__ready_)
 	equal(rebuildjs__ready$_(app_ctx)(), false)
 	equal(rebuildjs__ready_(app_ctx), false)
 	const build_id = server__metafile0.build_id!
@@ -82,6 +135,9 @@ test('rebuildjs__ready', async ()=>{
 	equal(rebuildjs__ready$_(app_ctx)(), false)
 	equal(rebuildjs__ready_(app_ctx), false)
 	rebuildjs__build_id__set(app_ctx, build_id)
+	equal(rebuildjs__ready$_(app_ctx)(), false)
+	equal(rebuildjs__ready_(app_ctx), false)
+	plugin__ready__set(app_ctx, true)
 	equal(rebuildjs__ready$_(app_ctx)(), true)
 	equal(rebuildjs__ready_(app_ctx), true)
 	// @ts-expect-error TS2345
@@ -89,8 +145,50 @@ test('rebuildjs__ready', async ()=>{
 	// @ts-expect-error TS2345
 	throws(()=>rebuildjs__ready_(ctx_()))
 })
+test('rebuildjs_core__ready__wait', async ()=>{
+	let done = false
+	const [
+		,
+		plugin__ready_,
+		plugin__ready__set
+	] = ns_be_sig_triple_(
+		'app',
+		()=>false)
+	rebuildjs__ready__add(plugin__ready_)
+	const promise = rebuildjs_core__ready__wait()
+	promise.then(()=>done = true)
+	try {
+		equal(done, false)
+		const build_id = server__metafile1.build_id!
+		build_id__set(app_ctx, build_id)
+		await sleep(0)
+		equal(done, false)
+		server__metafile__set(app_ctx, server__metafile1)
+		await sleep(0)
+		equal(done, false)
+		browser__metafile__set(app_ctx, browser__metafile1)
+		await sleep(0)
+		equal(done, false)
+		rebuildjs__build_id__set(app_ctx, build_id)
+		await sleep(0)
+		equal(done, true)
+		plugin__ready__set(app_ctx, true)
+		await sleep(0)
+		equal(done, true)
+	} finally {
+		await promise.cancel()
+	}
+})
 test('rebuildjs__ready__wait', async ()=>{
 	let done = false
+	const [
+		,
+		plugin__ready_,
+		plugin__ready__set
+	] = ns_be_sig_triple_(
+		'app',
+		()=>false)
+	rebuildjs__ready__add(plugin__ready_)
 	const promise = rebuildjs__ready__wait()
 	promise.then(()=>done = true)
 	try {
@@ -106,6 +204,9 @@ test('rebuildjs__ready__wait', async ()=>{
 		await sleep(0)
 		equal(done, false)
 		rebuildjs__build_id__set(app_ctx, build_id)
+		await sleep(0)
+		equal(done, false)
+		plugin__ready__set(app_ctx, true)
 		await sleep(0)
 		equal(done, true)
 	} finally {
