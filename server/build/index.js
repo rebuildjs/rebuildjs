@@ -442,13 +442,15 @@ export function rebuildjs_plugin_() {
 								}
 								async function rebuildjs__assets__link() {
 									const outputs = server__metafile.outputs ?? {}
+									const promise_a1 = []
 									for (let output__relative_path in outputs) {
-										switch (extname(output__relative_path)) {
-											case '.js':
-											case '.mjs':
-											case '.map':
-												continue
-										}
+										const _basename = basename(output__relative_path)
+										if (
+											_basename.endsWith('.js')
+											|| _basename.endsWith('.mjs')
+											|| _basename.endsWith('.js.map')
+											|| _basename.endsWith('.mjs.map')
+										) continue
 										const server_asset_path = join(cwd, output__relative_path)
 										const browser_asset_path = join(
 											browser_path,
@@ -460,7 +462,9 @@ export function rebuildjs_plugin_() {
 												link(server_asset_path, browser_asset_path))
 											return true
 										})
+										promise_a1.push(file_exists__waitfor(browser_asset_path))
 									}
+									await cmd(Promise.all(promise_a1))
 								}
 								async function cmd(promise) {
 									if (cancel_()) promise__cancel__throw(promise)

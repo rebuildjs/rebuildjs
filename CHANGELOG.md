@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.54.1
+
+### Patch Changes
+
+- rebuildjs*plugin*: rebuildjs*plugin\_\_postprocess$*: rebuildjs**assets**link:
+
+      link asset *.map files into browser directory:
+      	not *.js.map & *.mjs.map
+      wait for linked files to exist on the file system
+
 ## 0.54.0
 
 ### Minor Changes
