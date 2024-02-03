@@ -1,5 +1,35 @@
 # rebuildjs
 
+## 0.53.0
+
+### Minor Changes
+
+- minor:
+
+      ./server:
+      	+ cssBundle__annotate
+      	+ server__metafile__update
+      	+ browser__metafile__update
+      	rebuildjs_plugin_: support plugins changing cssBundle: e.g. @rebuildjs/tailwindcss:
+      		don't overwrite esbuild_cssBundle.css,esbuild_cssBundle.css.map when the files already exist
+
+- minor:
+
+      state is stored in globalThis.rmemo: fix: issue when multiple instances of rmemo is in the codebase: bundles
+      rmemo__wait: fix: Garbage Collection prematurely collecting memo
+      rmemo_f_T:
+      	readonly l:number
+      	readonly s:rmemo_T<unknown>[]
+      	readonly t:rmemo_T<unknown>[]
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@5.37.0
+
 ## 0.52.9
 
 ### Patch Changes

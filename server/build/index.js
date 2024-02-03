@@ -1,5 +1,5 @@
 /// <reference types="../metafile_l0/index.d.ts" />
-import { file_exists__waitfor } from 'ctx-core/fs'
+import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 /// <reference types="./index.d.ts" />
 import {
 	be,
@@ -316,15 +316,15 @@ export function rebuildjs_plugin_() {
 					const resolve_outdir = resolve(outdir)
 					if (resolve_outdir === server_path_(app_ctx)) {
 						const build_id = build_id__refresh()
-						await server__metafile__update(metafile, build_id)
+						await server__metafile__update(metafile, { build_id })
 						if (build_id_(app_ctx) === build_id) {
-							await browser__metafile__update(browser__metafile_(app_ctx), build_id)
+							await browser__metafile__update(browser__metafile_(app_ctx), { build_id })
 						}
 					} else if (resolve_outdir === browser_path_(app_ctx)) {
 						const build_id = build_id__refresh()
-						await browser__metafile__update(metafile, build_id)
+						await browser__metafile__update(metafile, { build_id })
 						if (build_id_(app_ctx) === build_id) {
-							await server__metafile__update(server__metafile_(app_ctx), build_id)
+							await server__metafile__update(server__metafile_(app_ctx), { build_id })
 						}
 					}
 				}
@@ -386,18 +386,22 @@ export function rebuildjs_plugin_() {
 													if (cssBundle && esbuild_cssBundle) {
 														const cssBundle_path = join(cwd_(ctx), cssBundle)
 														const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
-														await file_exists__waitfor(async ()=>{
-															await cmd(
-																cp(cssBundle_path, esbuild_cssBundle_path))
-															return true
-														})
-														await file_exists__waitfor(async ()=>{
-															await cmd(
-																cp(
-																	cssBundle_path + '.map',
-																	esbuild_cssBundle_path + '.map'))
-															return true
-														})
+														if (!await file_exists_(esbuild_cssBundle_path)) {
+															await file_exists__waitfor(async ()=>{
+																await cmd(
+																	cp(cssBundle_path, esbuild_cssBundle_path))
+																return true
+															})
+														}
+														if (!await file_exists_(esbuild_cssBundle_path + '.map')) {
+															await file_exists__waitfor(async ()=>{
+																await cmd(
+																	cp(
+																		cssBundle_path + '.map',
+																		esbuild_cssBundle_path + '.map'))
+																return true
+															})
+														}
 													}
 											}
 										}
@@ -457,55 +461,59 @@ export function rebuildjs_plugin_() {
 		}
 	}
 }
-async function server__metafile__update(server__metafile, build_id) {
-	if (!server__metafile) return
-	server__metafile = {
-		...server__metafile,
-		build_id,
-		rebuildjs_target: 'server'
-	}
-	server__metafile__set(app_ctx, server__metafile)
-	for (const [
-		server__output__relative_path,
-		middleware_ctx
-	] of server__output__relative_path_M_middleware_ctx_(app_ctx).entries()) {
-		const server__output = server__output_(middleware_ctx)
-		const { cssBundle } = server__output
-		if (cssBundle) {
-			server__output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
-			server__output.cssBundle_content = [
-				server__output__relative_path,
-				...(
-					browser__output__relative_path_(middleware_ctx)
-						? [browser__output__relative_path_(middleware_ctx)]
-						: [])
-			]
+export async function server__metafile__update(server__metafile, server__metafile_partial) {
+	if (server__metafile) {
+		server__metafile = {
+			...server__metafile,
+			...server__metafile_partial,
+			rebuildjs_target: 'server'
 		}
-	}
-	await server__metafile__persist()
-}
-async function browser__metafile__update(browser__metafile, build_id) {
-	if (!browser__metafile) return
-	browser__metafile = {
-		...browser__metafile,
-		build_id,
-		rebuildjs_target: 'browser'
-	}
-	browser__metafile__set(app_ctx, browser__metafile)
-	for (const middleware_ctx of server__output__relative_path_M_middleware_ctx_(app_ctx)?.values?.() ?? []) {
-		const browser__output = browser__output_(middleware_ctx)
-		if (browser__output) {
-			const { cssBundle } = browser__output
+		server__metafile__set(app_ctx, server__metafile)
+		for (const [
+			server__output__relative_path,
+			middleware_ctx
+		] of server__output__relative_path_M_middleware_ctx_(app_ctx).entries()) {
+			const server__output = server__output_(middleware_ctx)
+			const { cssBundle } = server__output
 			if (cssBundle) {
-				browser__output.esbuild_cssBundle = esbuild_cssBundle_(cssBundle)
-				browser__output.cssBundle_content = [browser__output__relative_path_(middleware_ctx)]
+				server__output.esbuild_cssBundle ??= cssBundle__annotate(cssBundle, '_esbuild')
+				server__output.cssBundle_content = [
+					server__output__relative_path,
+					...(
+						browser__output__relative_path_(middleware_ctx)
+							? [browser__output__relative_path_(middleware_ctx)]
+							: [])
+				]
 			}
 		}
+		await server__metafile__persist()
 	}
-	await browser__metafile__persist()
+	return server__metafile
 }
-function esbuild_cssBundle_(cssBundle) {
+export async function browser__metafile__update(browser__metafile, browser__metafile_partial) {
+	if (browser__metafile) {
+		browser__metafile = {
+			...browser__metafile,
+			...browser__metafile_partial,
+			rebuildjs_target: 'browser'
+		}
+		browser__metafile__set(app_ctx, browser__metafile)
+		for (const middleware_ctx of server__output__relative_path_M_middleware_ctx_(app_ctx)?.values?.() ?? []) {
+			const browser__output = browser__output_(middleware_ctx)
+			if (browser__output) {
+				const { cssBundle } = browser__output
+				if (cssBundle) {
+					browser__output.esbuild_cssBundle ??= cssBundle__annotate(cssBundle, '_esbuild')
+					browser__output.cssBundle_content = [browser__output__relative_path_(middleware_ctx)]
+				}
+			}
+		}
+		await browser__metafile__persist()
+	}
+	return browser__metafile
+}
+export function cssBundle__annotate(cssBundle, suffix) {
 	return join(
 		dirname(cssBundle),
-		basename(cssBundle, '.css') + '_esbuild.css')
+		basename(cssBundle, '.css') + (suffix ?? '') + '.css')
 }
