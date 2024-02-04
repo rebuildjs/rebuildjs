@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.55.0
+
+### Minor Changes
+
+- - calling: calls & returns argument function
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@5.38.0
+
 ## 0.54.1
 
 ### Patch Changes
