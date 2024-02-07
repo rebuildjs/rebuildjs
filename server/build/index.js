@@ -1,6 +1,6 @@
 /// <reference types="../metafile_l0/index.d.ts" />
-import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 /// <reference types="./index.d.ts" />
+import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 import {
 	be,
 	be_memo_pair_,
@@ -51,9 +51,9 @@ export const [
 	build_id$_,
 	build_id_,
 	build_id__set,
-] = be_sig_triple_(()=>
-	undefined,
-{ id: 'build_id', ns: 'app' })
+] = be_sig_triple_(
+	()=>undefined,
+	{ id: 'build_id', ns: 'app' })
 export function build_id__refresh() {
 	const build_id = Date.now() + '-' + short_uuid_()
 	build_id__set(app_ctx, build_id)
@@ -121,52 +121,59 @@ export const [
 			!!(build_id && build_id === persist__metafile__build_id)),
 { id: 'persist__metafile__ready', ns: 'app' })
 export const [
-	rebuildjs__build_id$_,
-	rebuildjs__build_id_,
-	rebuildjs__build_id__set,
+	rebuildjs__esbuild__build_id$_,
+	rebuildjs__esbuild__build_id_,
+	rebuildjs__esbuild__build_id__set,
 ] = be_sig_triple_(()=>undefined,
-	{ id: 'rebuildjs_plugin__build_id', ns: 'app' })
+	{ id: 'rebuildjs__esbuild__build_id', ns: 'app' })
 export const [
-	rebuildjs_core__ready$_,
-	rebuildjs_core__ready_,
+	rebuildjs__esbuild__done$_,
+	rebuildjs__esbuild__done_,
 ] = be_memo_pair_(ctx=>
 	!!(
 		build_id_(ctx)
 			&& build_id_(ctx) === metafile__build_id_(ctx)
-			&& build_id_(ctx) === rebuildjs__build_id_(ctx)),
-{ id: 'rebuildjs_core__ready', ns: 'app' })
+			&& build_id_(ctx) === rebuildjs__esbuild__build_id_(ctx)),
+{ id: 'rebuildjs__esbuild__done', ns: 'app' })
 /**
  * @param {number}[timeout]
  * @returns {Promise<void>}}
  */
-export function rebuildjs_core__ready__wait(timeout) {
+export function rebuildjs__esbuild__done__wait(timeout) {
 	return rmemo__wait(
-		rebuildjs_core__ready$_(app_ctx),
+		rebuildjs__esbuild__done$_(app_ctx),
 		ready=>ready,
 		timeout ?? 5000)
 }
 export const [
-	rebuildjs__ready__add__ready__a1$_,
-	rebuildjs__ready__add__ready__a1_,
-	rebuildjs__ready__add__ready__a1__set,
+	rebuildjs__ready__add__ready$__a1$_,
+	rebuildjs__ready__add__ready$__a1_,
+	rebuildjs__ready__add__ready$__a1__set,
 ] = be_sig_triple_(
 	()=>[],
-	{ id: 'Uc', ns: 'app' })
-export function rebuildjs__ready__add(ready_) {
-	let rebuildjs__ready__add_a1 = rebuildjs__ready__add__ready__a1_(app_ctx)
-	if (!rebuildjs__ready__add_a1.includes(ready_)) {
-		rebuildjs__ready__add_a1 = [...rebuildjs__ready__add_a1, ready_]
-		rebuildjs__ready__add__ready__a1__set(app_ctx, rebuildjs__ready__add_a1)
+	{ id: 'rebuildjs__ready__add__ready__a1', ns: 'app' })
+export function rebuildjs__ready__add(ready$_) {
+	let rebuildjs__ready__add_a1 = rebuildjs__ready__add__ready$__a1_(app_ctx)
+	if (!rebuildjs__ready__add_a1.includes(ready$_)) {
+		rebuildjs__ready__add_a1 = [...rebuildjs__ready__add_a1, ready$_]
+		rebuildjs__ready__add__ready$__a1__set(app_ctx, rebuildjs__ready__add_a1)
 	}
 	return rebuildjs__ready__add_a1
 }
+export const [
+	rebuildjs__build_id$_,
+	rebuildjs__build_id_,
+	rebuildjs__build_id__set,
+] = be_sig_triple_(()=>undefined,
+	{ id: 'rebuildjs__build_id', ns: 'app' })
 export const [
 	rebuildjs__ready$_,
 	rebuildjs__ready_,
 ] = be_memo_pair_(ctx=>
 	!!(
-		rebuildjs_core__ready_(ctx)
-	&& rebuildjs__ready__add__ready__a1_(ctx).every(ready_=>ready_(ctx))),
+		rebuildjs__esbuild__done_(ctx)
+			&& rebuildjs__build_id_(ctx) === build_id_(ctx)
+			&& rebuildjs__ready__add__ready$__a1_(ctx).every(ready$_=>ready$_(ctx)())),
 { id: 'rebuildjs__ready', ns: 'app' })
 /**
  * @param {number}[timeout]
@@ -361,6 +368,7 @@ export function rebuildjs_plugin_() {
 						}
 					}
 				}
+				rebuildjs__esbuild__build_id__set(app_ctx, build_id_(app_ctx))
 			})
 		}
 		// Prevent GC
@@ -400,12 +408,18 @@ export function rebuildjs_plugin_() {
 									run(async ()=>{
 										try {
 											await esbuild_cssBundle__cp()
+											await Promise.all(
+												rebuildjs__ready__add__ready$__a1_(ctx).map(ready$_=>
+													cmd(rmemo__wait(
+														ready$_(ctx),
+														ready=>ready,
+														5_000))))
 											await rebuildjs__assets__link()
+											rebuildjs__build_id__set(ctx, build_id)
 										} catch (err) {
 											if (err instanceof Cancel) return
 											throw err
 										}
-										rebuildjs__build_id__set(ctx, build_id)
 									})
 								}
 								async function esbuild_cssBundle__cp() {
@@ -418,7 +432,9 @@ export function rebuildjs_plugin_() {
 													({ cssBundle, esbuild_cssBundle } = metafile.outputs[output__relative_path])
 													if (cssBundle && esbuild_cssBundle) {
 														const cssBundle_path = join(cwd_(ctx), cssBundle)
+														const cssBundle_map_path = cssBundle_path + '.map'
 														const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
+														const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
 														if (!await file_exists_(esbuild_cssBundle_path)) {
 															await file_exists__waitfor(async ()=>{
 																await cmd(
@@ -426,12 +442,12 @@ export function rebuildjs_plugin_() {
 																return true
 															})
 														}
-														if (!await file_exists_(esbuild_cssBundle_path + '.map')) {
+														if (!await file_exists_(esbuild_cssBundle_map_path)) {
 															await file_exists__waitfor(async ()=>{
 																await cmd(
 																	cp(
-																		cssBundle_path + '.map',
-																		esbuild_cssBundle_path + '.map'))
+																		cssBundle_map_path,
+																		esbuild_cssBundle_map_path))
 																return true
 															})
 														}
@@ -447,9 +463,9 @@ export function rebuildjs_plugin_() {
 										const _basename = basename(output__relative_path)
 										if (
 											_basename.endsWith('.js')
-											|| _basename.endsWith('.mjs')
-											|| _basename.endsWith('.js.map')
-											|| _basename.endsWith('.mjs.map')
+												|| _basename.endsWith('.mjs')
+												|| _basename.endsWith('.js.map')
+												|| _basename.endsWith('.mjs.map')
 										) continue
 										const server_asset_path = join(cwd, output__relative_path)
 										const browser_asset_path = join(

@@ -1,5 +1,43 @@
 # rebuildjs
 
+## 0.56.0
+
+### Minor Changes
+
+- minor: fix: support copying .map.css for @rebuildjs/tailwindcss:
+
+      + rebuildjs__esbuild__build_id:
+      	+ rebuildjs__esbuild__build_id$_
+      	+ rebuildjs__esbuild__build_id_
+      	+ rebuildjs__esbuild__build_id__set
+      rebuildjs_core__ready→rebuildjs__esbuild__done:
+      	rebuildjs_core__ready$_→rebuildjs__esbuild__done$_
+      	rebuildjs_core__ready_→rebuildjs__esbuild__done_
+      rebuildjs_core__ready__wait→rebuildjs__esbuild__done__wait
+      rebuildjs__ready__add__ready__a1→rebuildjs__ready__add__ready$__a1:
+      	rebuildjs__ready__add__ready__a1$_→rebuildjs__ready__add__ready$__a1$_
+      	rebuildjs__ready__add__ready__a1_→rebuildjs__ready__add__ready$__a1_
+      	rebuildjs__ready__add__ready__a1__set→rebuildjs__ready__add__ready$__a1__set
+      rebuildjs__ready__add(ready$_:rebuildjs__ready__add__ready$__T) instead of ready_:rebuildjs__ready__add__ready__T
+      rebuildjs__ready__add__ready__T→rebuildjs__ready__add__ready$__T: ctx__be_T<rmemo_T<boolean>, 'app'>
+      rebuildjs_plugin__build_id→rebuildjs__esbuild__build_id:
+      	rebuildjs__build_id$_→rebuildjs__esbuild__build_id$_
+      	rebuildjs__build_id_→rebuildjs__esbuild__build_id_
+      	rebuildjs__build_id__set→rebuildjs__esbuild__build_id__set
+      rebuildjs_core__ready→rebuildjs__esbuild__done:
+      	rebuildjs_core__ready$_→rebuildjs__esbuild__done$_
+      	rebuildjs_core__ready_→rebuildjs__esbuild__done_
+      rebuildjs_core__ready__wait→rebuildjs__esbuild__done__wait
+      Uc→rebuildjs__ready__add__ready__a1:
+      	rebuildjs__ready__add__ready__a1$_→rebuildjs__ready__add__ready$__a1$_
+      	rebuildjs__ready__add__ready__a1_→rebuildjs__ready__add__ready$__a1_
+      	rebuildjs__ready__add__ready__a1__set→rebuildjs__ready__add__ready$__a1__set
+      + rebuildjs__build_id:
+      	+ rebuildjs__build_id$_
+      	+ rebuildjs__build_id_
+      	+ rebuildjs__build_id__set
+      rebuildjs_plugin_: ∋ rebuildjs__esbuild__build_id__set
+
 ## 0.55.2
 
 ### Patch Changes
