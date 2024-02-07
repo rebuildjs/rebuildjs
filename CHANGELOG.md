@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.56.1
+
+### Patch Changes
+
+- rebuildjs_server\_\_build: fix: intermittent ENOENT:
+
+      + mkdir(server_path_(app_ctx), { recursive: true }): immediately after rm(server_path_(app_ctx), { recursive: true, force: true })
+
 ## 0.56.0
 
 ### Minor Changes

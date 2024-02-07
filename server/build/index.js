@@ -283,6 +283,7 @@ export async function rebuildjs_server__build(config) {
 		...esbuild__config
 	} = config ?? {}
 	await rm(server_path_(app_ctx), { recursive: true, force: true })
+	await mkdir(server_path_(app_ctx), { recursive: true })
 	const path_a = await new fdir()
 		.glob('**/*.server.{ts,js,tsx,jsx}')
 		.withFullPaths()
