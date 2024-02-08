@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.56.2
+
+### Patch Changes
+
+- picomatch: ^3.0.1 -> ^4.0.1
+
 ## 0.56.1
 
 ### Patch Changes
