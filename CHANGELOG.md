@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.59.0
+
+### Minor Changes
+
+- minor:
+
+      app_wide_ctx_T→wide_app_ctx_T
+      middleware_wide_ctx_T→wide_middleware_ctx_T
+      request_wide_ctx_T→wide_request_ctx_T
+
 ## 0.58.0
 
 ### Minor Changes
