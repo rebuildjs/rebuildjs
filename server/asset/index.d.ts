@@ -1,10 +1,10 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T } from 'ctx-core/be'
 import type { lock_memosig_T } from 'ctx-core/rmemo'
-import type { request_ctx_wide_T } from '../ctx/index.js'
+import type { request_wide_ctx_T } from '../ctx/index.js'
 export declare const assets$_:ctx__be_T<lock_memosig_T<assets_T>, 'request'>
 export declare const assets_:ctx__get_T<assets_T, 'request'>
 export declare const assets__set:ctx__set_T<assets_T, 'request'>
-export declare function assets__assign<ctx_T extends request_ctx_wide_T>(
+export declare function assets__assign<ctx_T extends request_wide_ctx_T>(
 	ctx:ctx_T,
 	..._assets_a:Partial<assets_T>[]
 ):assets_T
