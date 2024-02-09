@@ -1,6 +1,6 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T, nullish, rmemo__wait_ret_T, rmemo_T, sig_T } from 'ctx-core/rmemo'
 import type { BuildContext, BuildOptions, Plugin } from 'esbuild'
-import type { has_app_T } from '../ctx/index.js'
+import type { app_ctx_wide_T } from '../ctx/index.js'
 import type { rebuildjs_metafile_T } from '../metafile_l0/index.js'
 export declare const build_id$_:ctx__be_T<sig_T<string|undefined>, 'app'>
 export declare const build_id_:ctx__get_T<string|undefined, 'app'>

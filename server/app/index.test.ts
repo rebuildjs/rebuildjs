@@ -1,4 +1,4 @@
-import { type Ctx, ctx_ } from 'ctx-core/be'
+import { type ctx_T, ctx_ } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
 import { resolve } from 'node:path'
 import { test } from 'uvu'
@@ -48,7 +48,7 @@ test('app_ctx', ()=>{
 	/* eslint-disable @typescript-eslint/ban-ts-comment */
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	// @ts-ignore TS6196
-	type test_app_ctx = Expect<Equal<typeof app_ctx, Ctx<'app'>>>
+	type test_app_ctx = Expect<Equal<typeof app_ctx, ctx_T<'app'>>>
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 	/* eslint-enable @typescript-eslint/ban-ts-comment */
 })

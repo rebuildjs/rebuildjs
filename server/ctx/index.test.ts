@@ -1,4 +1,4 @@
-import { be_, type Ctx } from 'ctx-core/be'
+import { be_, type ctx_T } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
@@ -13,7 +13,7 @@ test('app_ctx', ()=>{
 	equal(ns_app_(app_ctx), 'app')
 })
 test('app_ctx|ns', ()=>{
-	type test_app_ctx = Expect<Equal<typeof app_ctx, Ctx<'app'>>>
+	type test_app_ctx = Expect<Equal<typeof app_ctx, ctx_T<'app'>>>
 	equal({} as test_app_ctx, {})
 })
 test('middleware_ctx__new', ()=>{
@@ -29,7 +29,7 @@ test('middleware_ctx__new', ()=>{
 })
 test('middleware_ctx|ns', ()=>{
 	const middleware_ctx = middleware_ctx__new()
-	type test_middleware_ctx = Expect<Equal<typeof middleware_ctx, Ctx<'app'|'middleware'>>>
+	type test_middleware_ctx = Expect<Equal<typeof middleware_ctx, ctx_T<'app'|'middleware'>>>
 	equal({} as test_middleware_ctx, {})
 })
 test('request_ctx__new', ()=>{
@@ -53,7 +53,7 @@ test('request_ctx__new', ()=>{
 })
 test('request_ctx|ns', ()=>{
 	const request_ctx = request_ctx__new(middleware_ctx__new())
-	type test_request_ctx = Expect<Equal<typeof request_ctx, Ctx<''|'app'|'middleware'|'request'>>>
+	type test_request_ctx = Expect<Equal<typeof request_ctx, ctx_T<''|'app'|'middleware'|'request'>>>
 	equal({} as test_request_ctx, {})
 })
 test.run()

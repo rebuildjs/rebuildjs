@@ -1,4 +1,4 @@
-import { type Ctx, ctx_, ns_ctx_ } from 'ctx-core/be'
+import { type ctx_T, ctx_, ns_ctx_ } from 'ctx-core/be'
 import type { Equal, Expect } from 'ctx-core/test'
 import { test } from 'uvu'
 import { equal, throws } from 'uvu/assert'
@@ -55,7 +55,7 @@ test('assets|types', ()=>{
 	/* eslint-disable @typescript-eslint/ban-ts-comment */
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	// @ts-ignore TS6196
-	type test_ctx = Expect<Equal<typeof request_ctx, Ctx<''|'app'|'middleware'|'request'>>>
+	type test_ctx = Expect<Equal<typeof request_ctx, ctx_T<''|'app'|'middleware'|'request'>>>
 	// @ts-expect-error TS2345
 	type test_assets$_ = Expect<Equal<typeof assets$_, number>>
 	/* eslint-enable @typescript-eslint/no-unused-vars */
