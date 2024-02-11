@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.60.3
+
+### Patch Changes
+
+- ./server: rebuildjs*plugin*: rebuildjs*plugin\_\_postprocess$*: rebuildjs**assets**link:
+
+      file_exists__waitfor: long timeout
+
 ## 0.60.2
 
 ### Patch Changes

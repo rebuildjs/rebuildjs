@@ -478,7 +478,7 @@ export function rebuildjs_plugin_() {
 											await cmd(
 												link(server_asset_path, browser_asset_path))
 											return true
-										})
+										}, 999_999_999)
 										promise_a1.push(file_exists__waitfor(browser_asset_path))
 									}
 									await cmd(Promise.all(promise_a1))
