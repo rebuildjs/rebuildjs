@@ -1,5 +1,20 @@
 # rebuildjs
 
+## 0.61.0
+
+### Minor Changes
+
+- timeout_promise: + handle Infinity ms argument: remove timeout from ∋ Promise.race
+
+### Patch Changes
+
+- persist**metafile**build_id: fix: crash due to async error:
+
+      build_id__match__waitfor: ∋ file_exists__waitfor: Infinity ms
+
+- Updated dependencies
+  - ctx-core@6.2.0
+
 ## 0.60.6
 
 ### Patch Changes

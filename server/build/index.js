@@ -75,14 +75,16 @@ export const [
 		if (metafile__build_id) {
 			run(async ()=>{
 				try {
-					await build_id__match__waitfor(server__metafile_path)
-					await build_id__match__waitfor(browser__metafile_path)
+					await Promise.all([
+						build_id__match__waitfor(server__metafile_path),
+						build_id__match__waitfor(browser__metafile_path),
+					])
 					persist__metafile__build_id$._ = build_id
 				} catch (err) {
 					if (err instanceof Cancel) return
 					throw err
 				}
-			})
+			}).catch(err=>console.error(err))
 		}
 		function build_id__match__waitfor(metafile_path) {
 			return file_exists__waitfor(async ()=>{
@@ -94,7 +96,7 @@ export const [
 					return undefined
 				}
 			},
-			1000,
+			Infinity,
 			cancel__period)
 		}
 		async function cmd(promise) {
@@ -478,7 +480,7 @@ export function rebuildjs_plugin_() {
 											await cmd(
 												link(server_asset_path, browser_asset_path))
 											return true
-										}, 999_999_999)
+										}, Infinity)
 										promise_a1.push(file_exists__waitfor(browser_asset_path))
 									}
 									await cmd(Promise.all(promise_a1))
