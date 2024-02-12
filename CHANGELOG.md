@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.61.1
+
+### Patch Changes
+
+- @typescript-eslint/eslint-plugin: ^7.0.0 -> ^7.0.1
+- @typescript-eslint/parser: ^7.0.0 -> ^7.0.1
+- Updated dependencies
+  - ctx-core@6.2.1
+
 ## 0.61.0
 
 ### Minor Changes
