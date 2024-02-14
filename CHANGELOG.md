@@ -1,5 +1,18 @@
 # rebuildjs
 
+## 0.62.0
+
+### Minor Changes
+
+- - rmemolike_T
+
+  rmemo\_\_wait: argument: rmemolike_T<unknown> instead of rmemo_T<unknown>
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@6.3.0
+
 ## 0.61.2
 
 ### Patch Changes
