@@ -1,6 +1,5 @@
 export * from 'ctx-core/be'
 export * from 'ctx-core/rmemo'
-export * from '../any/index.js'
 export * from './app/index.js'
 export * from './asset/index.js'
 export * from './build/index.js'

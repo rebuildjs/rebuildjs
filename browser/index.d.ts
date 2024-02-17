@@ -1,1 +1,2 @@
-export * from '../any/index.js'
+// reserved for future use
+export {}

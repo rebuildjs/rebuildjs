@@ -1,1 +1,1 @@
-export * from './any/index.js'
+export {}
