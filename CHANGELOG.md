@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.63.4
+
+### Patch Changes
+
+- eslint: ^8.56.0 -> ^8.57.0
+- Updated dependencies
+  - ctx-core@6.4.5
+
 ## 0.63.3
 
 ### Patch Changes
