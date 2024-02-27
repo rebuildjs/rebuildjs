@@ -72,7 +72,7 @@
 		"c8": "^9.1.0",
 		"check-dts": "^0.7.2",
 		"eslint": "^8.57.0",
-		"esmock": "^2.6.3",
+		"esmock": "^2.6.4",
 		"tsx": "^4.7.1",
 		"typescript": "next",
 		"uvu": "^0.5.6"
