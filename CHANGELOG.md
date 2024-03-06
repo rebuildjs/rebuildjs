@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.65.0
+
+### Minor Changes
+
+- minor:
+
+      ./server: + browser__output__relative_path__set
+      fix: type declaration defaultLoader→default_loader
+
 ## 0.64.0
 
 ### Minor Changes

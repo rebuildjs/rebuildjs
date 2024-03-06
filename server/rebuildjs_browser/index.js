@@ -79,8 +79,9 @@ export function browser__metafile__persist() {
 }
 export const [
 	browser__output__relative_path$_,
-	browser__output__relative_path_
-] = be_memo_pair_(ctx=>
+	browser__output__relative_path_,
+	browser__output__relative_path__set,
+] = be_lock_memosig_triple_(ctx=>
 	nullish__none_([browser__metafile_(ctx), server__output_(ctx)],
 		(browser__metafile, server__output)=>{
 			const { outputs } = browser__metafile

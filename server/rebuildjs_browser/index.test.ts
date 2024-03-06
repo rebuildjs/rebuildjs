@@ -34,6 +34,7 @@ import {
 	browser__output_,
 	browser__output__relative_path$_,
 	browser__output__relative_path_,
+	browser__output__relative_path__set,
 	browser__script$_,
 	browser__script_
 } from './index.js'
@@ -165,6 +166,9 @@ test('browser__output__relative_path', ()=>{
 	equal(server__output_(middleware_ctx), server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
 	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS0BRS0.js')
 	equal(browser__output__relative_path_(middleware_ctx), 'dist/browser--dev/index.browser-BRS0BRS0.js')
+	browser__output__relative_path__set(middleware_ctx, 'dist/browser--dev/index.browser-BRS1BRS1.js')
+	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS1BRS1.js')
+	equal(browser__output__relative_path_(middleware_ctx), 'dist/browser--dev/index.browser-BRS1BRS1.js')
 	// @ts-expect-error TS2345
 	throws(()=>browser__output__relative_path$_(ctx_()))
 	// @ts-expect-error TS2345

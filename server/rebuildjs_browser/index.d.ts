@@ -8,6 +8,7 @@ export declare const browser__metafile__set:ctx__set_T<rebuildjs_metafile_T|unde
 export declare function browser__metafile__persist():Promise<void>
 export declare const browser__output__relative_path$_:ctx__be_T<memo_T<string>, 'middleware'>
 export declare const browser__output__relative_path_:ctx__get_T<string, 'middleware'>
+export declare const browser__output__relative_path__set:ctx__set_T<string, 'middleware'>
 export declare const browser__output$_:ctx__be_T<memo_T<rebuildjs_metafile_T['outputs'][string]|undefined>, 'middleware'>
 export declare const browser__output_:ctx__get_T<rebuildjs_metafile_T['outputs'][string]|undefined, 'middleware'>
 export declare const browser__cssBundle__relative_path$_:ctx__be_T<memo_T<string>, 'middleware'>

@@ -1,7 +1,7 @@
 import type { ctx__be_T, ctx__get_T, ctx__set_T, nullish, rmemo__wait_ret_T, rmemo_T, sig_T } from 'ctx-core/rmemo'
 import type { BuildContext, BuildOptions, Loader, Plugin } from 'esbuild'
 import type { rebuildjs_metafile_T } from '../metafile_l0/index.js'
-export declare const defaultLoader:{ [ext:string]:Loader }
+export declare const default_loader:{ [ext:string]:Loader }
 export declare const build_id$_:ctx__be_T<sig_T<string|undefined>, 'app'>
 export declare const build_id_:ctx__get_T<string|undefined, 'app'>
 export declare const build_id__set:ctx__set_T<string|undefined, 'app'>
