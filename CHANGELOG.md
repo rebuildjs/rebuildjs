@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.63.13
+
+### Patch Changes
+
+- default_loader: fix type: { [ext:string]:Loader }
+
 ## 0.63.12
 
 ### Patch Changes
