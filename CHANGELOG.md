@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.63.12
+
+### Patch Changes
+
+- ./server: fix: export declare const default_loader: Record<string, string>
+
 ## 0.63.11
 
 ### Patch Changes
