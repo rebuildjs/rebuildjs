@@ -1,5 +1,18 @@
 /// <reference lib="dom" />
 // forked from https://github.com/vitejs/vite/blob/main/packages/vite/client.d.ts
+declare module '*.htm' {
+	const src: string
+	export default src
+}
+declare module '*.html' {
+	const src: string
+	export default src
+}
+declare module '*.xml' {
+	const src: string
+	export default src
+}
+
 declare module '*.apng' {
 	const src: string
 	export default src

@@ -1,5 +1,15 @@
 # rebuildjs
 
+## 0.64.0
+
+### Minor Changes
+
+- ./server: default_loader:
+
+  - .htm: file
+  - .html: file
+  - .xml: file
+
 ## 0.63.13
 
 ### Patch Changes

@@ -194,6 +194,8 @@ export const default_loader = {
 	'.eot': 'file',
 	'.flac': 'file',
 	'.gif': 'file',
+	'.htm': 'file',
+	'.html': 'file',
 	'.ico': 'file',
 	'.jfif': 'file',
 	'.jpeg': 'file',
@@ -217,6 +219,7 @@ export const default_loader = {
 	'.woff': 'file',
 	'.woff2': 'file',
 	'.txt': 'text',
+	'.xml': 'text',
 }
 /**
  * @param {import('esbuild').Plugin}config
