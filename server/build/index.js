@@ -421,14 +421,14 @@ export function rebuildjs_plugin_() {
 													cmd(rmemo__wait(
 														ready$_(ctx),
 														ready=>ready,
-														5_000))))
+														30_000))))
 											await rebuildjs__assets__link()
 											rebuildjs__build_id__set(ctx, build_id)
 										} catch (err) {
 											if (err instanceof Cancel) return
 											throw err
 										}
-									})
+									}).catch(err=>console.error(err))
 								}
 								async function esbuild_cssBundle__cp() {
 									for (const metafile of [server__metafile, browser__metafile]) {

@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.65.3
+
+### Patch Changes
+
+- rebuildjs*plugin*: rebuildjs*plugin\_\_postprocess$*:
+
+      rebuildjs__ready__add__ready$__a1_: increase timeout: 30s
+      run: + .catch(err=>console.error(err))
+
 ## 0.65.2
 
 ### Patch Changes
