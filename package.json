@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.66.0",
+	"version": "0.66.1",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
@@ -20,7 +20,11 @@
 		"url": "https://github.com/rebuildjs/rebuildjs.git"
 	},
 	"license": "Apache-2.0",
-	"author": "Brian Takita",
+	"author": {
+		"name": "Brian Takita",
+		"url": "https://briantakita.me",
+		"email": "info+rebuildjs@briantakita.me"
+	},
 	"type": "module",
 	"files": [
 		"*.d.ts",
@@ -60,7 +64,7 @@
 		"disable:test:unit:coverage": "c8 pnpm test:unit"
 	},
 	"dependencies": {
-		"ctx-core": "^6.6.0",
+		"ctx-core": "^6.6.1",
 		"elysia": "^1.0.4",
 		"esbuild": "^0.20.2",
 		"fdir": "^6.1.1",
