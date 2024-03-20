@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.66.2
+
+### Patch Changes
+
+- elysia: ^1.0.4 -> ^1.0.6
+- Updated dependencies
+  - ctx-core@6.6.2
+
 ## 0.66.1
 
 ### Patch Changes
