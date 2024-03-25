@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.67.0
+
+### Minor Changes
+
+- globalThis.**rmemo** stores global rmemo state: fix: name collision with globalThis.rmemo: was used as a dom Element id
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@6.7.0
+
 ## 0.66.3
 
 ### Patch Changes
