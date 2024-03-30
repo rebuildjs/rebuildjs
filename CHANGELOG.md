@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.67.4
+
+### Patch Changes
+
+- server**metafile: ∋ file_exists**waitfor: increase timeout from 1000ms to 5000ms
+
 ## 0.67.3
 
 ### Patch Changes

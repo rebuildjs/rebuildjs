@@ -45,7 +45,7 @@ export const [
 								return undefined
 							}
 						},
-						1000,
+						5000,
 						()=>cmd(sleep(0))
 						).catch(err=>{
 							if (err instanceof Cancel) return
