@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.68.2
+
+### Patch Changes
+
+- rmemo**off**add: fix: argument type
+- Updated dependencies
+  - ctx-core@7.0.1
+
 ## 0.68.1
 
 ### Patch Changes
