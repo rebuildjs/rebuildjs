@@ -34,16 +34,16 @@ test.after.each(()=>{
 test('server__metafile_path', ()=>{
 	dist_path__set(app_ctx, '/test/dist')
 	is_prod__set(app_ctx, true)
-	equal(server__metafile_path$_(app_ctx)._, '/test/dist/server/metafile.json')
+	equal(server__metafile_path$_(app_ctx)(), '/test/dist/server/metafile.json')
 	equal(server__metafile_path_(app_ctx), '/test/dist/server/metafile.json')
 	is_prod__set(app_ctx, false)
-	equal(server__metafile_path$_(app_ctx)._, '/test/dist/server--dev/metafile.json')
+	equal(server__metafile_path$_(app_ctx)(), '/test/dist/server--dev/metafile.json')
 	equal(server__metafile_path_(app_ctx), '/test/dist/server--dev/metafile.json')
 	dist_path__set(app_ctx, '/test/dist2')
-	equal(server__metafile_path$_(app_ctx)._, '/test/dist2/server--dev/metafile.json')
+	equal(server__metafile_path$_(app_ctx)(), '/test/dist2/server--dev/metafile.json')
 	equal(server__metafile_path_(app_ctx), '/test/dist2/server--dev/metafile.json')
 	is_prod__set(app_ctx, true)
-	equal(server__metafile_path$_(app_ctx)._, '/test/dist2/server/metafile.json')
+	equal(server__metafile_path$_(app_ctx)(), '/test/dist2/server/metafile.json')
 	equal(server__metafile_path_(app_ctx), '/test/dist2/server/metafile.json')
 	// @ts-expect-error TS2345
 	throws(()=>server__metafile_path$_(ctx_()))
@@ -77,27 +77,27 @@ test('server__metafile', async ()=>{
 			}
 		}))
 	}
-	equal(_server__metafile$_(app_ctx)._, undefined)
+	equal(_server__metafile$_(app_ctx)(), undefined)
 	equal(_server__metafile_(app_ctx), undefined)
 	is_prod__set(app_ctx, true)
 	dist_path__set(app_ctx, '/cwd/dist0')
-	equal(_server__metafile$_(app_ctx)._, undefined)
+	equal(_server__metafile$_(app_ctx)(), undefined)
 	equal(_server__metafile_(app_ctx), undefined)
 	await rmemo__wait(
 		_server__metafile$_(app_ctx),
 		m=>m,
 		100)
-	equal(_server__metafile$_(app_ctx)._, server__metafile0)
+	equal(_server__metafile$_(app_ctx)(), server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
 	equal(readFile_path, '/cwd/dist0/server/metafile.json')
-	equal(_server__metafile$_(app_ctx)._, server__metafile0)
+	equal(_server__metafile$_(app_ctx)(), server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	await rmemo__wait(
 		_server__metafile$_(app_ctx),
 		m=>deep_equal(m, server__metafile1),
 		100)
-	equal(_server__metafile$_(app_ctx)._, server__metafile1)
+	equal(_server__metafile$_(app_ctx)(), server__metafile1)
 	equal(_server__metafile_(app_ctx), server__metafile1)
 	equal(readFile_path, '/cwd/dist1/server/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
@@ -105,11 +105,11 @@ test('server__metafile', async ()=>{
 		_server__metafile$_(app_ctx),
 		m=>deep_equal(m, server__metafile0),
 		100)
-	equal(_server__metafile$_(app_ctx)._, server__metafile0)
+	equal(_server__metafile$_(app_ctx)(), server__metafile0)
 	equal(_server__metafile_(app_ctx), server__metafile0)
 	equal(readFile_path, '/cwd/dist0/server/metafile.json')
 	_server__metafile__set(app_ctx, server__metafile2)
-	equal(_server__metafile$_(app_ctx)._, server__metafile2)
+	equal(_server__metafile$_(app_ctx)(), server__metafile2)
 	equal(_server__metafile_(app_ctx), server__metafile2)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	let error_msg:string|undefined = undefined
@@ -121,7 +121,7 @@ test('server__metafile', async ()=>{
 	} catch (e) {
 		error_msg = (e as Error).message
 	}
-	equal(_server__metafile$_(app_ctx)._, server__metafile2)
+	equal(_server__metafile$_(app_ctx)(), server__metafile2)
 	equal(_server__metafile_(app_ctx), server__metafile2)
 	equal(error_msg, `Timeout 100ms`)
 	// @ts-expect-error TS2345
@@ -132,24 +132,21 @@ test('server__metafile', async ()=>{
 	throws(()=>_server__metafile__set(ctx_(), server__metafile0))
 })
 test('server__output__relative_path_M_middleware_ctx', ()=>{
-	equal(server__output__relative_path_M_middleware_ctx$_(app_ctx)._, undefined)
+	equal(server__output__relative_path_M_middleware_ctx$_(app_ctx)(), undefined)
 	equal(server__output__relative_path_M_middleware_ctx_(app_ctx), undefined)
 	server__metafile__set(app_ctx, server__metafile0)
 	equal(
-		server__output__relative_path_M_middleware_ctx$_(app_ctx)
-			._
+		server__output__relative_path_M_middleware_ctx$_(app_ctx)()
 			.get('dist/server--dev/index.server-SVR0SVR0.js')
 			?.is_ctx,
 		true)
 	equal(
 		server__output__relative_path_(
-			server__output__relative_path_M_middleware_ctx$_(app_ctx)
-				._
+			server__output__relative_path_M_middleware_ctx$_(app_ctx)()
 				.get('dist/server--dev/index.server-SVR0SVR0.js')!),
 		'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(
-		server__output__relative_path_M_middleware_ctx$_(app_ctx)
-			._
+		server__output__relative_path_M_middleware_ctx$_(app_ctx)()
 			.get('dist/server--dev/index.server-SVR0SVR0.js.map')
 			?.is_ctx,
 		undefined)
@@ -175,10 +172,10 @@ test('server__output__relative_path_M_middleware_ctx', ()=>{
 })
 test('server__output__relative_path', ()=>{
 	const middleware_ctx = middleware_ctx__new()
-	equal(server__output__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__output__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__output__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
-	equal(server__output__relative_path$_(middleware_ctx)._, 'dist/server--dev/index.server-SVR0SVR0.js')
+	equal(server__output__relative_path$_(middleware_ctx)(), 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__output__relative_path_(middleware_ctx), 'dist/server--dev/index.server-SVR0SVR0.js')
 	// @ts-expect-error TS2345
 	throws(()=>server__output__relative_path$_(app_ctx))
@@ -190,10 +187,10 @@ test('server__output__relative_path', ()=>{
 test('server__output', ()=>{
 	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
-	equal(server__output$_(middleware_ctx)._, undefined)
+	equal(server__output$_(middleware_ctx)(), undefined)
 	equal(server__output_(middleware_ctx), undefined)
 	server__metafile__set(app_ctx, server__metafile0)
-	equal(server__output$_(middleware_ctx)._, undefined)
+	equal(server__output$_(middleware_ctx)(), undefined)
 	equal(server__output_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'], {
@@ -208,7 +205,7 @@ test('server__output', ()=>{
 		},
 		'bytes': 98
 	})
-	equal(server__output$_(middleware_ctx)._, server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
+	equal(server__output$_(middleware_ctx)(), server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
 	equal(server__output_(middleware_ctx), server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
 	// @ts-expect-error TS2345
 	throws(()=>server__output$_(app_ctx))
@@ -218,30 +215,30 @@ test('server__output', ()=>{
 test('server__cssBundle__relative_path', ()=>{
 	const middleware_ctx = middleware_ctx__new()
 	is_prod__set(app_ctx, false)
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
 	server__metafile__set(app_ctx, server__metafile0)
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'].cssBundle,
 		'dist/server--dev/index.server-SVR0SVR0.css')
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, 'dist/server--dev/index.server-SVR0SVR0.css')
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), 'dist/server--dev/index.server-SVR0SVR0.css')
 	equal(server__cssBundle__relative_path_(middleware_ctx), 'dist/server--dev/index.server-SVR0SVR0.css')
 	server__metafile__set(app_ctx, server__metafile1)
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR1SVR1.js')
 	equal(server__metafile1.outputs['dist/server--dev/index.server-SVR1SVR1.js'].cssBundle,
 		'dist/server--dev/index.server-SVR1SVR1.css')
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, 'dist/server--dev/index.server-SVR1SVR1.css')
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), 'dist/server--dev/index.server-SVR1SVR1.css')
 	equal(server__cssBundle__relative_path_(middleware_ctx), 'dist/server--dev/index.server-SVR1SVR1.css')
 	server__metafile__set(app_ctx, server__metafile2)
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR2SVR2.js')
 	equal(server__metafile2.outputs['dist/server--dev/index.server-SVR2SVR2.js'].cssBundle, undefined)
-	equal(server__cssBundle__relative_path$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle__relative_path$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle__relative_path_(middleware_ctx), undefined)
 	// @ts-expect-error TS2345
 	throws(()=>server__cssBundle__relative_path$_(app_ctx))
@@ -254,30 +251,30 @@ test('server__cssBundle', ()=>{
 	cwd__set(app_ctx, '/cwd')
 	equal(dist_path_(app_ctx), '/cwd/dist')
 	equal(server_path_(app_ctx), '/cwd/dist/server--dev')
-	equal(server__cssBundle$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle_(middleware_ctx), undefined)
 	server__metafile__set(app_ctx, server__metafile0)
-	equal(server__cssBundle$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'].cssBundle,
 		'dist/server--dev/index.server-SVR0SVR0.css')
-	equal(server__cssBundle$_(middleware_ctx)._, '/cwd/dist/server--dev/index.server-SVR0SVR0.css')
+	equal(server__cssBundle$_(middleware_ctx)(), '/cwd/dist/server--dev/index.server-SVR0SVR0.css')
 	equal(server__cssBundle_(middleware_ctx), '/cwd/dist/server--dev/index.server-SVR0SVR0.css')
 	server__metafile__set(app_ctx, server__metafile1)
-	equal(server__cssBundle$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR1SVR1.js')
 	equal(server__metafile1.outputs['dist/server--dev/index.server-SVR1SVR1.js'].cssBundle,
 		'dist/server--dev/index.server-SVR1SVR1.css')
-	equal(server__cssBundle$_(middleware_ctx)._, '/cwd/dist/server--dev/index.server-SVR1SVR1.css')
+	equal(server__cssBundle$_(middleware_ctx)(), '/cwd/dist/server--dev/index.server-SVR1SVR1.css')
 	equal(server__cssBundle_(middleware_ctx), '/cwd/dist/server--dev/index.server-SVR1SVR1.css')
 	server__metafile__set(app_ctx, server__metafile2)
-	equal(server__cssBundle$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR2SVR2.js')
 	equal(server__metafile2.outputs['dist/server--dev/index.server-SVR2SVR2.js'].cssBundle, undefined)
-	equal(server__cssBundle$_(middleware_ctx)._, undefined)
+	equal(server__cssBundle$_(middleware_ctx)(), undefined)
 	equal(server__cssBundle_(middleware_ctx), undefined)
 	// @ts-expect-error TS2345
 	throws(()=>server__cssBundle$_(app_ctx))
@@ -290,30 +287,30 @@ test('server__css', ()=>{
 	cwd__set(app_ctx, '/cwd')
 	equal(dist_path_(app_ctx), '/cwd/dist')
 	equal(server_path_(app_ctx), '/cwd/dist/server--dev')
-	equal(server__css$_(middleware_ctx)._, undefined)
+	equal(server__css$_(middleware_ctx)(), undefined)
 	equal(server__css_(middleware_ctx), undefined)
 	server__metafile__set(app_ctx, server__metafile0)
-	equal(server__css$_(middleware_ctx)._, undefined)
+	equal(server__css$_(middleware_ctx)(), undefined)
 	equal(server__css_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'].cssBundle,
 		'dist/server--dev/index.server-SVR0SVR0.css')
-	equal(server__css$_(middleware_ctx)._, '/index.server-SVR0SVR0.css')
+	equal(server__css$_(middleware_ctx)(), '/index.server-SVR0SVR0.css')
 	equal(server__css_(middleware_ctx), '/index.server-SVR0SVR0.css')
 	server__metafile__set(app_ctx, server__metafile1)
-	equal(server__css$_(middleware_ctx)._, undefined)
+	equal(server__css$_(middleware_ctx)(), undefined)
 	equal(server__css_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR1SVR1.js')
 	equal(server__metafile1.outputs['dist/server--dev/index.server-SVR1SVR1.js'].cssBundle,
 		'dist/server--dev/index.server-SVR1SVR1.css')
-	equal(server__css$_(middleware_ctx)._, '/index.server-SVR1SVR1.css')
+	equal(server__css$_(middleware_ctx)(), '/index.server-SVR1SVR1.css')
 	equal(server__css_(middleware_ctx), '/index.server-SVR1SVR1.css')
 	server__metafile__set(app_ctx, server__metafile2)
-	equal(server__css$_(middleware_ctx)._, undefined)
+	equal(server__css$_(middleware_ctx)(), undefined)
 	equal(server__css_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR2SVR2.js')
 	equal(server__metafile2.outputs['dist/server--dev/index.server-SVR2SVR2.js'].cssBundle, undefined)
-	equal(server__css$_(middleware_ctx)._, undefined)
+	equal(server__css$_(middleware_ctx)(), undefined)
 	equal(server__css_(middleware_ctx), undefined)
 	// @ts-expect-error TS2345
 	throws(()=>server__css$_(app_ctx))

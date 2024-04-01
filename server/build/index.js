@@ -3,11 +3,11 @@
 import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 import {
 	be,
-	be_memo_pair_,
-	be_sig_triple_,
 	Cancel,
 	cancel__period_,
 	memo_,
+	ns_id_be_memo_pair_,
+	ns_id_be_sig_triple_,
 	nullish__none_,
 	off,
 	promise__cancel,
@@ -51,9 +51,10 @@ export const [
 	build_id$_,
 	build_id_,
 	build_id__set,
-] = be_sig_triple_(
-	()=>undefined,
-	{ id: 'build_id', ns: 'app' })
+] = ns_id_be_sig_triple_(
+	'app',
+	'build_id',
+	()=>undefined)
 export function build_id__refresh() {
 	const build_id = Date.now() + '-' + short_uuid_()
 	build_id__set(app_ctx, build_id)
@@ -62,81 +63,89 @@ export function build_id__refresh() {
 export const [
 	persist__metafile__build_id$_,
 	persist__metafile__build_id_,
-] = be_memo_pair_(
+] = ns_id_be_memo_pair_(
+	'app',
+	'persist__metafile__build_id',
 	()=>undefined,
-	{ id: 'persist__metafile__build_id', ns: 'app' }
-).add((ctx, persist__metafile__build_id$)=>
-	memo_(()=>{
-		const build_id = build_id_(ctx)
-		const metafile__build_id = metafile__build_id_(ctx)
-		const server__metafile_path = server__metafile_path_(ctx)
-		const browser__metafile_path = browser__metafile_path_(ctx)
-		const cancel__period = cancel__period_(0, cancel_)
-		if (metafile__build_id) {
-			run(async ()=>{
-				try {
-					await Promise.all([
-						build_id__match__waitfor(server__metafile_path),
-						build_id__match__waitfor(browser__metafile_path),
-					])
-					persist__metafile__build_id$._ = build_id
-				} catch (err) {
-					if (err instanceof Cancel) return
-					throw err
+	[
+		(ctx, persist__metafile__build_id$)=>
+			memo_(()=>{
+				const build_id = build_id_(ctx)
+				const metafile__build_id = metafile__build_id_(ctx)
+				const server__metafile_path = server__metafile_path_(ctx)
+				const browser__metafile_path = browser__metafile_path_(ctx)
+				const cancel__period = cancel__period_(0, cancel_)
+				if (metafile__build_id) {
+					run(async ()=>{
+						try {
+							await Promise.all([
+								build_id__match__waitfor(server__metafile_path),
+								build_id__match__waitfor(browser__metafile_path),
+							])
+							persist__metafile__build_id$.set(build_id)
+						} catch (err) {
+							if (err instanceof Cancel) return
+							throw err
+						}
+					}).catch(err=>console.error(err))
 				}
-			}).catch(err=>console.error(err))
-		}
-		function build_id__match__waitfor(metafile_path) {
-			return file_exists__waitfor(async ()=>{
-				const buf = await cmd(readFile(metafile_path))
-				const json = buf + ''
-				try {
-					return JSON.parse(json).build_id === build_id
-				} catch {
-					return undefined
+				function build_id__match__waitfor(metafile_path) {
+					return file_exists__waitfor(async ()=>{
+						const buf = await cmd(readFile(metafile_path))
+						const json = buf + ''
+						try {
+							return JSON.parse(json).build_id === build_id
+						} catch {
+							return undefined
+						}
+					},
+					Infinity,
+					cancel__period)
 				}
-			},
-			Infinity,
-			cancel__period)
-		}
-		async function cmd(promise) {
-			if (cancel_()) promise__cancel__throw(promise)
-			const rv = await promise
-			if (cancel_()) promise__cancel__throw(promise)
-			return rv
-		}
-		function cancel_() {
-			return (
-				build_id_(ctx) !== build_id
-				|| metafile__build_id_(ctx) !== metafile__build_id
-				|| server__metafile_path_(ctx) !== server__metafile_path
-				|| browser__metafile_path_(ctx) !== browser__metafile_path
-			)
-		}
-	}))
+				async function cmd(promise) {
+					if (cancel_()) promise__cancel__throw(promise)
+					const rv = await promise
+					if (cancel_()) promise__cancel__throw(promise)
+					return rv
+				}
+				function cancel_() {
+					return (
+						build_id_(ctx) !== build_id
+						|| metafile__build_id_(ctx) !== metafile__build_id
+						|| server__metafile_path_(ctx) !== server__metafile_path
+						|| browser__metafile_path_(ctx) !== browser__metafile_path
+					)
+				}
+			})
+	])
 export const [
 	persist__metafile__ready$_,
 	persist__metafile__ready_,
-] = be_memo_pair_(ctx=>
-	nullish__none_([build_id_(ctx), persist__metafile__build_id_(ctx)],
-		(build_id, persist__metafile__build_id)=>
-			!!(build_id && build_id === persist__metafile__build_id)),
-{ id: 'persist__metafile__ready', ns: 'app' })
+] = ns_id_be_memo_pair_(
+	'app',
+	'persist__metafile__ready',
+	ctx=>
+		nullish__none_([build_id_(ctx), persist__metafile__build_id_(ctx)],
+			(build_id, persist__metafile__build_id)=>
+				!!(build_id && build_id === persist__metafile__build_id)))
 export const [
 	rebuildjs__esbuild__build_id$_,
 	rebuildjs__esbuild__build_id_,
 	rebuildjs__esbuild__build_id__set,
-] = be_sig_triple_(()=>undefined,
-	{ id: 'rebuildjs__esbuild__build_id', ns: 'app' })
+] = ns_id_be_sig_triple_(
+	'app',
+	'rebuildjs__esbuild__build_id',
+	()=>undefined)
 export const [
 	rebuildjs__esbuild__done$_,
 	rebuildjs__esbuild__done_,
-] = be_memo_pair_(ctx=>
-	!!(
+] = ns_id_be_memo_pair_(
+	'app',
+	'rebuildjs__esbuild__done',
+	ctx=>!!(
 		build_id_(ctx)
-			&& build_id_(ctx) === metafile__build_id_(ctx)
-			&& build_id_(ctx) === rebuildjs__esbuild__build_id_(ctx)),
-{ id: 'rebuildjs__esbuild__done', ns: 'app' })
+		&& build_id_(ctx) === metafile__build_id_(ctx)
+		&& build_id_(ctx) === rebuildjs__esbuild__build_id_(ctx)))
 /**
  * @param {number}[timeout]
  * @returns {Promise<void>}}
@@ -151,9 +160,10 @@ export const [
 	rebuildjs__ready__add__ready$__a1$_,
 	rebuildjs__ready__add__ready$__a1_,
 	rebuildjs__ready__add__ready$__a1__set,
-] = be_sig_triple_(
-	()=>[],
-	{ id: 'rebuildjs__ready__add__ready__a1', ns: 'app' })
+] = ns_id_be_sig_triple_(
+	'app',
+	'rebuildjs__ready__add__ready$__a1',
+	()=>[])
 export function rebuildjs__ready__add(ready$_) {
 	let rebuildjs__ready__add_a1 = rebuildjs__ready__add__ready$__a1_(app_ctx)
 	if (!rebuildjs__ready__add_a1.includes(ready$_)) {
@@ -166,17 +176,21 @@ export const [
 	rebuildjs__build_id$_,
 	rebuildjs__build_id_,
 	rebuildjs__build_id__set,
-] = be_sig_triple_(()=>undefined,
-	{ id: 'rebuildjs__build_id', ns: 'app' })
+] = ns_id_be_sig_triple_(
+	'app',
+	'rebuildjs__build_id',
+	()=>undefined)
 export const [
 	rebuildjs__ready$_,
 	rebuildjs__ready_,
-] = be_memo_pair_(ctx=>
-	!!(
-		rebuildjs__esbuild__done_(ctx)
+] = ns_id_be_memo_pair_(
+	'app',
+	'rebuildjs__ready',
+	ctx=>
+		!!(
+			rebuildjs__esbuild__done_(ctx)
 			&& rebuildjs__build_id_(ctx) === build_id_(ctx)
-			&& rebuildjs__ready__add__ready$__a1_(ctx).every(ready$_=>ready$_(ctx)())),
-{ id: 'rebuildjs__ready', ns: 'app' })
+			&& rebuildjs__ready__add__ready$__a1_(ctx).every(ready$_=>ready$_(ctx)())))
 /**
  * @param {number}[timeout]
  * @returns {Promise<void>}}

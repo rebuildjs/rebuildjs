@@ -1,10 +1,10 @@
 import { file_exists__waitfor } from 'ctx-core/fs'
 import {
-	be_lock_memosig_triple_,
-	be_memo_pair_,
-	be_sig_triple_,
 	Cancel,
 	memo_,
+	ns_id_be_lock_memosig_triple_,
+	ns_id_be_memo_pair_,
+	ns_id_be_sig_triple_,
 	nullish__none_,
 	promise__cancel__throw,
 	sleep,
@@ -17,53 +17,59 @@ import { app_ctx, middleware_ctx__new } from '../ctx/index.js'
 export const [
 	server__metafile_path$_,
 	server__metafile_path_,
-] = be_memo_pair_(ctx=>
-	join(server_path_(ctx), 'metafile.json'),
-{ ns: 'app', id: 'server__metafile_path' })
+] = ns_id_be_memo_pair_(
+	'app',
+	'server__metafile_path',
+	ctx=>
+		join(server_path_(ctx), 'metafile.json'))
 export const [
 	server__metafile$_,
 	server__metafile_,
 	server__metafile__set
 ] = /** @type {be_lock_memosig_triple_T<rebuildjs_metafile_T>} */
-	be_lock_memosig_triple_(
+	ns_id_be_lock_memosig_triple_(
+		'app',
+		'server__metafile',
 		()=>undefined,
-		{ ns: 'app', id: 'server__metafile' }
-	).add((ctx, server__metafile$)=>
-		memo_(server__metafile__waitfor_promise$=>{
-			server__metafile__waitfor_promise$.val?.cancel?.()
-			if (server__metafile$.lock) return
-			nullish__none_([server__metafile_path_(ctx)],
-				server__metafile_path=>{
-					server__metafile__waitfor_promise$._ =
-						file_exists__waitfor(async ()=>{
-							const buf = await cmd(
-								readFile(server__metafile_path))
-							const json = buf + ''
-							try {
-								return server__metafile$._ = JSON.parse(json)
-							} catch {
-								return undefined
+		[
+			(ctx, server__metafile$)=>
+				memo_(server__metafile__waitfor_promise$=>{
+					server__metafile__waitfor_promise$.val?.cancel?.()
+					if (server__metafile$.lock) return
+					nullish__none_([server__metafile_path_(ctx)],
+						server__metafile_path=>{
+							server__metafile__waitfor_promise$.set(
+								file_exists__waitfor(
+									async ()=>{
+										const buf = await cmd(
+											readFile(server__metafile_path))
+										const json = buf + ''
+										try {
+											return server__metafile$.set(JSON.parse(json))
+										} catch {
+											return undefined
+										}
+									},
+									5000,
+									()=>cmd(sleep(0))
+								).catch(err=>{
+									if (err instanceof Cancel) return
+									throw err
+								}))
+							async function cmd(promise) {
+								if (cancel_()) promise__cancel__throw(promise)
+								const rv = await promise
+								if (cancel_()) promise__cancel__throw(promise)
+								return rv
 							}
-						},
-						5000,
-						()=>cmd(sleep(0))
-						).catch(err=>{
-							if (err instanceof Cancel) return
-							throw err
+							function cancel_() {
+								return (
+									server__metafile$.lock
+									|| server__metafile_path !== server__metafile_path_(ctx))
+							}
 						})
-					async function cmd(promise) {
-						if (cancel_()) promise__cancel__throw(promise)
-						const rv = await promise
-						if (cancel_()) promise__cancel__throw(promise)
-						return rv
-					}
-					function cancel_() {
-						return (
-							server__metafile$.lock
-							|| server__metafile_path !== server__metafile_path_(ctx))
-					}
 				})
-		}))
+		])
 export function server__metafile__persist() {
 	return nullish__none_([
 		server__metafile_path_(app_ctx),
@@ -78,56 +84,64 @@ export function server__metafile__persist() {
 export const [
 	server__output__relative_path_M_middleware_ctx$_,
 	server__output__relative_path_M_middleware_ctx_,
-] = be_memo_pair_(ctx=>
-	nullish__none_([server__metafile_(ctx)],
-		server__metafile=>
-			new Map(
-				Object.keys(server__metafile.outputs)
-					.filter(server__output__relative_path=>
-						server__metafile.outputs[server__output__relative_path].entryPoint)
-					.map(server__output__relative_path=>{
-						const middleware_ctx = middleware_ctx__new()
-						server__output__relative_path__set(middleware_ctx, server__output__relative_path)
-						return [server__output__relative_path, middleware_ctx]
-					}))),
-{
-	id: 'server__output__relative_path_M_middleware_ctx',
-	ns: 'app'
-})
+] = ns_id_be_memo_pair_(
+	'app',
+	'server__output__relative_path_M_middleware_ctx',
+	ctx=>
+		nullish__none_([server__metafile_(ctx)],
+			server__metafile=>
+				new Map(
+					Object.keys(server__metafile.outputs)
+						.filter(server__output__relative_path=>
+							server__metafile.outputs[server__output__relative_path].entryPoint)
+						.map(server__output__relative_path=>{
+							const middleware_ctx = middleware_ctx__new()
+							server__output__relative_path__set(middleware_ctx, server__output__relative_path)
+							return [server__output__relative_path, middleware_ctx]
+						}))))
 export const [
 	server__output__relative_path$_,
 	server__output__relative_path_,
 	server__output__relative_path__set,
-] = be_sig_triple_(()=>
-	undefined,
-{ ns: 'middleware', id: 'server__output__relative_path' })
+] = ns_id_be_sig_triple_(
+	'middleware',
+	'server__output__relative_path',
+	()=>undefined)
 export const [
 	server__output$_,
 	server__output_
-] = be_memo_pair_(ctx=>
-	nullish__none_(tup(server__metafile_(ctx), server__output__relative_path_(ctx)),
-		(server__metafile, server__output__relative_path)=>
-			server__metafile.outputs[server__output__relative_path]),
-{ ns: 'middleware', id: 'server__output' })
+] = ns_id_be_memo_pair_(
+	'middleware',
+	'server__output',
+	ctx=>
+		nullish__none_(tup(server__metafile_(ctx), server__output__relative_path_(ctx)),
+			(server__metafile, server__output__relative_path)=>
+				server__metafile.outputs[server__output__relative_path]))
 export const [
 	server__cssBundle__relative_path$_,
 	server__cssBundle__relative_path_
-] = be_memo_pair_(ctx=>
-	server__output_(ctx)?.cssBundle,
-{ ns: 'middleware', id: 'server__cssBundle__relative_path', })
+] = ns_id_be_memo_pair_(
+	'middleware',
+	'server__cssBundle__relative_path',
+	ctx=>
+		server__output_(ctx)?.cssBundle)
 export const [
 	server__cssBundle$_,
 	server__cssBundle_
-] = be_memo_pair_(ctx=>
-	nullish__none_([server__output_(ctx)?.cssBundle],
-		cssBundle=>
-			join(cwd_(ctx), cssBundle)),
-{ ns: 'middleware', id: 'server__cssBundle', })
+] = ns_id_be_memo_pair_(
+	'middleware',
+	'server__cssBundle',
+	ctx=>
+		nullish__none_([server__output_(ctx)?.cssBundle],
+			cssBundle=>
+				join(cwd_(ctx), cssBundle)))
 export const [
 	server__css$_,
 	server__css_
-] = be_memo_pair_(ctx=>
-	nullish__none_([server__relative_path_(ctx), server__cssBundle__relative_path_(ctx)],
-		(server__relative_path, server__cssBundle__relative_path)=>
-			join('/', relative(server__relative_path, server__cssBundle__relative_path))),
-{ ns: 'middleware', id: 'server__css' })
+] = ns_id_be_memo_pair_(
+	'middleware',
+	'server__css',
+	ctx=>
+		nullish__none_([server__relative_path_(ctx), server__cssBundle__relative_path_(ctx)],
+			(server__relative_path, server__cssBundle__relative_path)=>
+				join('/', relative(server__relative_path, server__cssBundle__relative_path))))

@@ -44,16 +44,16 @@ test.after.each(()=>{
 test('browser__metafile_path', ()=>{
 	dist_path__set(app_ctx, '/test/dist')
 	is_prod__set(app_ctx, true)
-	equal(browser__metafile_path$_(app_ctx)._, '/test/dist/browser/metafile.json')
+	equal(browser__metafile_path$_(app_ctx)(), '/test/dist/browser/metafile.json')
 	equal(browser__metafile_path_(app_ctx), '/test/dist/browser/metafile.json')
 	is_prod__set(app_ctx, false)
-	equal(browser__metafile_path$_(app_ctx)._, '/test/dist/browser--dev/metafile.json')
+	equal(browser__metafile_path$_(app_ctx)(), '/test/dist/browser--dev/metafile.json')
 	equal(browser__metafile_path_(app_ctx), '/test/dist/browser--dev/metafile.json')
 	dist_path__set(app_ctx, '/test/dist2')
-	equal(browser__metafile_path$_(app_ctx)._, '/test/dist2/browser--dev/metafile.json')
+	equal(browser__metafile_path$_(app_ctx)(), '/test/dist2/browser--dev/metafile.json')
 	equal(browser__metafile_path_(app_ctx), '/test/dist2/browser--dev/metafile.json')
 	is_prod__set(app_ctx, true)
-	equal(browser__metafile_path$_(app_ctx)._, '/test/dist2/browser/metafile.json')
+	equal(browser__metafile_path$_(app_ctx)(), '/test/dist2/browser/metafile.json')
 	equal(browser__metafile_path_(app_ctx), '/test/dist2/browser/metafile.json')
 	// @ts-expect-error TS2345
 	throws(()=>browser__metafile_path$_(ctx_()))
@@ -90,23 +90,23 @@ test('browser__metafile', async ()=>{
 			},
 		}))
 	}
-	equal(_browser__metafile$_(app_ctx)._, undefined)
+	equal(_browser__metafile$_(app_ctx)(), undefined)
 	equal(_browser__metafile_(app_ctx), undefined)
 	await rmemo__wait(
 		_browser__metafile$_(app_ctx),
 		m=>m,
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	await rmemo__wait(
 		_browser__metafile$_(app_ctx),
 		m=>deep_equal(m, browser__metafile1),
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile1)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile1)
 	equal(_browser__metafile_(app_ctx), browser__metafile1)
 	equal(readFile_path, '/cwd/dist1/browser/metafile.json')
 	dist_path__set(app_ctx, '/cwd/dist0')
@@ -114,11 +114,11 @@ test('browser__metafile', async ()=>{
 		_browser__metafile$_(app_ctx),
 		m=>deep_equal(m, browser__metafile0),
 		100)
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile0)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile0)
 	equal(_browser__metafile_(app_ctx), browser__metafile0)
 	equal(readFile_path, '/cwd/dist0/browser/metafile.json')
 	_browser__metafile__set(app_ctx, browser__metafile2)
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile2)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile2)
 	equal(_browser__metafile_(app_ctx), browser__metafile2)
 	dist_path__set(app_ctx, '/cwd/dist1')
 	let error_msg:string|undefined = undefined
@@ -130,7 +130,7 @@ test('browser__metafile', async ()=>{
 	} catch (e) {
 		error_msg = (e as Error).message
 	}
-	equal(_browser__metafile$_(app_ctx)._, browser__metafile2)
+	equal(_browser__metafile$_(app_ctx)(), browser__metafile2)
 	equal(_browser__metafile_(app_ctx), browser__metafile2)
 	equal(error_msg, `Timeout 100ms`)
 	// @ts-expect-error TS2345
@@ -142,13 +142,13 @@ test('browser__metafile', async ()=>{
 })
 test('browser__output__relative_path', ()=>{
 	const middleware_ctx = middleware_ctx__new()
-	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
+	equal(browser__output__relative_path$_(middleware_ctx)(), undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
-	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
+	equal(browser__output__relative_path$_(middleware_ctx)(), undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
 	browser__metafile__set(middleware_ctx, browser__metafile0)
-	equal(browser__output__relative_path$_(middleware_ctx)._, undefined)
+	equal(browser__output__relative_path$_(middleware_ctx)(), undefined)
 	equal(browser__output__relative_path_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
 	equal(server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'], {
@@ -164,10 +164,10 @@ test('browser__output__relative_path', ()=>{
 		'bytes': 98
 	})
 	equal(server__output_(middleware_ctx), server__metafile0.outputs['dist/server--dev/index.server-SVR0SVR0.js'])
-	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS0BRS0.js')
+	equal(browser__output__relative_path$_(middleware_ctx)(), 'dist/browser--dev/index.browser-BRS0BRS0.js')
 	equal(browser__output__relative_path_(middleware_ctx), 'dist/browser--dev/index.browser-BRS0BRS0.js')
 	browser__output__relative_path__set(middleware_ctx, 'dist/browser--dev/index.browser-BRS1BRS1.js')
-	equal(browser__output__relative_path$_(middleware_ctx)._, 'dist/browser--dev/index.browser-BRS1BRS1.js')
+	equal(browser__output__relative_path$_(middleware_ctx)(), 'dist/browser--dev/index.browser-BRS1BRS1.js')
 	equal(browser__output__relative_path_(middleware_ctx), 'dist/browser--dev/index.browser-BRS1BRS1.js')
 	// @ts-expect-error TS2345
 	throws(()=>browser__output__relative_path$_(ctx_()))
@@ -241,16 +241,16 @@ test('browser__css', ()=>{
 })
 test('browser__script', ()=>{
 	const middleware_ctx = middleware_ctx__new()
-	equal(browser__script$_(middleware_ctx)._, undefined)
+	equal(browser__script$_(middleware_ctx)(), undefined)
 	equal(browser__script_(middleware_ctx), undefined)
 	server__metafile__set(middleware_ctx, server__metafile0)
-	equal(browser__script$_(middleware_ctx)._, undefined)
+	equal(browser__script$_(middleware_ctx)(), undefined)
 	equal(browser__script_(middleware_ctx), undefined)
 	browser__metafile__set(middleware_ctx, browser__metafile0)
-	equal(browser__script$_(middleware_ctx)._, undefined)
+	equal(browser__script$_(middleware_ctx)(), undefined)
 	equal(browser__script_(middleware_ctx), undefined)
 	server__output__relative_path__set(middleware_ctx, 'dist/server--dev/index.server-SVR0SVR0.js')
-	equal(browser__script$_(middleware_ctx)._, '/index.browser-BRS0BRS0.js')
+	equal(browser__script$_(middleware_ctx)(), '/index.browser-BRS0BRS0.js')
 	equal(browser__script_(middleware_ctx), '/index.browser-BRS0BRS0.js')
 	// @ts-expect-error TS2345
 	throws(()=>browser__script$_(ctx_()))
