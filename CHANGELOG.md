@@ -1,5 +1,12 @@
 # rebuildjs
 
+## 0.68.1
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@7.0.0
+
 ## 0.68.0
 
 ### Minor Changes
