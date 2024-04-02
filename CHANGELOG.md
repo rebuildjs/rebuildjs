@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.68.6
+
+### Patch Changes
+
+- fix: exit metafile wait loop when file exists: + console.warn JSON.parse errors:
+
+      ./server: rebuildjs_browser
+      ./server: rebuildjs_server
+
 ## 0.68.5
 
 ### Patch Changes

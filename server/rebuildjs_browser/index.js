@@ -45,8 +45,10 @@ export const [
 											readFile(browser__metafile_path))
 										const json = buf + ''
 										try {
-											return browser__metafile$.set(JSON.parse(json))
-										} catch {
+											browser__metafile$.set(JSON.parse(json))
+											return true
+										} catch (err) {
+											console.warn('browser__metafile|JSON.parse|error', { err })
 											return undefined
 										}
 									},
