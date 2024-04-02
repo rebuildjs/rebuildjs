@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.68.3
+
+### Patch Changes
+
+- memo_T: private prop types: readonly unknown types for cleaner typescript messages
+- Updated dependencies
+  - ctx-core@7.0.2
+
 ## 0.68.2
 
 ### Patch Changes
