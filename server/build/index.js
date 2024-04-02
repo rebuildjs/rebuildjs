@@ -2,10 +2,11 @@
 /// <reference types="./index.d.ts" />
 import { file_exists_, file_exists__waitfor } from 'ctx-core/fs'
 import {
-	be,
+	calling,
 	Cancel,
 	cancel__period_,
 	memo_,
+	ns_id_be,
 	ns_id_be_memo_pair_,
 	ns_id_be_sig_triple_,
 	nullish__none_,
@@ -403,135 +404,133 @@ export function rebuildjs_plugin_() {
 		 */
 		function rebuildjs_plugin__postprocess$_() {
 			return (
-				be(app_ctx, ctx=>
-					run(memo_(rebuildjs__assets__link$=>{
-						r()
-						return rebuildjs__assets__link$
-						function r() {
-							if (!persist__metafile__ready_(ctx)) return
-							nullish__none_([
-								build_id_(ctx),
-								metafile__build_id_(ctx),
-								server__metafile_(ctx),
-								browser__metafile_(ctx),
-								cwd_(ctx),
-								browser_path_(ctx),
-								server__relative_path_(ctx),
-							], (
-								build_id,
-								metafile__build_id,
-								server__metafile,
-								browser__metafile,
-								cwd,
-								browser_path,
-								server__relative_path,
-							)=>{
-								if (build_id === metafile__build_id) {
-									run(async ()=>{
-										try {
-											await esbuild_cssBundle__cp()
-											await Promise.all(
-												rebuildjs__ready__add__ready$__a1_(ctx).map(ready$_=>
-													cmd(rmemo__wait(
-														ready$_(ctx),
-														ready=>ready,
-														30_000))))
-											await rebuildjs__assets__link()
-											rebuildjs__build_id__set(ctx, build_id)
-										} catch (err) {
-											if (err instanceof Cancel) return
-											throw err
-										}
-									}).catch(err=>console.error(err))
-								}
-								async function esbuild_cssBundle__cp() {
-									for (const metafile of [server__metafile, browser__metafile]) {
-										for (let output__relative_path in metafile.outputs) {
-											let cssBundle, esbuild_cssBundle
-											switch (extname(output__relative_path)) {
-												case '.js':
-												case '.mjs':
-													({ cssBundle, esbuild_cssBundle } = metafile.outputs[output__relative_path])
-													if (cssBundle && esbuild_cssBundle) {
-														const cssBundle_path = join(cwd_(ctx), cssBundle)
-														const cssBundle_map_path = cssBundle_path + '.map'
-														const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
-														const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
-														if (!await file_exists_(esbuild_cssBundle_path)) {
-															await file_exists__waitfor(async ()=>{
-																await cmd(
-																	cp(cssBundle_path, esbuild_cssBundle_path))
-																return true
-															})
-														}
-														if (!await file_exists_(esbuild_cssBundle_map_path)) {
-															await file_exists__waitfor(async ()=>{
-																await cmd(
-																	cp(
-																		cssBundle_map_path,
-																		esbuild_cssBundle_map_path))
-																return true
-															})
-														}
+				ns_id_be(
+					app_ctx,
+					'app',
+					'rebuildjs__assets__link$',
+					ctx=>calling(memo_(()=>{
+						if (!persist__metafile__ready_(ctx)) return
+						nullish__none_([
+							build_id_(ctx),
+							metafile__build_id_(ctx),
+							server__metafile_(ctx),
+							browser__metafile_(ctx),
+							cwd_(ctx),
+							browser_path_(ctx),
+							server__relative_path_(ctx),
+						], (
+							build_id,
+							metafile__build_id,
+							server__metafile,
+							browser__metafile,
+							cwd,
+							browser_path,
+							server__relative_path,
+						)=>{
+							if (build_id === metafile__build_id) {
+								run(async ()=>{
+									try {
+										await esbuild_cssBundle__cp()
+										await Promise.all(
+											rebuildjs__ready__add__ready$__a1_(ctx).map(ready$_=>
+												cmd(rmemo__wait(
+													ready$_(ctx),
+													ready=>ready,
+													30_000))))
+										await rebuildjs__assets__link()
+										rebuildjs__build_id__set(ctx, build_id)
+									} catch (err) {
+										if (err instanceof Cancel) return
+										throw err
+									}
+								}).catch(err=>console.error(err))
+							}
+							async function esbuild_cssBundle__cp() {
+								for (const metafile of [server__metafile, browser__metafile]) {
+									for (let output__relative_path in metafile.outputs) {
+										let cssBundle, esbuild_cssBundle
+										switch (extname(output__relative_path)) {
+											case '.js':
+											case '.mjs':
+												({ cssBundle, esbuild_cssBundle } = metafile.outputs[output__relative_path])
+												if (cssBundle && esbuild_cssBundle) {
+													const cssBundle_path = join(cwd_(ctx), cssBundle)
+													const cssBundle_map_path = cssBundle_path + '.map'
+													const esbuild_cssBundle_path = join(cwd_(ctx), esbuild_cssBundle)
+													const esbuild_cssBundle_map_path = esbuild_cssBundle_path + '.map'
+													if (!await file_exists_(esbuild_cssBundle_path)) {
+														await file_exists__waitfor(async ()=>{
+															await cmd(
+																cp(cssBundle_path, esbuild_cssBundle_path))
+															return true
+														})
 													}
-											}
+													if (!await file_exists_(esbuild_cssBundle_map_path)) {
+														await file_exists__waitfor(async ()=>{
+															await cmd(
+																cp(
+																	cssBundle_map_path,
+																	esbuild_cssBundle_map_path))
+															return true
+														})
+													}
+												}
 										}
 									}
 								}
-								async function rebuildjs__assets__link() {
-									const outputs = server__metafile.outputs ?? {}
-									const promise_a1 = []
-									for (let output__relative_path in outputs) {
-										const _basename = basename(output__relative_path)
-										if (
-											_basename.endsWith('.js')
-												|| _basename.endsWith('.mjs')
-												|| _basename.endsWith('.js.map')
-												|| _basename.endsWith('.mjs.map')
-										) continue
-										const server_asset_path = join(cwd, output__relative_path)
-										const browser_asset_path = join(
-											browser_path,
-											relative(server__relative_path, output__relative_path))
-										await file_exists__waitfor(async ()=>{
-											await cmd(
-												rm(browser_asset_path, { force: true }))
-											await cmd(
-												link(server_asset_path, browser_asset_path))
-											return true
-										}, Infinity)
-										promise_a1.push(file_exists__waitfor(browser_asset_path))
+							}
+							async function rebuildjs__assets__link() {
+								const outputs = server__metafile.outputs ?? {}
+								const promise_a1 = []
+								for (let output__relative_path in outputs) {
+									const _basename = basename(output__relative_path)
+									if (
+										_basename.endsWith('.js')
+										|| _basename.endsWith('.mjs')
+										|| _basename.endsWith('.js.map')
+										|| _basename.endsWith('.mjs.map')
+									) continue
+									const server_asset_path = join(cwd, output__relative_path)
+									const browser_asset_path = join(
+										browser_path,
+										relative(server__relative_path, output__relative_path))
+									await file_exists__waitfor(async ()=>{
+										await cmd(
+											rm(browser_asset_path, { force: true }))
+										await cmd(
+											link(server_asset_path, browser_asset_path))
+										return true
+									}, Infinity)
+									promise_a1.push(file_exists__waitfor(browser_asset_path))
+								}
+								await cmd(Promise.all(promise_a1))
+							}
+							async function cmd(promise) {
+								if (cancel_()) promise__cancel__throw(promise)
+								promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
+									if (cancel_()) {
+										promise__cancel(promise)
+										off(rebuildjs_cancel$)
 									}
-									await cmd(Promise.all(promise_a1))
-								}
-								async function cmd(promise) {
-									if (cancel_()) promise__cancel__throw(promise)
-									promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
-										if (cancel_()) {
-											promise__cancel(promise)
-											off(rebuildjs_cancel$)
-										}
-										return rebuildjs_cancel$
-									}))
-									const ret = await promise
-									if (cancel_()) promise__cancel__throw(promise)
-									return ret
-								}
-								function cancel_() {
-									return (
-										build_id_(ctx) !== build_id
-											|| metafile__build_id_(ctx) !== metafile__build_id
-											|| server__metafile_(ctx) !== server__metafile
-											|| browser__metafile_(ctx) !== browser__metafile
-											|| cwd_(ctx) !== cwd
-											|| browser_path_(ctx) !== browser_path
-											|| server__relative_path_(ctx) !== server__relative_path
-									)
-								}
-							})
-						}
-					})),
-				{ id: 'rebuildjs__assets__link$', ns: 'app' })
+									return rebuildjs_cancel$
+								}))
+								const ret = await promise
+								if (cancel_()) promise__cancel__throw(promise)
+								return ret
+							}
+							function cancel_() {
+								return (
+									build_id_(ctx) !== build_id
+									|| metafile__build_id_(ctx) !== metafile__build_id
+									|| server__metafile_(ctx) !== server__metafile
+									|| browser__metafile_(ctx) !== browser__metafile
+									|| cwd_(ctx) !== cwd
+									|| browser_path_(ctx) !== browser_path
+									|| server__relative_path_(ctx) !== server__relative_path
+								)
+							}
+						})
+					})))
 			)
 		}
 	}

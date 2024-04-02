@@ -1,5 +1,20 @@
 # rebuildjs
 
+## 0.69.0
+
+### Minor Changes
+
+- minor:
+
+      + id_be
+      + ns_be
+      + ns_id_be
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@7.1.0
+
 ## 0.68.6
 
 ### Patch Changes
