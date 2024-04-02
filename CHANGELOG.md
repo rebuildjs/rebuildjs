@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.68.5
+
+### Patch Changes
+
+- ./server: rebuildjs_browser: browser\_\_metafile: file read timeout is 5000ms
+
 ## 0.68.4
 
 ### Patch Changes
