@@ -1,5 +1,12 @@
 # rebuildjs
 
+## 0.69.4
+
+### Patch Changes
+
+- eslint: ^8.57.0 -> ^9.0.0
+- elysia: ^1.0.11 -> ^1.0.13
+
 ## 0.69.3
 
 ### Patch Changes
