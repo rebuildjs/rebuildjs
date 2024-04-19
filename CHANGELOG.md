@@ -1,5 +1,16 @@
 # rebuildjs
 
+## 0.70.0
+
+### Minor Changes
+
+- - ref\_\_bind
+
+### Patch Changes
+
+- Updated dependencies
+  - ctx-core@7.2.0
+
 ## 0.69.8
 
 ### Patch Changes
