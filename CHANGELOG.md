@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.70.3
+
+### Patch Changes
+
+- - ∋ ref\_\_bind
+
 ## 0.70.2
 
 ### Patch Changes

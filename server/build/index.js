@@ -13,6 +13,7 @@ import {
 	off,
 	promise__cancel,
 	promise__cancel__throw,
+	ref__bind,
 	rmemo__wait,
 	run
 } from 'ctx-core/rmemo'
@@ -395,7 +396,7 @@ export function rebuildjs_plugin_() {
 			})
 		}
 		// Prevent GC
-		setup.rebuildjs_plugin__postprocess$ = rebuildjs_plugin__postprocess$_()
+		ref__bind(setup, rebuildjs_plugin__postprocess$_())
 		return setup
 		/**
 		 *
@@ -507,13 +508,12 @@ export function rebuildjs_plugin_() {
 							}
 							async function cmd(promise) {
 								if (cancel_()) promise__cancel__throw(promise)
-								promise.rebuildjs_cancel$ = run(memo_(rebuildjs_cancel$=>{
+								ref__bind(promise, calling(memo_(rebuildjs_cancel$=>{
 									if (cancel_()) {
 										promise__cancel(promise)
 										off(rebuildjs_cancel$)
 									}
-									return rebuildjs_cancel$
-								}))
+								})))
 								const ret = await promise
 								if (cancel_()) promise__cancel__throw(promise)
 								return ret
