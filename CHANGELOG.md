@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.70.12
+
+### Patch Changes
+
+- elysia: ^1.0.16 -> ^1.0.17
+
 ## 0.70.11
 
 ### Patch Changes
