@@ -1,5 +1,13 @@
 # rebuildjs
 
+## 0.70.19
+
+### Patch Changes
+
+- esbuild: ^0.21.3 -> ^0.21.4
+- Updated dependencies
+  - ctx-core@7.2.11
+
 ## 0.70.18
 
 ### Patch Changes
