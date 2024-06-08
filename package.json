@@ -77,7 +77,7 @@
 		"check-dts": "^0.8.0",
 		"eslint": "^9.4.0",
 		"esmock": "^2.6.5",
-		"tsx": "^4.13.2",
+		"tsx": "^4.13.3",
 		"typescript": "next",
 		"uvu": "^0.5.6"
 	},
