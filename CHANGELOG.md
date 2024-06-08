@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.70.25
+
+### Patch Changes
+
+- server**metafile\_: ∋ file_exists**waitfor: timeout: Infinity
+
 ## 0.70.24
 
 ### Patch Changes

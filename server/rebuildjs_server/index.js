@@ -52,7 +52,7 @@ export const [
 											return undefined
 										}
 									},
-									5000,
+									Infinity,
 									()=>cmd(sleep(0))
 								).catch(err=>{
 									if (err instanceof Cancel) return
