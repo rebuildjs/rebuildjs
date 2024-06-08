@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.70.26
+
+### Patch Changes
+
+- rebuildjs*plugin*: rebuildjs*plugin\_\_postprocess$*: ∋ file_exists\_\_waitfor: timeout: Infinity
+
 ## 0.70.25
 
 ### Patch Changes

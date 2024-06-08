@@ -464,7 +464,7 @@ export function rebuildjs_plugin_() {
 															await cmd(
 																cp(cssBundle_path, esbuild_cssBundle_path))
 															return true
-														})
+														}, Infinity)
 													}
 													if (!await file_exists_(esbuild_cssBundle_map_path)) {
 														await file_exists__waitfor(async ()=>{
@@ -473,7 +473,7 @@ export function rebuildjs_plugin_() {
 																	cssBundle_map_path,
 																	esbuild_cssBundle_map_path))
 															return true
-														})
+														}, Infinity)
 													}
 												}
 										}

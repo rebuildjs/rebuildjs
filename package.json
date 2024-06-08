@@ -1,6 +1,6 @@
 {
 	"name": "rebuildjs",
-	"version": "0.70.25",
+	"version": "0.70.26",
 	"description": "Reactive esbuild...simple hackable alternative to vite for Multi Page Apps",
 	"keywords": [
 		"reactive",
