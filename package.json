@@ -75,9 +75,9 @@
 		"@typescript-eslint/parser": "^7.14.1",
 		"c8": "^10.1.2",
 		"check-dts": "^0.8.0",
-		"eslint": "^9.5.0",
+		"eslint": "^9.6.0",
 		"esmock": "^2.6.6",
-		"tsx": "^4.15.7",
+		"tsx": "^4.15.9",
 		"typescript": "next",
 		"uvu": "^0.5.6"
 	},
