@@ -1,5 +1,14 @@
 # rebuildjs
 
+## 0.70.40
+
+### Patch Changes
+
+- elysia: ^1.1.3 -> ^1.1.4
+- fdir: ^6.1.1 -> ^6.2.0
+- Updated dependencies
+  - ctx-core@7.2.29
+
 ## 0.70.39
 
 ### Patch Changes
