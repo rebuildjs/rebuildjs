@@ -1,5 +1,20 @@
 # rebuildjs
 
+## 0.70.42
+
+### Patch Changes
+
+- eslint: ^9.9.0 -> ^9.9.1
+- esbuild: ^0.23.0 -> ^0.23.1
+- @typescript-eslint/parser: ^8.0.1 -> ^8.3.0
+- elysia: ^1.1.5 -> ^1.1.9
+- @typescript-eslint/eslint-plugin: ^8.0.1 -> ^8.3.0
+- fdir: ^6.2.0 -> ^6.3.0
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@7.2.31
+
 ## 0.70.41
 
 ### Patch Changes
