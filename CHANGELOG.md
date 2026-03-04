@@ -1,5 +1,31 @@
 # rebuildjs
 
+## 0.70.44
+
+### Patch Changes
+
+- eslint: ^9.39.1 -> ^10.0.2
+- c8: ^10.1.3 -> ^11.0.0
+- esbuild: ^0.23.1 -> ^0.27.3
+- @typescript-eslint/eslint-plugin: ^8.46.3 -> ^8.56.1
+- elysia: ^1.4.15 -> ^1.4.27
+- check-dts: ^0.8.2 -> ^0.9.0
+- tsx: ^4.20.6 -> ^4.21.0
+- @typescript-eslint/parser: ^8.46.3 -> ^8.56.1
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - ctx-core@7.2.33
+
 ## 0.70.43
 
 ### Patch Changes
@@ -666,7 +692,6 @@
 ### Minor Changes
 
 - ./server: default_loader:
-
   - .htm: file
   - .html: file
   - .xml: file
@@ -761,7 +786,6 @@
 ### Minor Changes
 
 - - ./any: use esbuild config publicPath instead:
-
     - asset*path*
     - asset*path_a*
 
@@ -2413,16 +2437,13 @@
 - - minor:
 
     rebuildjs\*\*plugin\_:
-
     - link all non .js,.mjs,.js.map,.mjs.map server outputs to browser
     - public\*\*cp: going to rely on asset file imports using esbuild
     - server\_\_input_path:
       - server\__input_path$_
       - server\__input_path_
       - server**input_path**set
-
     * server**output**relative_path\_\_set
-
     - browser\_\_input_path:
       - browser\__input_path$_
       - browser\__input_path_
