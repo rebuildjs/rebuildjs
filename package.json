@@ -57,18 +57,20 @@
 		"build": ":",
 		"clean": ":",
 		"exec": "$@",
-		"prepublishOnly": "pnpm clean && pnpm build && pnpm test",
-		"test": "pnpm run /^test:/",
+		"prepublishOnly": "bun run clean && bun run build && bun run test && publint && attw --pack --ignore-rules cjs-resolves-to-esm",
+		"test": "bun run test:types && bun run test:unit",
 		"test:types": "tsc --noEmit",
 		"test:unit": "NODE_OPTIONS=--loader=esmock tsx node_modules/uvu/bin.js . '\\.test\\.(ts|js)$'",
-		"disable:test:unit:coverage": "c8 pnpm test:unit"
+		"disable:test:unit:coverage": "c8 bun run test:unit"
 	},
 	"dependencies": {
 		"ctx-core": "*",
 		"elysia": "^1.4.27",
-		"esbuild": "^0.27.3",
 		"fdir": "^6.5.0",
 		"picomatch": "^4.0.3"
+	},
+	"peerDependencies": {
+		"esbuild": "^0.27.3"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^8.56.1",
