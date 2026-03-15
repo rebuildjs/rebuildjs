@@ -276,6 +276,7 @@ export async function rebuildjs_browser__build(config) {
 		sourcemap: 'external',
 		loader: default_loader,
 		publicPath: '/',
+		write: true,
 		...esbuild__config,
 		entryPoints,
 		format: 'esm',
@@ -292,7 +293,10 @@ export async function rebuildjs_browser__build(config) {
 		console.log('browser__build|watch')
 		return esbuild_ctx
 	} else {
-		await build(esbuild_config)
+		const result = await build(esbuild_config)
+		if (!result.metafile) {
+			throw new Error('rebuildjs_browser__build: esbuild.build() produced no metafile')
+		}
 		return undefined
 	}
 }
@@ -333,6 +337,7 @@ export async function rebuildjs_server__build(config) {
 		sourcemap: 'external',
 		loader: default_loader,
 		publicPath: '/',
+		write: true,
 		...esbuild__config,
 		entryPoints,
 		format: 'esm',
@@ -349,7 +354,10 @@ export async function rebuildjs_server__build(config) {
 		console.log('server__build|watch')
 		return esbuild_ctx
 	} else {
-		await build(esbuild_config)
+		const result = await build(esbuild_config)
+		if (!result.metafile) {
+			throw new Error('rebuildjs_server__build: esbuild.build() produced no metafile')
+		}
 		return undefined
 	}
 }

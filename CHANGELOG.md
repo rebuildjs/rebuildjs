@@ -1,5 +1,17 @@
 # rebuildjs
 
+## 0.70.47
+
+### Patch Changes
+
+- fix: add explicit `write: true` to esbuild config and metafile guard for `esbuild.build()` path
+
+## 0.70.46
+
+### Patch Changes
+
+- fix: use `esbuild.build()` instead of `context().rebuild()` when `watch` is false
+
 ## 0.70.45
 
 ### Patch Changes
