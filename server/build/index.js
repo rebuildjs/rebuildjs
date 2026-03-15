@@ -18,7 +18,7 @@ import {
 	run
 } from 'ctx-core/rmemo'
 import { short_uuid_ } from 'ctx-core/uuid'
-import { context } from 'esbuild'
+import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
 import { cp, link, mkdir, readFile, rm } from 'node:fs/promises'
 import { basename, dirname, extname, join, relative, resolve } from 'node:path'
@@ -286,14 +286,15 @@ export async function rebuildjs_browser__build(config) {
 		external,
 		plugins,
 	}
-	const esbuild_ctx = await context(esbuild_config)
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
+		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
 		console.log('browser__build|watch')
+		return esbuild_ctx
 	} else {
-		await esbuild_ctx.rebuild()
+		await build(esbuild_config)
+		return undefined
 	}
-	return esbuild_ctx
 }
 /**
  * @param {rebuildjs_build_config_T}[config]
@@ -342,14 +343,15 @@ export async function rebuildjs_server__build(config) {
 		external,
 		plugins,
 	}
-	const esbuild_ctx = await context(esbuild_config)
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
+		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
 		console.log('server__build|watch')
+		return esbuild_ctx
 	} else {
-		await esbuild_ctx.rebuild()
+		await build(esbuild_config)
+		return undefined
 	}
-	return esbuild_ctx
 }
 /**
  * @param {rebuildjs_build_config_T}[config]

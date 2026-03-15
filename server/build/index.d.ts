@@ -26,8 +26,8 @@ export declare const rebuildjs__ready$_:ctx__be_T<sig_T<boolean>, 'app'>
 export declare const rebuildjs__ready_:ctx__get_T<boolean, 'app'>
 export declare function rebuildjs__ready__add(ready$_:rebuildjs__ready__add__ready$__T):rebuildjs__ready__add__ready$__T[]
 export declare function rebuildjs__ready__wait(timeout?:number):rmemo__wait_ret_T<unknown>
-export declare function rebuildjs_browser__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
-export declare function rebuildjs_server__build(config?:rebuildjs_build_config_T):Promise<BuildContext>
+export declare function rebuildjs_browser__build(config?:rebuildjs_build_config_T):Promise<BuildContext|undefined>
+export declare function rebuildjs_server__build(config?:rebuildjs_build_config_T):Promise<BuildContext|undefined>
 export declare function server__external_(config?:Partial<BuildOptions>):Promise<string[]>
 export declare function rebuildjs_plugin_():Plugin
 export declare function cssBundle__annotate(cssBundle:string, suffix?:string):string
