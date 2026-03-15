@@ -1,5 +1,11 @@
 # rebuildjs
 
+## 0.71.0
+
+### Minor Changes
+
+- Extract shared server logic (route, static, export) from adapter packages into rebuildjs core with framework-agnostic interfaces
+
 ## 0.70.47
 
 ### Patch Changes
