@@ -20,7 +20,7 @@ import {
 import { short_uuid_ } from 'ctx-core/uuid'
 import { build, context } from 'esbuild'
 import { fdir } from 'fdir'
-import { cp, link, mkdir, readFile, rm } from 'node:fs/promises'
+import { cp, link, mkdir, readFile, rm, watch } from 'node:fs/promises'
 import { basename, dirname, extname, join, relative, resolve } from 'node:path'
 import {
 	app_path_,
@@ -264,7 +264,7 @@ export async function rebuildjs_browser__build(config) {
 		entryPoints.push(path)
 	}
 	const external = [dist_path_(app_ctx) + '/*', ...(esbuild__config.external ?? [])]
-	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins ?? [])]
+	const plugins = [ts_resolve_node_modules_plugin_(), rebuildjs_plugin_(), ...(esbuild__config.plugins ?? [])]
 	/** @type {import('esbuild').BuildOptions} */
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
@@ -290,6 +290,9 @@ export async function rebuildjs_browser__build(config) {
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
 		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
+		if (rebuildjs?.watch_dirs?.length) {
+			watch_dirs__start(esbuild_ctx, rebuildjs.watch_dirs, 'browser')
+		}
 		console.log('browser__build|watch')
 		return esbuild_ctx
 	} else {
@@ -326,7 +329,7 @@ export async function rebuildjs_server__build(config) {
 		entryPoints.push(path)
 	}
 	const external = [dist_path_(app_ctx) + '/*', ...server__external_(esbuild__config)]
-	const plugins = [rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
+	const plugins = [ts_resolve_node_modules_plugin_(), rebuildjs_plugin_(), ...(esbuild__config.plugins || [])]
 	const esbuild_config = {
 		entryNames: '[name]-[hash]',
 		assetNames: '[name]-[hash]',
@@ -351,6 +354,9 @@ export async function rebuildjs_server__build(config) {
 	if (rebuildjs?.watch ?? !is_prod_(app_ctx)) {
 		const esbuild_ctx = await context(esbuild_config)
 		await esbuild_ctx.watch()
+		if (rebuildjs?.watch_dirs?.length) {
+			watch_dirs__start(esbuild_ctx, rebuildjs.watch_dirs, 'server')
+		}
 		console.log('server__build|watch')
 		return esbuild_ctx
 	} else {
@@ -362,11 +368,72 @@ export async function rebuildjs_server__build(config) {
 	}
 }
 /**
+ * Watch external directories and trigger esbuild rebuild on file changes.
+ * Used to watch source files from other monorepos (e.g., rappstack-dev)
+ * that aren't in the esbuild module graph.
+ * @param {import('esbuild').BuildContext} esbuild_ctx
+ * @param {string[]} dirs
+ * @param {string} label
+ */
+function watch_dirs__start(esbuild_ctx, dirs, label) {
+	let rebuild_timer = null
+	for (const dir of dirs) {
+		;(async ()=>{
+			try {
+				const watcher = watch(dir, { recursive: true })
+				for await (const event of watcher) {
+					if (!event.filename) continue
+					if (!/\.(ts|tsx|js|jsx|css)$/.test(event.filename)) continue
+					// Debounce: wait 100ms for batch changes
+					if (rebuild_timer) clearTimeout(rebuild_timer)
+					rebuild_timer = setTimeout(async ()=>{
+						rebuild_timer = null
+						console.log(`watch_dirs|${label}|rebuild`, event.filename)
+						try {
+							await esbuild_ctx.rebuild()
+						} catch (err) {
+							console.error(`watch_dirs|${label}|rebuild|error`, err.message)
+						}
+					}, 100)
+				}
+			} catch (err) {
+				console.error(`watch_dirs|${label}|watch|error`, dir, err.message)
+			}
+		})()
+	}
+}
+/**
  * @param {rebuildjs_build_config_T}[config]
  * @returns {Promise<string[]>}
  */
 export function server__external_(config) {
 	return ['bun', 'node_modules/*', ...(config.external || [])]
+}
+/**
+ * esbuild plugin that resolves `.ts` files from node_modules package exports.
+ * esbuild 0.27+ blocks `.ts` resolution from node_modules by default.
+ * This plugin intercepts bare specifier imports (e.g. `@rappstack/ui--server/css`)
+ * and resolves them through bun's module resolution, allowing `.ts` targets.
+ * @returns {import('esbuild').Plugin}
+ */
+export function ts_resolve_node_modules_plugin_() {
+	return {
+		name: 'ts_resolve_node_modules',
+		setup(build) {
+			const absWorkingDir = build.initialOptions.absWorkingDir || process.cwd()
+			build.onResolve({ filter: /^[^./]/ }, async (args)=>{
+				if (args.pluginData?.fromTsResolve) return
+				try {
+					const resolved = Bun.resolveSync(args.path, absWorkingDir)
+					if (resolved && (resolved.endsWith('.ts') || resolved.endsWith('.tsx'))) {
+						return { path: resolved }
+					}
+				} catch {
+					// Let esbuild handle the resolution
+				}
+			})
+		}
+	}
 }
 /**
  * @returns {import('esbuild').Plugin}

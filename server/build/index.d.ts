@@ -29,6 +29,7 @@ export declare function rebuildjs__ready__wait(timeout?:number):rmemo__wait_ret_
 export declare function rebuildjs_browser__build(config?:rebuildjs_build_config_T):Promise<BuildContext|undefined>
 export declare function rebuildjs_server__build(config?:rebuildjs_build_config_T):Promise<BuildContext|undefined>
 export declare function server__external_(config?:Partial<BuildOptions>):Promise<string[]>
+export declare function ts_resolve_node_modules_plugin_():Plugin
 export declare function rebuildjs_plugin_():Plugin
 export declare function cssBundle__annotate(cssBundle:string, suffix?:string):string
 export declare function server__metafile__update(
@@ -43,5 +44,9 @@ export type rebuildjs_build_config_T =
 	Partial<BuildOptions>&{ rebuildjs?:rebuildjs_plugin_config_T }
 export type rebuildjs_plugin_config_T = {
 	watch?:boolean
+	/** External directories to watch for file changes during dev mode.
+	 * When a file in these directories changes, esbuild triggers a rebuild.
+	 * Useful for watching source files from other monorepos (e.g., rappstack-dev). */
+	watch_dirs?:string[]
 }
 export type rebuildjs__ready__add__ready$__T = ctx__be_T<rmemo_T<boolean>, 'app'>
