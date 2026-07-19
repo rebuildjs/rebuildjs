@@ -5,6 +5,11 @@
 		"moduleResolution": "nodenext",
 		"target": "ESNext",
 		"strict": true,
+		// bun-types ships declarations TypeScript 7 rejects (TS2309 in
+		// extensions.d.ts), which failed this package own type-check — and with it
+		// prepublishOnly, so nothing could be published at all. A library should
+		// not gate its release on a dependency declaration file.
+		"skipLibCheck": true,
 		"types": ["node"]
 	},
 	"exclude": ["node_modules", "_fixtures"],
