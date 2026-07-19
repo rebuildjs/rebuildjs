@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish-npm:
+    name: Publish to npm (OIDC trusted publishing)
+    runs-on: ubuntu-latest
+    # OIDC trusted publishing: no NPM_TOKEN stored anywhere, and no 2FA prompt
+    # at publish time. npm has no "pending publisher" concept, so the package
+    # must already exist on npm (rebuildjs does), then configure the Trusted
+    # Publisher ON THE PACKAGE at npmjs.com:
+    #   organization/user = rebuildjs, repository = rebuildjs,
+    #   workflow = release.yml, environment = (none)
+    # That one browser step needs 2FA once. Every release after it needs none.
+    #
+    # This matters on a deadline: npm is retiring 2FA-bypass tokens. They lose
+    # account-management operations in early August 2026 and direct publishing
+    # around January 2027, after which a token can only stage a publish for
+    # human approval. OIDC is the path that keeps working.
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # prepublishOnly runs `bun run clean && build && test && publint && attw`,
+      # so bun has to be here even though npm does the publishing.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # Provenance needs npm >= 9.5.0; Node 24 bundles npm 11.x, which is fine.
+      # Do NOT `npm install -g npm@latest` — that self-upgrade drops the
+      # `sigstore` dependency libnpmpublish needs, and publish then dies with
+      # `Cannot find module 'sigstore'`.
+      - name: Verify npm supports OIDC provenance
+        run: npm --version
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Test
+        run: bun run test
+
+      - name: Publish
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          # --provenance triggers the OIDC exchange; `id-token: write` above
+          # mints the short-lived publish token. The bundled npm 11.x does not
+          # enable provenance implicitly, so it has to be explicit.
+          if npm publish --provenance --access public; then
+            echo "published rebuildjs@${version}"
+          elif npm view "rebuildjs@${version}" version >/dev/null 2>&1; then
+            echo "rebuildjs@${version} already published — idempotent no-op"
+          else
+            echo "publish failed for a reason other than already-published" >&2
+            exit 1
+          fi
